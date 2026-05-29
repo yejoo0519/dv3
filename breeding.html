@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교배 계산기 - Dragon Village 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f1a;
+  --bg2: #13162b;
+  --bg3: #1a1e35;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --accent: #7c6aff;
+  --accent2: #a693ff;
+  --gold: #f5c542;
+  --text: #e8e6f0;
+  --text2: #9996b0;
+  --text3: #5e5c72;
+  --radius: 14px;
+  --IMG: https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
+
+/* 헤더 */
+.header {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 0 24px; display: flex; align-items: center; gap: 10px; height: 52px;
+}
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); }
+.sep { color: var(--text3); font-size: 13px; }
+.page-name { font-size: 13px; color: var(--text2); }
+
+/* 메인 */
+.main { max-width: 860px; margin: 0 auto; padding: 28px 16px 80px; }
+
+/* 탭 */
+.tabs {
+  display: flex; gap: 4px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 4px; margin-bottom: 24px;
+  width: fit-content;
+}
+.tab {
+  padding: 8px 20px; border-radius: 9px; border: none;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.15s; color: var(--text3); background: transparent;
+}
+.tab.active { background: var(--accent); color: #fff; }
+.tab:not(.active):hover { color: var(--text2); background: var(--bg3); }
+
+/* ── 부모→자식 모드 ── */
+.selector-row {
+  display: grid; grid-template-columns: 1fr 44px 1fr;
+  gap: 0; align-items: center; margin-bottom: 28px;
+}
+.sel-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px;
+  cursor: pointer; min-height: 130px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 8px; text-align: center;
+  transition: border-color 0.15s; position: relative;
+}
+.sel-card:hover { border-color: var(--border2); }
+.sel-card.on { border-color: var(--accent); }
+.sel-label {
+  position: absolute; top: 9px; left: 11px;
+  font-size: 10px; font-weight: 700; letter-spacing: .07em;
+  color: var(--text3); text-transform: uppercase;
+}
+.sel-img {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.sel-img img { width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; }
+.sel-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.sel-hint { font-size: 12px; color: var(--text3); }
+.sel-change { font-size: 11px; color: var(--accent2); }
+.cross { text-align: center; font-size: 18px; color: var(--text3); font-weight: 700; }
+
+/* ── 자식→부모 모드 ── */
+.child-selector {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  display: flex; align-items: center; gap: 20px;
+  cursor: pointer; margin-bottom: 28px;
+  transition: border-color 0.15s;
+}
+.child-selector:hover { border-color: var(--border2); }
+.child-selector.on { border-color: var(--accent); }
+.child-img {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.child-img img { width: 58px; height: 58px; object-fit: contain; image-rendering: pixelated; }
+.child-info { flex: 1; }
+.child-title { font-size: 11px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
+.child-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.child-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.child-btn {
+  padding: 8px 16px; border-radius: 8px;
+  border: 1px solid var(--border2); background: transparent;
+  color: var(--accent2); font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  white-space: nowrap;
+}
+
+/* 결과 패널 공통 */
+.result-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.result-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.result-head-title { font-size: 12px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; }
+.result-meta { display: flex; align-items: center; gap: 8px; }
+.res-count { font-size: 12px; color: var(--text3); }
+.sort-grp { display: flex; gap: 3px; }
+.sort-btn {
+  font-size: 11px; padding: 3px 10px; border-radius: 99px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  transition: all .12s;
+}
+.sort-btn:hover { border-color: var(--border2); color: var(--text2); }
+.sort-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.result-body { padding: 18px; }
+
+/* 빈 상태 */
+.empty {
+  text-align: center; padding: 44px 20px; color: var(--text3);
+}
+.empty-ico { font-size: 36px; margin-bottom: 10px; }
+.empty-txt { font-size: 14px; line-height: 1.7; }
+.empty-sub { font-size: 12px; margin-top: 6px; opacity: .6; }
+
+/* 자식 결과 그리드 */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+}
+.res-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 11px; padding: 11px 7px 9px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 5px; text-align: center; position: relative; overflow: hidden;
+  transition: border-color .15s, transform .15s;
+}
+.res-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.top-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.bar-h { background: linear-gradient(90deg,#f5c542,#ff9d00); }
+.bar-m { background: linear-gradient(90deg,#7c6aff,#a693ff); }
+.bar-l { background: var(--border2); }
+.res-img {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--bg2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin-top: 3px;
+}
+.res-img img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
+.res-name { font-size: 10px; font-weight: 500; color: var(--text); line-height: 1.3; word-break: break-all; }
+.rate-pill {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 1px;
+}
+.rp-h { background: rgba(245,197,66,.15); color: var(--gold); }
+.rp-m { background: rgba(124,106,255,.15); color: var(--accent2); }
+.rp-l { background: rgba(255,255,255,.06); color: var(--text3); }
+
+/* 부모 조합 리스트 */
+.parent-list { display: flex; flex-direction: column; gap: 8px; }
+.parent-pair {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 11px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color .15s;
+}
+.parent-pair:hover { border-color: var(--border2); }
+.pair-num {
+  font-size: 11px; color: var(--text3); font-weight: 700;
+  min-width: 24px;
+}
+.pair-dragons { display: flex; align-items: center; gap: 8px; flex: 1; }
+.pair-dragon {
+  display: flex; align-items: center; gap: 6px;
+}
+.pair-img {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--bg2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  flex-shrink: 0;
+}
+.pair-img img { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
+.pair-dname { font-size: 12px; font-weight: 500; color: var(--text); }
+.pair-x { font-size: 13px; color: var(--text3); font-weight: 700; padding: 0 2px; }
+.pair-rates { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.pair-rate-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+}
+
+/* 모달 */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.72); z-index: 300;
+  align-items: center; justify-content: center; padding: 16px;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 18px; width: 100%; max-width: 500px;
+  max-height: 82vh; display: flex; flex-direction: column; overflow: hidden;
+}
+.modal-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-size: 14px; font-weight: 700; }
+.modal-x {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); cursor: pointer; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .12s;
+}
+.modal-x:hover { border-color: var(--border2); color: var(--text); }
+.modal-search-wrap { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.modal-search {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 9px; padding: 8px 12px; font-size: 13px;
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none;
+  transition: border-color .15s;
+}
+.modal-search::placeholder { color: var(--text3); }
+.modal-search:focus { border-color: var(--accent); }
+.modal-grid {
+  overflow-y: auto; padding: 10px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); gap: 6px;
+}
+.modal-grid::-webkit-scrollbar { width: 3px; }
+.modal-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.m-item {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 9px;
+  padding: 9px 5px 7px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 5px; text-align: center;
+  transition: border-color .12s, background .12s;
+}
+.m-item:hover { border-color: var(--accent); background: rgba(124,106,255,.06); }
+.m-item.cur { border-color: var(--accent); background: rgba(124,106,255,.1); }
+.m-img {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.m-img img { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
+.m-name { font-size: 9px; color: var(--text2); line-height: 1.3; word-break: break-all; }
+
+@media (max-width: 560px) {
+  .selector-row { grid-template-columns: 1fr 36px 1fr; }
+  .result-grid { grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="logo">DV3</span>
+  <span class="sep">/</span>
+  <span class="page-name">교배 계산기</span>
+</div>
+
+<div class="main">
+
+  <!-- 탭 -->
+  <div class="tabs">
+    <button class="tab active" id="tab-forward" onclick="switchTab('forward')">부모 → 자식</button>
+    <button class="tab" id="tab-reverse" onclick="switchTab('reverse')">자식 → 부모</button>
+  </div>
+
+  <!-- 부모→자식 모드 -->
+  <div id="mode-forward">
+    <div class="selector-row">
+      <div class="sel-card" id="sc1" onclick="openModal('p1')">
+        <span class="sel-label">개체 1</span>
+        <div class="sel-img" id="si1"><span style="font-size:22px;color:var(--text3)">＋</span></div>
+        <span id="sn1"><span class="sel-hint">드래곤 선택</span></span>
+        <span class="sel-change" id="sch1" style="display:none">변경하기</span>
+      </div>
+      <div class="cross">✕</div>
+      <div class="sel-card" id="sc2" onclick="openModal('p2')">
+        <span class="sel-label">개체 2</span>
+        <div class="sel-img" id="si2"><span style="font-size:22px;color:var(--text3)">＋</span></div>
+        <span id="sn2"><span class="sel-hint">드래곤 선택</span></span>
+        <span class="sel-change" id="sch2" style="display:none">변경하기</span>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <div class="result-head">
+        <span class="result-head-title">교배 결과</span>
+        <div class="result-meta">
+          <span class="res-count" id="fw-count"></span>
+          <div class="sort-grp" id="fw-sort" style="display:none">
+            <button class="sort-btn on" id="sb-rate" onclick="setSort('rate')">확률순</button>
+            <button class="sort-btn" id="sb-name" onclick="setSort('name')">이름순</button>
+          </div>
+        </div>
+      </div>
+      <div class="result-body" id="fw-body">
+        <div class="empty">
+          <div class="empty-ico">🐉</div>
+          <div class="empty-txt">개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다</div>
+          <div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 자식→부모 모드 -->
+  <div id="mode-reverse" style="display:none">
+    <div class="child-selector" id="child-sel" onclick="openModal('child')">
+      <div class="child-img" id="child-img">
+        <span style="font-size:26px;color:var(--text3)">＋</span>
+      </div>
+      <div class="child-info">
+        <div class="child-title">자식 드래곤</div>
+        <div class="child-name" id="child-name">드래곤을 선택하세요</div>
+        <div class="child-sub" id="child-sub">선택 후 가능한 부모 조합이 표시됩니다</div>
+      </div>
+      <button class="child-btn">선택하기</button>
+    </div>
+
+    <div class="result-panel">
+      <div class="result-head">
+        <span class="result-head-title">부모 조합</span>
+        <div class="result-meta">
+          <span class="res-count" id="rv-count"></span>
+        </div>
+      </div>
+      <div class="result-body" id="rv-body">
+        <div class="empty">
+          <div class="empty-ico">🔍</div>
+          <div class="empty-txt">자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다</div>
+          <div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 모달 -->
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="modal-ttl">드래곤 선택</span>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-search-wrap">
+      <input class="modal-search" type="text" id="msearch" placeholder="드래곤 이름 검색..." oninput="filterModal()">
+    </div>
+    <div class="modal-grid" id="mgrid"></div>
+  </div>
+</div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
+
+const DRAGONS = [
+  "afrit_00_adult","aila_00_adult","alien_00_adult","angeljr_00_adult","applecheek_00_adult",
+  "aquadragon_00_adult","baal_00_adult","beleth_00_adult","blackarmor_00_adult","blackdragon_00_adult",
+  "blue_00_adult","bluefiretail_00_adult","bluelightning_00_adult","bluethunder_00_adult","catsgon_00_adult",
+  "centipededragon_00_adult","centura_00_adult","characen_00_adult","cloud_00_adult","crevasse_00_adult",
+  "cupid_00_adult","darknix_00_adult","dilrang_00_adult","dragonoid_00_adult","dragonslayer_00_adult",
+  "dreaden_00_adult","egg_00_adult","emerald_00_adult","enturas_00_adult","fairydragon_00_adult",
+  "fat_00_adult","fides_00_adult","fire_00_adult","firetail_00_adult","florea_00_adult",
+  "frog_00_adult","frost_00_adult","goblindragon_00_adult","goddragon_00_adult","goldie_00_adult",
+  "granos_00_adult","gripo_00_adult","haze_00_adult","hell_00_adult","henes_00_adult",
+  "hyeonmu_00_adult","ignis_00_adult","ilios_00_adult","iron_00_adult","jujak_00_adult",
+  "kleptos_00_adult","knightdragon_00_adult","lagtail_00_adult","lakion_00_adult","lambgon_00_adult",
+  "lava_00_adult","leafdragon_00_adult","liberte_00_adult","lightning_00_adult","liso_00_adult",
+  "lucio_00_adult","lunera_00_adult","magnello_00_adult","mistdragon_00_adult","mud_00_adult",
+  "mummydragon_00_adult","mushroom_00_adult","mustardhammer_00_adult","nebula_00_adult","ninjadragon_00_adult",
+  "non_00_adult","nox_00_adult","obex_00_adult","patroa_00_adult","phoenix_00_adult",
+  "phoenix_01_adult","pierrotdragon_00_adult","pinkbell_00_adult","plumos_00_adult","poisonriver_00_adult",
+  "popomo_00_adult","power_00_adult","rafael_00_adult","rock_00_adult","rupia_00_adult",
+  "scorpiondragon_00_adult","seere_00_adult","selora_00_adult","serpentdragon_00_adult","shadow_00_adult",
+  "sharkgon_00_adult","sharptail_00_adult","siamesedragon_00_adult","sixleghorn_00_adult","skelegon_00_adult",
+  "slimedragon_00_adult","solar_00_adult","spicy_00_adult","splender_00_adult","swamp_00_adult",
+  "taabire_00_adult","taros_00_adult","thunderboltdragon_00_adult","toddletomtom_00_adult","totemdragon_00_adult",
+  "tumpy_00_adult","typhoondragon_00_adult","whitedragon_00_adult","whitethunder_00_adult","wind_00_adult",
+  "witchdragon_00_adult","zephyros_00_adult"
+];
+
+// ── 교배 데이터 ──────────────────────────────────────────
+// 형식: "부모A+부모B": [{ id: "자식id", rate: 확률 }, ...]
+// 데이터 수집 후 여기에 추가하면 됩니다
+const BREED_DATA = {
+  // 예시:
+  // "fire_00_adult+frost_00_adult": [
+  //   { id: "phoenix_00_adult", rate: 9.14 },
+  //   { id: "cloud_00_adult", rate: 7.87 },
+  // ],
+};
+// ────────────────────────────────────────────────────────
+
+// BREED_DATA에서 역방향 인덱스 자동 생성
+// reverseIndex[자식id] = [{ p1, p2, rate }, ...]
+function buildReverseIndex() {
+  const idx = {};
+  for (const [key, results] of Object.entries(BREED_DATA)) {
+    const [p1, p2] = key.split('+');
+    for (const r of results) {
+      if (!idx[r.id]) idx[r.id] = [];
+      idx[r.id].push({ p1, p2, rate: r.rate });
+    }
+  }
+  return idx;
+}
+const REVERSE = buildReverseIndex();
+
+// 상태
+let sel = { p1: null, p2: null, child: null };
+let modalTarget = null;
+let sortMode = 'rate';
+let curTab = 'forward';
+
+function img(id) { return `<img src="${BASE}${id}.png" alt="${id}" onerror="this.style.opacity=.25">`; }
+function dname(id) { return id.replace(/_00_adult|_01_adult/g,'').replace(/_/g,' '); }
+function rateClass(r) { return r >= 7 ? 'h' : r >= 3 ? 'm' : 'l'; }
+
+// ── 탭 전환 ──
+function switchTab(tab) {
+  curTab = tab;
+  document.getElementById('mode-forward').style.display = tab === 'forward' ? '' : 'none';
+  document.getElementById('mode-reverse').style.display = tab === 'reverse' ? '' : 'none';
+  document.getElementById('tab-forward').classList.toggle('active', tab === 'forward');
+  document.getElementById('tab-reverse').classList.toggle('active', tab === 'reverse');
+}
+
+// ── 부모→자식 선택 UI ──
+function updateSelUI(target) {
+  const id = sel[target];
+  const num = target === 'p1' ? 1 : 2;
+  const imgEl = document.getElementById('si' + num);
+  const nameEl = document.getElementById('sn' + num);
+  const chEl = document.getElementById('sch' + num);
+  const card = document.getElementById('sc' + num);
+  if (id) {
+    imgEl.innerHTML = img(id);
+    nameEl.innerHTML = `<span class="sel-name">${dname(id)}</span>`;
+    chEl.style.display = 'block';
+    card.classList.add('on');
+  } else {
+    imgEl.innerHTML = '<span style="font-size:22px;color:var(--text3)">＋</span>';
+    nameEl.innerHTML = '<span class="sel-hint">드래곤 선택</span>';
+    chEl.style.display = 'none';
+    card.classList.remove('on');
+  }
+}
+
+// ── 자식 선택 UI ──
+function updateChildUI() {
+  const id = sel.child;
+  const imgEl = document.getElementById('child-img');
+  const nameEl = document.getElementById('child-name');
+  const subEl = document.getElementById('child-sub');
+  const card = document.getElementById('child-sel');
+  if (id) {
+    imgEl.innerHTML = img(id);
+    nameEl.textContent = dname(id);
+    subEl.textContent = '가능한 부모 조합';
+    card.classList.add('on');
+  } else {
+    imgEl.innerHTML = '<span style="font-size:26px;color:var(--text3)">＋</span>';
+    nameEl.textContent = '드래곤을 선택하세요';
+    subEl.textContent = '선택 후 가능한 부모 조합이 표시됩니다';
+    card.classList.remove('on');
+  }
+}
+
+// ── 부모→자식 결과 렌더 ──
+function renderForward() {
+  const body = document.getElementById('fw-body');
+  const countEl = document.getElementById('fw-count');
+  const sortEl = document.getElementById('fw-sort');
+
+  if (!sel.p1 || !sel.p2) {
+    body.innerHTML = emptyHTML('🐉', '개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다', '조합 데이터 수집 후 순차적으로 추가됩니다');
+    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+  }
+  if (sel.p1 === sel.p2) {
+    body.innerHTML = emptyHTML('⚠️', '같은 드래곤은 교배할 수 없습니다');
+    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+  }
+
+  const key1 = sel.p1+'+'+sel.p2, key2 = sel.p2+'+'+sel.p1;
+  const data = BREED_DATA[key1] || BREED_DATA[key2] || null;
+
+  if (!data) {
+    body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
+    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+  }
+
+  let res = [...data];
+  if (sortMode === 'rate') res.sort((a,b) => b.rate - a.rate);
+  else res.sort((a,b) => a.id.localeCompare(b.id));
+
+  countEl.textContent = res.length + '종';
+  sortEl.style.display = 'flex';
+
+  body.innerHTML = `<div class="result-grid">${res.map(r => {
+    const c = rateClass(r.rate);
+    return `<div class="res-card">
+      <div class="top-bar bar-${c}"></div>
+      <div class="res-img">${img(r.id)}</div>
+      <span class="res-name">${dname(r.id)}</span>
+      <span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── 자식→부모 결과 렌더 ──
+function renderReverse() {
+  const body = document.getElementById('rv-body');
+  const countEl = document.getElementById('rv-count');
+
+  if (!sel.child) {
+    body.innerHTML = emptyHTML('🔍', '자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다', '조합 데이터 수집 후 순차적으로 추가됩니다');
+    countEl.textContent = ''; return;
+  }
+
+  const pairs = REVERSE[sel.child] || [];
+  if (!pairs.length) {
+    body.innerHTML = emptyHTML('📋', '아직 이 드래곤의 부모 조합 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
+    countEl.textContent = ''; return;
+  }
+
+  // 같은 부모 조합에서 여러 확률로 나올 수 있으므로 그룹핑
+  const grouped = {};
+  for (const p of pairs) {
+    const key = [p.p1, p.p2].sort().join('+');
+    if (!grouped[key]) grouped[key] = { p1: p.p1, p2: p.p2, rates: [] };
+    grouped[key].rates.push(p.rate);
+  }
+
+  const list = Object.values(grouped).sort((a,b) => Math.max(...b.rates) - Math.max(...a.rates));
+  countEl.textContent = list.length + '가지 조합';
+
+  body.innerHTML = `<div class="parent-list">${list.map((g, i) => {
+    const maxRate = Math.max(...g.rates);
+    const c = rateClass(maxRate);
+    return `<div class="parent-pair">
+      <span class="pair-num">#${i+1}</span>
+      <div class="pair-dragons">
+        <div class="pair-dragon">
+          <div class="pair-img">${img(g.p1)}</div>
+          <span class="pair-dname">${dname(g.p1)}</span>
+        </div>
+        <span class="pair-x">✕</span>
+        <div class="pair-dragon">
+          <div class="pair-img">${img(g.p2)}</div>
+          <span class="pair-dname">${dname(g.p2)}</span>
+        </div>
+      </div>
+      <div class="pair-rates">
+        ${g.rates.map(r => `<span class="pair-rate-badge rp-${rateClass(r)}" style="font-size:10px;padding:2px 8px;border-radius:99px;background:${r>=7?'rgba(245,197,66,.15)':r>=3?'rgba(124,106,255,.15)':'rgba(255,255,255,.06)'};color:${r>=7?'var(--gold)':r>=3?'var(--accent2)':'var(--text3)'}">${r.toFixed(2)}%</span>`).join('')}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function emptyHTML(ico, txt, sub='') {
+  return `<div class="empty">
+    <div class="empty-ico">${ico}</div>
+    <div class="empty-txt">${txt}</div>
+    ${sub ? `<div class="empty-sub">${sub}</div>` : ''}
+  </div>`;
+}
+
+function setSort(m) {
+  sortMode = m;
+  document.getElementById('sb-rate').classList.toggle('on', m==='rate');
+  document.getElementById('sb-name').classList.toggle('on', m==='name');
+  renderForward();
+}
+
+// ── 모달 ──
+function openModal(target) {
+  modalTarget = target;
+  const titles = { p1:'개체 1 선택', p2:'개체 2 선택', child:'자식 드래곤 선택' };
+  document.getElementById('modal-ttl').textContent = titles[target];
+  document.getElementById('msearch').value = '';
+  renderModalGrid(DRAGONS);
+  document.getElementById('overlay').classList.add('open');
+  setTimeout(() => document.getElementById('msearch').focus(), 80);
+}
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function closeOverlay(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+
+function filterModal() {
+  const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g,'');
+  renderModalGrid(DRAGONS.filter(id => id.includes(q) || dname(id).replace(/ /g,'').includes(q)));
+}
+
+function renderModalGrid(list) {
+  document.getElementById('mgrid').innerHTML = list.map(id => {
+    const cur = sel[modalTarget] === id;
+    return `<div class="m-item${cur?' cur':''}" onclick="pick('${id}')">
+      <div class="m-img">${img(id)}</div>
+      <span class="m-name">${dname(id)}</span>
+    </div>`;
+  }).join('');
+}
+
+function pick(id) {
+  sel[modalTarget] = id;
+  closeModal();
+  if (modalTarget === 'p1' || modalTarget === 'p2') {
+    updateSelUI(modalTarget);
+    renderForward();
+  } else {
+    updateChildUI();
+    renderReverse();
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
