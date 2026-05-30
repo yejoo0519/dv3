@@ -478,16 +478,89 @@ const NAMES = {
   "zephyros_00_adult":         { kor: "제피로스",        eng: "zephyros" },
 };
 
-const DRAGONS = Object.keys(NAMES);
+const DRAGONS = Object.keys(NAMES).filter(id => !NO_BREED.has(id));
 
-// 교배 데이터 (나중에 채울 것)
-const BREED_DATA = {};
+// 교배 불가 드래곤
+const NO_BREED = new Set(['angeljr_00_adult']);
+
+// 교배 데이터
+// key: "부모1+부모2" (알파벳 오름차순 정렬)
+// value: [{ id, rate }]  rate = 퍼센트 숫자
+const BREED_DATA = {
+  // ── 아쿠아 드래곤 ──
+  'aquadragon_00_adult+wind_00_adult': [
+    { id: 'typhoondragon_00_adult', rate: 100.00 },
+  ],
+  'aquadragon_00_adult+nox_00_adult': [
+    { id: 'serpentdragon_00_adult', rate: 97.00 },
+    { id: 'poisonriver_00_adult',   rate: 3.00  },
+  ],
+  'aquadragon_00_adult+bluethunder_00_adult': [
+    { id: 'thunderboltdragon_00_adult', rate: 100.00 },
+  ],
+  'aquadragon_00_adult+egg_00_adult': [
+    { id: 'mud_00_adult',       rate: 20.57 },
+    { id: 'swamp_00_adult',     rate: 20.57 },
+    { id: 'lava_00_adult',      rate: 20.57 },
+    { id: 'magnello_00_adult',  rate: 20.57 },
+    { id: 'taros_00_adult',     rate: 17.70 },
+  ],
+  'aquadragon_00_adult+liso_00_adult': [
+    { id: 'serpentdragon_00_adult', rate: 35.65 },
+    { id: 'liso_00_adult',          rate: 30.68 },
+    { id: 'haze_00_adult',          rate: 30.68 },
+    { id: 'poisonriver_00_adult',   rate: 3.00  },
+  ],
+  'aquadragon_00_adult+lunera_00_adult': [
+    { id: 'serpentdragon_00_adult', rate: 35.65 },
+    { id: 'liso_00_adult',          rate: 30.68 },
+    { id: 'haze_00_adult',          rate: 30.68 },
+    { id: 'poisonriver_00_adult',   rate: 3.00  },
+  ],
+  'aquadragon_00_adult+phoenix_00_adult': [
+    { id: 'ignis_00_adult',    rate: 31.62 },
+    { id: 'haze_00_adult',     rate: 31.62 },
+    { id: 'magnello_00_adult', rate: 36.75 },
+  ],
+  'aquadragon_00_adult+leafdragon_00_adult': [
+    { id: 'mud_00_adult',          rate: 23.75 },
+    { id: 'leafdragon_00_adult',   rate: 23.75 },
+    { id: 'typhoondragon_00_adult',rate: 23.75 },
+    { id: 'swamp_00_adult',        rate: 23.75 },
+    { id: 'applecheek_00_adult',   rate: 5.00  },
+  ],
+  'aquadragon_00_adult+hyeonmu_00_adult': [
+    { id: 'sharkgon_00_adult', rate: 100.00 },
+  ],
+  'aquadragon_00_adult+typhoondragon_00_adult': [
+    { id: 'typhoondragon_00_adult', rate: 100.00 },
+  ],
+  'aquadragon_00_adult+firetail_00_adult': [
+    { id: 'typhoondragon_00_adult', rate: 34.96 },
+    { id: 'magnello_00_adult',      rate: 34.96 },
+    { id: 'firetail_00_adult',      rate: 30.08 },
+  ],
+  'aquadragon_00_adult+dilrang_00_adult': [
+    { id: 'thunderboltdragon_00_adult', rate: 34.91 },
+    { id: 'dilrang_00_adult',           rate: 30.04 },
+    { id: 'haze_00_adult',              rate: 30.04 },
+    { id: 'whitethunder_00_adult',      rate: 5.00  },
+  ],
+  'aquadragon_00_adult+selora_00_adult': [
+    { id: 'thunderboltdragon_00_adult', rate: 34.91 },
+    { id: 'dilrang_00_adult',           rate: 30.04 },
+    { id: 'haze_00_adult',              rate: 30.04 },
+    { id: 'whitethunder_00_adult',      rate: 5.00  },
+  ],
+};
 
 // 역방향 인덱스 자동 생성
 function buildReverse() {
   const idx = {};
   for (const [key, results] of Object.entries(BREED_DATA)) {
-    const [p1, p2] = key.split('+');
+    const plusIdx = key.indexOf('+');
+    const p1 = key.slice(0, plusIdx);
+    const p2 = key.slice(plusIdx + 1);
     for (const r of results) {
       if (!idx[r.id]) idx[r.id] = [];
       idx[r.id].push({ p1, p2, rate: r.rate });
@@ -576,7 +649,8 @@ function renderForward() {
     countEl.textContent = ''; sortEl.style.display = 'none'; return;
   }
 
-  const data = BREED_DATA[sel.p1+'+'+sel.p2] || BREED_DATA[sel.p2+'+'+sel.p1] || null;
+  const breedKey = [sel.p1, sel.p2].sort().join('+');
+  const data = BREED_DATA[breedKey] || null;
   if (!data) {
     body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
     countEl.textContent = ''; sortEl.style.display = 'none'; return;
