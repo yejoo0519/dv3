@@ -478,10 +478,10 @@ const NAMES = {
   "zephyros_00_adult":         { kor: "제피로스",        eng: "zephyros" },
 };
 
-const DRAGONS = Object.keys(NAMES).filter(id => !NO_BREED.has(id));
-
 // 교배 불가 드래곤
 const NO_BREED = new Set(['angeljr_00_adult']);
+
+const DRAGONS = Object.keys(NAMES).filter(id => !NO_BREED.has(id));
 
 // 교배 데이터
 // key: "부모1+부모2" (알파벳 오름차순 정렬)
