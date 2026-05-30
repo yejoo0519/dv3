@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>드래곤 정보 - Dragon Village 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30; --bg4: #1c2038;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --accent: #7c6aff; --accent2: #a693ff;
+  --gold: #f5c542; --hero: #9b7aff;
+  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+  --legendary: #f5c542; --legendary-bg: rgba(245,197,66,0.12); --legendary-border: rgba(245,197,66,0.25);
+  --heroic: #b47fff; --heroic-bg: rgba(180,127,255,0.12); --heroic-border: rgba(180,127,255,0.25);
+  --rare: #38bdf8; --rare-bg: rgba(56,189,248,0.10); --rare-border: rgba(56,189,248,0.22);
+  --physical: #ff6b6b; --physical-bg: rgba(255,107,107,0.12);
+  --special: #60a5fa; --special-bg: rgba(96,165,250,0.12);
+  --balance: #94a3b8; --balance-bg: rgba(148,163,184,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
+
+/* 헤더 */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,12,24,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px;
+}
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); text-decoration: none; }
+.header-nav { display: flex; gap: 4px; }
+.nav-a {
+  font-size: 12px; color: var(--text3); padding: 5px 12px;
+  border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s;
+}
+.nav-a:hover { color: var(--text2); background: var(--bg3); }
+.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+
+/* 메인 레이아웃 */
+.main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* 필터 바 */
+.filter-bar {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.filter-label { font-size: 12px; color: var(--text3); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.filter-group { display: flex; gap: 5px; flex-wrap: wrap; }
+.filter-btn {
+  font-size: 12px; padding: 5px 14px; border-radius: 99px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  transition: all .15s;
+}
+.filter-btn:hover { border-color: var(--border2); color: var(--text2); }
+.filter-btn.on { color: var(--text); }
+.filter-btn.all.on { border-color: var(--accent); background: rgba(124,106,255,.12); color: var(--accent2); }
+.filter-btn.legendary.on { border-color: var(--legendary-border); background: var(--legendary-bg); color: var(--legendary); }
+.filter-btn.heroic.on { border-color: var(--heroic-border); background: var(--heroic-bg); color: var(--heroic); }
+.filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+.filter-btn.physical.on { border-color: rgba(255,107,107,.3); background: var(--physical-bg); color: var(--physical); }
+.filter-btn.special.on { border-color: rgba(96,165,250,.3); background: var(--special-bg); color: var(--special); }
+.filter-btn.balance.on { border-color: rgba(148,163,184,.3); background: var(--balance-bg); color: var(--balance); }
+
+/* 검색 */
+.search-wrap { margin-left: auto; }
+.search-input {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 9px; padding: 7px 14px; font-size: 13px;
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none;
+  width: 180px; transition: border-color .15s;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--accent); }
+
+/* 드래곤 그리드 */
+.dragon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.dragon-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 12px 8px 10px;
+  cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 6px; text-align: center;
+  transition: all .15s; position: relative; overflow: hidden;
+}
+.dragon-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.dragon-card.legendary::before { background: linear-gradient(90deg, var(--legendary), #ffda6a); }
+.dragon-card.heroic::before { background: linear-gradient(90deg, #9b59ff, var(--heroic)); }
+.dragon-card.rare::before { background: linear-gradient(90deg, #0ea5e9, var(--rare)); }
+.dragon-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.dragon-card.selected { border-color: var(--accent); background: rgba(124,106,255,.06); }
+
+.dc-img {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.dc-img img { width: 50px; height: 50px; object-fit: contain; image-rendering: pixelated; }
+.dc-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.dc-eng { font-size: 9px; color: var(--text3); }
+.dc-badges { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; }
+.badge {
+  font-size: 8px; font-weight: 700; padding: 1px 5px;
+  border-radius: 4px; letter-spacing: .03em;
+}
+.badge-legendary { background: var(--legendary-bg); color: var(--legendary); border: 1px solid var(--legendary-border); }
+.badge-heroic { background: var(--heroic-bg); color: var(--heroic); border: 1px solid var(--heroic-border); }
+.badge-physical { background: var(--physical-bg); color: var(--physical); }
+.badge-special { background: var(--special-bg); color: var(--special); }
+.badge-balance { background: var(--balance-bg); color: var(--balance); }
+.badge-rare { background: var(--rare-bg); color: var(--rare); border: 1px solid var(--rare-border); }
+
+.no-data { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+
+/* ── 상세 패널 ── */
+.detail-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.detail-overlay.open { display: flex; }
+
+.detail-panel {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 24px; width: 100%; max-width: 640px;
+  max-height: 88vh; overflow-y: auto;
+  position: relative;
+}
+.detail-panel::-webkit-scrollbar { width: 3px; }
+.detail-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* 상단 네비 */
+.detail-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-radius: 24px 24px 0 0;
+}
+.nav-arrows { display: flex; gap: 6px; }
+.nav-arrow {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--border2); background: var(--bg3);
+  color: var(--text2); cursor: pointer; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.nav-arrow:hover { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.nav-arrow:disabled { opacity: .3; cursor: not-allowed; }
+.nav-counter { font-size: 12px; color: var(--text3); }
+.detail-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.detail-close:hover { border-color: var(--border2); color: var(--text); }
+
+/* 상세 콘텐츠 */
+.detail-hero {
+  padding: 28px 28px 20px;
+  display: flex; gap: 24px; align-items: flex-start;
+}
+.detail-img-wrap {
+  width: 110px; height: 110px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  border: 2px solid var(--border2); background: var(--bg3);
+}
+.detail-img-wrap img { width: 90px; height: 90px; object-fit: contain; image-rendering: pixelated; }
+.detail-info { flex: 1; }
+.detail-badges { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.detail-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 9px;
+  border-radius: 99px; letter-spacing: .04em;
+}
+.detail-name { font-family: 'Black Han Sans', sans-serif; font-size: 26px; color: var(--text); letter-spacing: -0.5px; margin-bottom: 2px; }
+.detail-eng { font-size: 12px; color: var(--text3); }
+
+/* 스탯 */
+.detail-section { padding: 0 28px 24px; }
+.section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.stat-list { display: flex; flex-direction: column; gap: 8px; }
+.stat-row { display: flex; align-items: center; gap: 10px; }
+.stat-label { font-size: 12px; color: var(--text2); width: 36px; flex-shrink: 0; }
+.stat-bar-wrap { flex: 1; height: 6px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+.stat-bar { height: 100%; border-radius: 99px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+.stat-val { font-size: 12px; font-weight: 700; color: var(--text); width: 40px; text-align: right; flex-shrink: 0; }
+.stat-total {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.stat-total-label { font-size: 12px; color: var(--text3); }
+.stat-total-val { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* 스킬/어빌리티 */
+.skill-list { display: flex; flex-direction: column; gap: 10px; }
+.skill-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+}
+.skill-type {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; margin-bottom: 5px;
+}
+.skill-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.skill-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.skill-empty { font-size: 13px; color: var(--text3); text-align: center; padding: 20px; }
+
+/* 스와이프 힌트 */
+.swipe-hint {
+  text-align: center; padding: 12px;
+  font-size: 11px; color: var(--text3);
+  border-top: 1px solid var(--border);
+}
+
+
+/* 스탯 툴팁 */
+.stat-tooltip {
+  position: fixed; z-index: 9999;
+  background: var(--bg4); border: 1px solid var(--border2);
+  border-radius: 9px; padding: 8px 12px;
+  font-size: 12px; color: var(--text2); line-height: 1.6;
+  max-width: 240px; pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .dragon-grid { grid-template-columns: repeat(auto-fill, minmax(85px,1fr)); gap: 8px; }
+  .detail-hero { flex-direction: column; align-items: center; text-align: center; padding: 20px 20px 16px; }
+  .detail-section { padding: 0 20px 20px; }
+  .header-nav { display: none; }
+  .search-wrap { margin-left: 0; width: 100%; }
+  .search-input { width: 100%; }
+  .filter-bar { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">DV3</a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-a">홈</a>
+    <a href="breeding.html" class="nav-a">교배</a>
+    <a href="gem.html" class="nav-a">보주</a>
+    <a href="ability.html" class="nav-a">어빌리티</a>
+    <a href="dragon.html" class="nav-a active">드래곤</a>
+  </nav>
+</header>
+
+<div class="main">
+
+  <div class="filter-bar">
+    <span class="filter-label">등급</span>
+    <div class="filter-group">
+      <button class="filter-btn all on" onclick="setFilter('grade','all')">전체</button>
+      <button class="filter-btn legendary" onclick="setFilter('grade','legendary')">⭐ 전설</button>
+      <button class="filter-btn heroic" onclick="setFilter('grade','heroic')">💜 영웅</button>
+      <button class="filter-btn rare" onclick="setFilter('grade','rare')">💚 희귀</button>
+    </div>
+    <div class="filter-sep"></div>
+    <span class="filter-label">타입</span>
+    <div class="filter-group">
+      <button class="filter-btn all on" id="type-all" onclick="setFilter('type','all')">전체</button>
+      <button class="filter-btn physical" onclick="setFilter('type','physical')">🔴 물리</button>
+      <button class="filter-btn special" onclick="setFilter('type','special')">🔵 특수</button>
+      <button class="filter-btn balance" onclick="setFilter('type','balance')">⚪ 밸런스</button>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="드래곤 검색..." id="search-input" oninput="renderGrid()">
+    </div>
+  </div>
+
+  <div class="dragon-grid" id="dragon-grid"></div>
+</div>
+
+<div class="stat-tooltip" id="stat-tooltip"></div>
+
+<!-- 상세 패널 -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetailOutside(event)">
+  <div class="detail-panel" id="detail-panel">
+
+    <div class="detail-nav">
+      <div class="nav-arrows">
+        <button class="nav-arrow" id="nav-prev" onclick="navigate(-1)">←</button>
+        <button class="nav-arrow" id="nav-next" onclick="navigate(1)">→</button>
+      </div>
+      <span class="nav-counter" id="nav-counter"></span>
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+    </div>
+
+    <div class="detail-hero">
+      <div class="detail-img-wrap" id="d-img-wrap">
+        <img id="d-img" src="" alt="">
+      </div>
+      <div class="detail-info">
+        <div class="detail-badges" id="d-badges"></div>
+        <div class="detail-name" id="d-name"></div>
+        <div class="detail-eng" id="d-eng"></div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="section-title">스탯 <span style="font-size:10px;font-weight:400;color:var(--text3);margin-left:6px;letter-spacing:0">Lv.30 · 5성 기준</span></div>
+      <div class="stat-list" id="d-stats"></div>
+    </div>
+
+    <div class="detail-section">
+      <div class="section-title">스킬</div>
+      <div class="skill-list" id="d-skills"></div>
+    </div>
+
+    <div class="detail-section">
+      <div class="section-title">어빌리티</div>
+      <div class="skill-list" id="d-ability"></div>
+    </div>
+
+    <div class="swipe-hint">← → 키 또는 화살표로 이전/다음 드래곤</div>
+  </div>
+</div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
+
+// ── 드래곤 데이터 ────────────────────────────────────────
+// grade: legendary | heroic | rare | common
+// type:  physical | special | balance
+// stats: { hp, atk, def, spatk, spdef, spd } — 없으면 null
+// skills: [ { type:'필살기'|'일반공격', name, desc } ]
+// ability: [ { name, desc } ]
+const DRAGONS = [
+  // ── 전설 ──
+  { id:"darknix_00_adult",         kor:"다크닉스",        grade:"legendary", type:"special",  stats:{hp:944,  atk:1096, def:944,  spatk:1326, spdef:1096, spd:866},  skills:[], ability:[] },
+  { id:"goddragon_00_adult",       kor:"고대신룡",        grade:"legendary", type:"physical", stats:{hp:944,  atk:1326, def:1096, spatk:1096, spdef:944,  spd:866},  skills:[], ability:[] },
+  { id:"non_00_adult",             kor:"논",              grade:"legendary", type:"physical", stats:{hp:682,  atk:1105, def:1372, spatk:834,  spdef:1372, spd:682},  skills:[], ability:[] },
+  { id:"florea_00_adult",          kor:"플로레",          grade:"legendary", type:"special",  stats:{hp:945,  atk:674,  def:1019, spatk:1212, spdef:1175, spd:904},  skills:[], ability:[] },
+  { id:"selora_00_adult",          kor:"셀오라",          grade:"legendary", type:"physical", stats:{hp:919,  atk:1264, def:919,  spatk:919,  spdef:841,  spd:1186}, skills:[], ability:[] },
+  { id:"angeljr_00_adult",         kor:"엔젤주니어",      grade:"legendary", type:"physical", stats:{hp:1103, atk:1333, def:988,  spatk:873,  spdef:873,  spd:758},  skills:[], ability:[] },
+  { id:"centura_00_adult",         kor:"센투라",          grade:"legendary", type:"balance",  stats:{hp:991,  atk:1093, def:932,  spatk:1093, spdef:932,  spd:1005}, skills:[], ability:[] },
+  { id:"lucio_00_adult",           kor:"루시오",          grade:"legendary", type:"balance",  stats:{hp:848,  atk:1078, def:811,  spatk:1078, spdef:999,  spd:1229}, skills:[], ability:[] },
+  { id:"crevasse_00_adult",        kor:"크레바스",        grade:"legendary", type:"special",  stats:{hp:737,  atk:871,  def:714,  spatk:1482, spdef:1252, spd:986},  skills:[], ability:[] },
+  { id:"fides_00_adult",           kor:"피데스",          grade:"legendary", type:"physical", stats:{hp:782,  atk:1435, def:745,  spatk:1168, spdef:745,  spd:1168}, skills:[], ability:[] },
+  { id:"lightning_00_adult",       kor:"번개고룡",        grade:"legendary", type:"special",  stats:{hp:956,  atk:956,  def:919,  spatk:1223, spdef:956,  spd:1034}, skills:[], ability:[] },
+  { id:"power_00_adult",           kor:"파워 드래곤",     grade:"legendary", type:"physical", stats:{hp:1011, atk:1250, def:1078, spatk:972,  spdef:1011, spd:733},  skills:[], ability:[] },
+  { id:"obex_00_adult",            kor:"오벡스",          grade:"legendary", type:"special",  stats:{hp:887,  atk:1038, def:1038, spatk:1269, spdef:887,  spd:808},  skills:[], ability:[] },
+  { id:"plumos_00_adult",          kor:"플루모스",        grade:"legendary", type:"physical", stats:{hp:860,  atk:1398, def:1012, spatk:860,  spdef:860,  spd:938},  skills:[], ability:[] },
+  { id:"frost_00_adult",           kor:"빙하고룡",        grade:"legendary", type:"balance",  stats:{hp:1011, atk:997,  def:1011, spatk:1075, spdef:1034, spd:914},  skills:[], ability:[] },
+  { id:"dragonslayer_00_adult",    kor:"드래곤슬레이어",  grade:"legendary", type:"physical", stats:{hp:952,  atk:1136, def:828,  spatk:980,  spdef:1320, spd:828},  skills:[], ability:[] },
+
+  // ── 영웅 ──
+  { id:"shadow_00_adult",          kor:"섀도우 드래곤",   grade:"heroic",    type:"physical", stats:{hp:987,  atk:1096, def:878,  spatk:808,  spdef:878,  spd:650},  skills:[], ability:[] },
+  { id:"granos_00_adult",          kor:"그라노스",        grade:"heroic",    type:"special",  stats:{hp:721,  atk:721,  def:686,  spatk:1048, spdef:939,  spd:1196}, skills:[], ability:[] },
+  { id:"aila_00_adult",            kor:"에이라",          grade:"heroic",    type:"special",  stats:{hp:775,  atk:775,  def:775,  spatk:1102, spdef:1102, spd:1102}, skills:[], ability:[] },
+  { id:"characen_00_adult",        kor:"카라선",          grade:"heroic",    type:"special",  stats:{hp:690,  atk:656,  def:908,  spatk:1310, spdef:908,  spd:834},  skills:[], ability:[] },
+  { id:"blackdragon_00_adult",     kor:"흑룡",            grade:"heroic",    type:"physical", stats:{hp:882,  atk:1109, def:817,  spatk:1022, spdef:804,  spd:891},  skills:[], ability:[] },
+  { id:"whitedragon_00_adult",     kor:"백룡",            grade:"heroic",    type:"physical", stats:{hp:989,  atk:928,  def:967,  spatk:880,  spdef:880,  spd:884},  skills:[], ability:[] },
+  { id:"toddletomtom_00_adult",    kor:"터틀톰톰",        grade:"heroic",    type:"balance",  stats:{hp:978,  atk:1013, def:751,  spatk:1013, spdef:773,  spd:782},  skills:[], ability:[] },
+  { id:"dreaden_00_adult",         kor:"드래든",          grade:"heroic",    type:"physical", stats:{hp:1037, atk:858,  def:880,  spatk:967,  spdef:1002, spd:784},  skills:[], ability:[] },
+  { id:"mummydragon_00_adult",     kor:"미이라곤",        grade:"heroic",    type:"physical", stats:{hp:1017, atk:943,  def:756,  spatk:782,  spdef:712,  spd:878},  skills:[], ability:[] },
+  { id:"mistdragon_00_adult",      kor:"미스틱 드래곤",   grade:"heroic",    type:"special",  stats:{hp:808,  atk:721,  def:699,  spatk:721,  spdef:1026, spd:677},  skills:[], ability:[] },
+  { id:"slimedragon_00_adult",     kor:"슬라임 드래곤",   grade:"heroic",    type:"physical", stats:{hp:821,  atk:791,  def:786,  spatk:568,  spdef:856,  spd:834},  skills:[], ability:[] },
+  { id:"gripo_00_adult",           kor:"그리포",          grade:"heroic",    type:"special",  stats:{hp:661,  atk:844,  def:587,  spatk:914,  spdef:844,  spd:1022}, skills:[], ability:[] },
+  { id:"fairydragon_00_adult",     kor:"페어리 드래곤",   grade:"heroic",    type:"special",  stats:{hp:714,  atk:789,  def:754,  spatk:932,  spdef:754,  spd:932},  skills:[], ability:[] },
+  { id:"pierrotdragon_00_adult",   kor:"삐에로 드래곤",   grade:"heroic",    type:"physical", stats:{hp:1667, atk:525,  def:708,  spatk:525,  spdef:708,  spd:525},  skills:[], ability:[] },
+  { id:"goldie_00_adult",          kor:"골디",            grade:"heroic",    type:"physical", stats:{hp:698,  atk:1008, def:720,  spatk:742,  spdef:768,  spd:720},  skills:[], ability:[] },
+  { id:"henes_00_adult",           kor:"헤네스",          grade:"heroic",    type:"special",  stats:{hp:623,  atk:1024, def:836,  spatk:514,  spdef:1059, spd:815},  skills:[], ability:[] },
+  { id:"alien_00_adult",           kor:"에일리언 드래곤", grade:"heroic",    type:"physical", stats:{hp:714,  atk:1129, def:693,  spatk:693,  spdef:1059, spd:802},  skills:[], ability:[] },
+  { id:"seere_00_adult",           kor:"세에레",          grade:"heroic",    type:"special",  stats:{hp:831,  atk:757,  def:1228, spatk:1158, spdef:831,  spd:722},  skills:[], ability:[] },
+
+  // ── 나머지 (스탯 미정) ──
+  { id:"afrit_00_adult",           kor:"아프리트",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"aquadragon_00_adult",      kor:"아쿠아 드래곤",   grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"baal_00_adult",            kor:"바알",            grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"beleth_00_adult",          kor:"벨레드",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"blackarmor_00_adult",      kor:"블랙아머",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"blue_00_adult",            kor:"청룡",            grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"bluefiretail_00_adult",    kor:"청불나래",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"bluelightning_00_adult",   kor:"블루라이트닝",    grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"bluethunder_00_adult",     kor:"블루썬더",        grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"catsgon_00_adult",         kor:"캣츠곤",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"centipededragon_00_adult", kor:"G네 드래곤",      grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"cloud_00_adult",           kor:"클라우드",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"cupid_00_adult",           kor:"큐피트",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"dilrang_00_adult",         kor:"딜랑",            grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"dragonoid_00_adult",       kor:"드라고노이드",    grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"dreaden_00_adult",         kor:"드래든",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"egg_00_adult",             kor:"에그 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"emerald_00_adult",         kor:"에메랄드",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"enturas_00_adult",         kor:"엔투라스",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"fat_00_adult",             kor:"패트",            grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"fire_00_adult",            kor:"파이어 드래곤",   grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"firetail_00_adult",        kor:"불나래",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"frog_00_adult",            kor:"프로그 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"goblindragon_00_adult",    kor:"깨비곤",          grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"haze_00_adult",            kor:"헤이즈",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"hell_00_adult",            kor:"헬 드래곤",       grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"hyeonmu_00_adult",         kor:"현무",            grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"ignis_00_adult",           kor:"이그니스",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"ilios_00_adult",           kor:"일리오스",        grade:"rare", type:null, stats:null, skills:[], ability:[] },
+  { id:"iron_00_adult",            kor:"아이언 드래곤",   grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"jujak_00_adult",           kor:"주작",            grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"kleptos_00_adult",         kor:"클렙토",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"knightdragon_00_adult",    kor:"나이트 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"lagtail_00_adult",         kor:"렉테일",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"lakion_00_adult",          kor:"라키온",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"lambgon_00_adult",          kor:"램곤",            grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"lava_00_adult",            kor:"라바 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"leafdragon_00_adult",      kor:"리프 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"liberte_00_adult",         kor:"리베티",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"liso_00_adult",            kor:"리소",            grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"lunera_00_adult",          kor:"루네라",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"magnello_00_adult",        kor:"마그넬로",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"mud_00_adult",             kor:"머드 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"mushroom_00_adult",        kor:"머쉬움 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"mustardhammer_00_adult",   kor:"머스타드해머",    grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"nebula_00_adult",          kor:"네뷸라",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"ninjadragon_00_adult",     kor:"닌자 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"nox_00_adult",             kor:"녹스",            grade:"rare", type:null, stats:null, skills:[], ability:[] },
+  { id:"patroa_00_adult",          kor:"패트로아",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"phoenix_00_adult",         kor:"피닉스",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"phoenix_01_adult",         kor:"피닉스 (변형)",   grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"pinkbell_00_adult",        kor:"핑크벨",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"poisonriver_00_adult",     kor:"포이즌리버",      grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"popomo_00_adult",          kor:"포포모",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"rafael_00_adult",          kor:"라파엘",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"rock_00_adult",            kor:"바위 드래곤",     grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"rupia_00_adult",           kor:"루피아",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"scorpiondragon_00_adult",  kor:"스콜피온 드래곤", grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"serpentdragon_00_adult",   kor:"서펀트 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"sharkgon_00_adult",        kor:"샤크곤",          grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"sharptail_00_adult",       kor:"샤프테일",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"siamesedragon_00_adult",   kor:"샴 드래곤",       grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"sixleghorn_00_adult",      kor:"식스레그혼",      grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"skelegon_00_adult",        kor:"스켈레곤",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"solar_00_adult",           kor:"솔라 드래곤",     grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"spicy_00_adult",           kor:"스파이시",        grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"splender_00_adult",        kor:"스플렌더",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"swamp_00_adult",           kor:"스왐프 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"taabire_00_adult",         kor:"타아비레",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"taros_00_adult",           kor:"타로스",          grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+  { id:"thunderboltdragon_00_adult",kor:"썬더볼트 드래곤",grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"totemdragon_00_adult",     kor:"토템 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"tumpy_00_adult",           kor:"텀피",            grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"typhoondragon_00_adult",   kor:"타이푼 드래곤",   grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"whitethunder_00_adult",    kor:"화이트썬더",      grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"wind_00_adult",            kor:"윈드 드래곤",     grade:"rare",    type:null, stats:null, skills:[], ability:[] },
+  { id:"witchdragon_00_adult",     kor:"윗치 드래곤",     grade:"heroic",    type:null, stats:null, skills:[], ability:[] },
+  { id:"zephyros_00_adult",        kor:"제피로스",        grade:"legendary", type:null, stats:null, skills:[], ability:[] },
+];
+
+const GRADE_LABEL = { legendary:'전설', heroic:'영웅', rare:'희귀', common:'일반' };
+const TYPE_LABEL  = { physical:'물리형', special:'특수형', balance:'밸런스형' };
+const STAT_COLORS = {
+  physical: '#ff6b6b', special: '#60a5fa', balance: '#94a3b8'
+};
+const STAT_KEYS = ['hp','atk','def','spatk','spdef','spd'];
+const STAT_LABELS = { hp:'체력', atk:'공격', def:'방어', spatk:'마력', spdef:'저항', spd:'속도' };
+const STAT_DESC = {
+  hp:    '드래곤의 생명 수치입니다. 0이 되면 전투 불능 상태가 되며, 높을수록 전장에서 더 오래 버틸 수 있습니다.',
+  atk:   '공격이 높을수록 물리 스킬의 피해량이 증가합니다.',
+  def:   '방어가 높을수록 적이 사용하는 물리 스킬로부터 입는 피해량이 감소합니다.',
+  spatk: '마력이 높을수록 마법 스킬의 피해량이 증가합니다.',
+  spdef: '저항이 높을수록 적이 사용하는 마법 스킬로부터 입는 피해량이 감소합니다.',
+  spd:   '전투 행동의 우선 순위에 관여하는 수치입니다. 전투에서는 상대보다 속도가 더 빠른 드래곤이 우선적으로 전투 행동을 수행합니다.',
+};
+
+let gradeFilter = 'all';
+let typeFilter  = 'all';
+let currentIdx  = -1;
+let filteredList = [];
+
+function setFilter(kind, val) {
+  if (kind === 'grade') {
+    gradeFilter = val;
+    document.querySelectorAll('.filter-btn.all, .filter-btn.legendary, .filter-btn.heroic, .filter-btn.rare')
+      .forEach(b => b.classList.remove('on'));
+    document.querySelector(val === 'all' ? '.filter-btn.all' : `.filter-btn.${val}`).classList.add('on');
+  } else {
+    typeFilter = val;
+    document.querySelectorAll('#type-all, .filter-btn.physical, .filter-btn.special, .filter-btn.balance')
+      .forEach(b => b.classList.remove('on'));
+    const map = { all:'#type-all', physical:'.filter-btn.physical', special:'.filter-btn.special', balance:'.filter-btn.balance' };
+    document.querySelector(map[val]).classList.add('on');
+  }
+  
+// 스탯 툴팁
+function showTip(e, text) {
+  const tip = document.getElementById('stat-tooltip');
+  tip.textContent = text;
+  tip.style.display = 'block';
+  const x = e.clientX + 12, y = e.clientY - 10;
+  tip.style.left = Math.min(x, window.innerWidth - 260) + 'px';
+  tip.style.top = Math.max(y, 8) + 'px';
+}
+function hideTip() {
+  document.getElementById('stat-tooltip').style.display = 'none';
+}
+
+renderGrid();
+}
+
+function getFiltered() {
+  const q = document.getElementById('search-input').value.toLowerCase().replace(/ /g,'');
+  return DRAGONS.filter(d => {
+    const gradeOk = gradeFilter === 'all' || d.grade === gradeFilter;
+    const typeOk  = typeFilter  === 'all' || d.type  === typeFilter;
+    const searchOk = !q || d.kor.replace(/ /g,'').toLowerCase().includes(q) || d.id.includes(q);
+    return gradeOk && typeOk && searchOk;
+  });
+}
+
+function renderGrid() {
+  filteredList = getFiltered();
+  const grid = document.getElementById('dragon-grid');
+  if (!filteredList.length) {
+    grid.innerHTML = '<div class="no-data">해당하는 드래곤이 없습니다</div>';
+    return;
+  }
+  grid.innerHTML = filteredList.map((d, i) => {
+    const eng = d.id.replace(/_00_adult|_01_adult/g,'');
+    return `<div class="dragon-card ${d.grade}" onclick="openDetail(${i})" id="dc-${i}">
+      <div class="dc-img">
+        <img src="${BASE}${d.id}.png" alt="${d.kor}" onerror="this.style.opacity=.2">
+      </div>
+      <div class="dc-name">${d.kor}</div>
+      <div class="dc-eng">${eng}</div>
+      <div class="dc-badges">
+        <span class="badge badge-${d.grade}">${GRADE_LABEL[d.grade]}</span>
+        ${d.type ? `<span class="badge badge-${d.type}">${TYPE_LABEL[d.type]}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openDetail(idx) {
+  currentIdx = idx;
+  renderDetail();
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+}
+
+function closeDetailOutside(e) {
+  if (e.target === document.getElementById('detail-overlay')) closeDetail();
+}
+
+function navigate(dir) {
+  const next = currentIdx + dir;
+  if (next < 0 || next >= filteredList.length) return;
+  currentIdx = next;
+  renderDetail();
+}
+
+function renderDetail() {
+  const d = filteredList[currentIdx];
+  if (!d) return;
+
+  // 네비
+  document.getElementById('nav-counter').textContent = `${currentIdx + 1} / ${filteredList.length}`;
+  document.getElementById('nav-prev').disabled = currentIdx === 0;
+  document.getElementById('nav-next').disabled = currentIdx === filteredList.length - 1;
+
+  // 헤더
+  const eng = d.id.replace(/_00_adult|_01_adult/g,'');
+  document.getElementById('d-img').src = `${BASE}${d.id}.png`;
+  document.getElementById('d-img').alt = d.kor;
+  document.getElementById('d-name').textContent = d.kor;
+  document.getElementById('d-eng').textContent = eng;
+
+  // 등급/타입 뱃지
+  const gradeColors = {
+    legendary: 'background:rgba(245,197,66,.15);color:#f5c542;border:1px solid rgba(245,197,66,.3)',
+    heroic:    'background:rgba(180,127,255,.15);color:#b47fff;border:1px solid rgba(180,127,255,.3)',
+    rare:      'background:rgba(56,189,248,.12);color:#38bdf8;border:1px solid rgba(56,189,248,.25)',
+  };
+  const typeColors = {
+    physical: 'background:rgba(255,107,107,.12);color:#ff6b6b',
+    special:  'background:rgba(96,165,250,.12);color:#60a5fa',
+    balance:  'background:rgba(148,163,184,.12);color:#94a3b8',
+  };
+  document.getElementById('d-badges').innerHTML =
+    `<span class="detail-badge" style="${gradeColors[d.grade]||''}">${GRADE_LABEL[d.grade]}</span>` +
+    (d.type ? `<span class="detail-badge" style="${typeColors[d.type]||''}">${TYPE_LABEL[d.type]}</span>` : '');
+
+  // 이미지 테두리 색
+  const imgWrap = document.getElementById('d-img-wrap');
+  imgWrap.style.borderColor = d.grade === 'legendary' ? 'rgba(245,197,66,.4)' : 'rgba(180,127,255,.4)';
+
+  // 스탯
+  const statsEl = document.getElementById('d-stats');
+  if (d.stats) {
+    const maxStat = 1700;
+    const color = d.type ? STAT_COLORS[d.type] : '#7c6aff';
+    const total = Object.values(d.stats).reduce((a,b)=>a+b,0);
+    statsEl.innerHTML = STAT_KEYS.map(k => `
+      <div class="stat-row" style="position:relative" onmouseenter="showTip(event,'${STAT_DESC[k]}')" onmouseleave="hideTip()">
+        <span class="stat-label">${STAT_LABELS[k]}</span>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar" style="width:${(d.stats[k]/maxStat*100).toFixed(1)}%;background:${color}"></div>
+        </div>
+        <span class="stat-val">${d.stats[k]}</span>
+      </div>`).join('') +
+      `<div class="stat-total">
+        <span class="stat-total-label">총합</span>
+        <span class="stat-total-val">${total.toLocaleString()}</span>
+      </div>`;
+  } else {
+    statsEl.innerHTML = '<div class="skill-empty">스탯 데이터 수집 중</div>';
+  }
+
+  // 스킬
+  const skillsEl = document.getElementById('d-skills');
+  if (d.skills && d.skills.length) {
+    skillsEl.innerHTML = d.skills.map(s => `
+      <div class="skill-card">
+        <div class="skill-type" style="color:${s.type==='필살기'?'#f5c542':'#a693ff'}">${s.type}</div>
+        <div class="skill-name">${s.name}</div>
+        <div class="skill-desc">${s.desc}</div>
+      </div>`).join('');
+  } else {
+    skillsEl.innerHTML = '<div class="skill-empty">스킬 데이터 수집 중</div>';
+  }
+
+  // 어빌리티
+  const abilEl = document.getElementById('d-ability');
+  if (d.ability && d.ability.length) {
+    abilEl.innerHTML = d.ability.map(a => `
+      <div class="skill-card">
+        <div class="skill-name">${a.name}</div>
+        <div class="skill-desc">${a.desc}</div>
+      </div>`).join('');
+  } else {
+    abilEl.innerHTML = '<div class="skill-empty">어빌리티 데이터 수집 중</div>';
+  }
+
+  // 패널 스크롤 초기화
+  document.getElementById('detail-panel').scrollTop = 0;
+}
+
+// 키보드 네비게이션
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('detail-overlay').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  navigate(-1);
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'Escape')     closeDetail();
+});
+
+// 터치 스와이프
+let touchStartX = 0;
+document.getElementById('detail-panel').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+document.getElementById('detail-panel').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+});
+
+
+// 스탯 툴팁
+function showTip(e, text) {
+  const tip = document.getElementById('stat-tooltip');
+  tip.textContent = text;
+  tip.style.display = 'block';
+  const x = e.clientX + 12, y = e.clientY - 10;
+  tip.style.left = Math.min(x, window.innerWidth - 260) + 'px';
+  tip.style.top = Math.max(y, 8) + 'px';
+}
+function hideTip() {
+  document.getElementById('stat-tooltip').style.display = 'none';
+}
+
+renderGrid();
+</script>
+</body>
+</html>
