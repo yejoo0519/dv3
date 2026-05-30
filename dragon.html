@@ -359,6 +359,13 @@ const DRAGONS = [
   { id:"obex_00_adult",            kor:"오벡스",          grade:"legendary", type:"special",  stats:{hp:887,  atk:1038, def:1038, spatk:1269, spdef:887,  spd:808},  skills:[], ability:[] },
   { id:"plumos_00_adult",          kor:"플루모스",        grade:"legendary", type:"physical", stats:{hp:860,  atk:1398, def:1012, spatk:860,  spdef:860,  spd:938},  skills:[], ability:[] },
   { id:"frost_00_adult",           kor:"빙하고룡",        grade:"legendary", type:"balance",  stats:{hp:1011, atk:997,  def:1011, spatk:1075, spdef:1034, spd:914},  skills:[], ability:[] },
+  { id:"tiamat_00_adult",          kor:"티아매트",        grade:"legendary", type:"balance",  stats:{hp:969,  atk:1200, def:969,  spatk:1200, spdef:969,  spd:740},
+    skills:[
+      { type:'일반공격', name:'물의 파동',      kind:'마법', acc:100, power:30, desc:'가장 기본적인 마법 공격이다. 물속성으로 공격하고 에너지를 1 회복한다.' },
+      { type:'필살기',   name:'페르시온의 힘',  kind:'마법', acc:100, power:90, desc:'결정화된 페르시온의 물속성 공격으로 적에게 큰 피해를 주고, 결정 상태인 적에게는 1.5배의 피해를 준다. 전투당 1번만 사용할 수 있다.' },
+    ],
+    ability:[{ name:'점막', desc:'턴 종료 시 날씨가 비 상태일 경우, 상태 이상을 회복한다.' }],
+    obtain:['레이드'] },
   { id:"dragonslayer_00_adult",    kor:"드래곤슬레이어",  grade:"legendary", type:"physical", stats:{hp:952,  atk:1136, def:828,  spatk:980,  spdef:1320, spd:828},  skills:[], ability:[] },
 
   // ── 영웅 ──
