@@ -809,7 +809,7 @@ let currentStar  = 1; // 1~5
 function openDetail(idx) {
   currentOrb   = ORBS[idx];
   currentLevel = 0;
-  currentStar  = 1;
+  currentStar  = 0;
 
   const o = currentOrb;
   document.getElementById('m-title').textContent = o.name;
@@ -866,14 +866,14 @@ function updateEnhanceUI() {
     const numMatch = skillUpRaw.match(/^(\d+)/);
     if (numMatch) {
       const perStar = parseInt(numMatch[1]);
-      currentPower = o.power + perStar * (currentStar - 1);
+      currentPower = o.power + perStar * currentStar;
       const extra = skillUpRaw.replace(/^\d+/, '').trim();
       skillValText = '위력 ' + currentPower + (extra ? ' ' + extra : '');
     } else {
-      skillValText = skillUpRaw;
+      skillValText = currentStar > 0 ? skillUpRaw : '—';
     }
   } else {
-    skillValText = skillUpRaw;
+    skillValText = currentStar > 0 ? skillUpRaw : '—';
   }
   document.getElementById('m-skill-val').textContent = skillValText;
 
