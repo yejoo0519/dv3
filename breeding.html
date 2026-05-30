@@ -12,18 +12,22 @@
   --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
   --text: #e8e6f0; --text2: #9996b0; --text3: #5e5c72;
   --radius: 14px;
-  --IMG: https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
 
 .header {
   background: var(--bg2); border-bottom: 1px solid var(--border);
-  padding: 0 24px; display: flex; align-items: center; gap: 10px; height: 52px;
+  padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px;
 }
-.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); text-decoration: none; }
 .sep { color: var(--text3); font-size: 13px; }
 .page-name { font-size: 13px; color: var(--text2); }
+.header-nav { display: flex; gap: 4px; }
+.nav-a { font-size: 12px; color: var(--text3); padding: 5px 12px; border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s; }
+.nav-a:hover { color: var(--text2); background: var(--bg3); }
+.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
 
 .main { max-width: 860px; margin: 0 auto; padding: 28px 16px 80px; }
 
@@ -42,10 +46,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .tab:not(.active):hover { color: var(--text2); background: var(--bg3); }
 
 /* 부모 선택 카드 */
-.selector-row {
-  display: grid; grid-template-columns: 1fr 44px 1fr;
-  align-items: center; margin-bottom: 28px;
-}
+.selector-row { display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center; margin-bottom: 28px; }
 .sel-card {
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 18px 16px;
@@ -56,16 +57,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 }
 .sel-card:hover { border-color: var(--border2); }
 .sel-card.on { border-color: var(--accent); }
-.sel-label {
-  position: absolute; top: 9px; left: 11px;
-  font-size: 10px; font-weight: 700; letter-spacing: .07em;
-  color: var(--text3); text-transform: uppercase;
-}
-.sel-img {
-  width: 68px; height: 68px; border-radius: 50%;
-  background: var(--bg3); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
+.sel-label { position: absolute; top: 9px; left: 11px; font-size: 10px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; }
+.sel-img { width: 68px; height: 68px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .sel-img img { width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; }
 .sel-name { font-size: 13px; font-weight: 700; color: var(--text); }
 .sel-engname { font-size: 10px; color: var(--text3); }
@@ -74,52 +67,29 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .cross { text-align: center; font-size: 18px; color: var(--text3); font-weight: 700; }
 
 /* 자식 선택 */
-.child-selector {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px;
-  display: flex; align-items: center; gap: 20px;
-  cursor: pointer; margin-bottom: 28px; transition: border-color 0.15s;
-}
+.child-selector { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; margin-bottom: 28px; transition: border-color 0.15s; }
 .child-selector:hover { border-color: var(--border2); }
 .child-selector.on { border-color: var(--accent); }
-.child-img {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: var(--bg3); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; flex-shrink: 0;
-}
+.child-img { width: 72px; height: 72px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
 .child-img img { width: 58px; height: 58px; object-fit: contain; image-rendering: pixelated; }
 .child-info { flex: 1; }
 .child-title { font-size: 11px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
 .child-name { font-size: 15px; font-weight: 700; color: var(--text); }
 .child-eng { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.child-btn {
-  padding: 8px 16px; border-radius: 8px;
-  border: 1px solid var(--border2); background: transparent;
-  color: var(--accent2); font-size: 12px; font-weight: 500;
-  cursor: pointer; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap;
-}
+.child-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border2); background: transparent; color: var(--accent2); font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap; }
 
 /* 결과 패널 */
 .result-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.result-head {
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
+.result-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .result-head-title { font-size: 12px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; }
 .result-meta { display: flex; align-items: center; gap: 8px; }
 .res-count { font-size: 12px; color: var(--text3); }
 .sort-grp { display: flex; gap: 3px; }
-.sort-btn {
-  font-size: 11px; padding: 3px 10px; border-radius: 99px;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .12s;
-}
+.sort-btn { font-size: 11px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .12s; }
 .sort-btn:hover { border-color: var(--border2); color: var(--text2); }
 .sort-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
 .result-body { padding: 18px; }
 
-/* 빈 상태 */
 .empty { text-align: center; padding: 44px 20px; color: var(--text3); }
 .empty-ico { font-size: 36px; margin-bottom: 10px; }
 .empty-txt { font-size: 14px; line-height: 1.7; }
@@ -127,36 +97,17 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 
 /* 자식 결과 그리드 */
 .result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
-.res-card {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 11px; padding: 11px 7px 9px;
-  display: flex; flex-direction: column; align-items: center;
-  gap: 4px; text-align: center; position: relative; overflow: hidden;
-  transition: border-color .15s, transform .15s;
-}
+.res-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 11px; padding: 11px 7px 9px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; position: relative; overflow: hidden; transition: border-color .15s, transform .15s; }
 .res-card:hover { border-color: var(--border2); transform: translateY(-2px); }
 .top-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 .bar-h { background: linear-gradient(90deg,#f5c542,#ff9d00); }
 .bar-m { background: linear-gradient(90deg,#7c6aff,#a693ff); }
 .bar-l { background: var(--border2); }
-.res-img {
-  width: 54px; height: 54px; border-radius: 50%;
-  background: var(--bg2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; margin-top: 3px;
-}
+.res-img { width: 54px; height: 54px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 3px; }
 .res-img img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
-
-/* ★ 이름 태그 영역 */
 .name-tag-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 100%; }
-.eng-tag {
-  font-size: 9px; font-weight: 700; letter-spacing: .04em;
-  color: var(--text3); background: var(--bg2);
-  border: 1px solid var(--border); border-radius: 4px;
-  padding: 1px 5px; line-height: 1.4;
-}
+.eng-tag { font-size: 9px; font-weight: 700; letter-spacing: .04em; color: var(--text3); background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; line-height: 1.4; }
 .kor-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
-
 .rate-pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 1px; }
 .rp-h { background: rgba(245,197,66,.15); color: var(--gold); }
 .rp-m { background: rgba(124,106,255,.15); color: var(--accent2); }
@@ -164,81 +115,56 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 
 /* 부모 조합 리스트 */
 .parent-list { display: flex; flex-direction: column; gap: 8px; }
-.parent-pair {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 11px; padding: 12px 14px;
-  display: flex; align-items: center; gap: 12px; transition: border-color .15s;
-}
+.parent-pair { background: var(--bg3); border: 1px solid var(--border); border-radius: 11px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; transition: border-color .15s; }
 .parent-pair:hover { border-color: var(--border2); }
 .pair-num { font-size: 11px; color: var(--text3); font-weight: 700; min-width: 22px; }
 .pair-dragons { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
 .pair-dragon { display: flex; align-items: center; gap: 8px; }
-.pair-img {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--bg2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
-}
+.pair-img { width: 40px; height: 40px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
 .pair-img img { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
 .pair-dinfo { display: flex; flex-direction: column; gap: 1px; }
 .pair-kor { font-size: 12px; font-weight: 700; color: var(--text); }
-.pair-eng-tag {
-  font-size: 9px; font-weight: 700; letter-spacing: .04em;
-  color: var(--text3); background: var(--bg2);
-  border: 1px solid var(--border); border-radius: 4px;
-  padding: 1px 5px; line-height: 1.4; display: inline-block; width: fit-content;
-}
+.pair-eng-tag { font-size: 9px; font-weight: 700; letter-spacing: .04em; color: var(--text3); background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; line-height: 1.4; display: inline-block; width: fit-content; }
 .pair-x { font-size: 13px; color: var(--text3); font-weight: 700; padding: 0 2px; }
-.pair-rate { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+
+/* 획득처 탭 */
+.obtain-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.obtain-btn { font-size: 12px; padding: 6px 16px; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .15s; }
+.obtain-btn:hover { border-color: var(--border2); color: var(--text2); }
+.obtain-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.obtain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+.obtain-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; transition: border-color .15s; }
+.obtain-card:hover { border-color: var(--border2); }
+.obtain-img { width: 56px; height: 56px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.obtain-img img { width: 46px; height: 46px; object-fit: contain; image-rendering: pixelated; }
+.obtain-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.obtain-eng { font-size: 9px; color: var(--text3); }
+.obtain-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.ob-gacha    { background: rgba(245,197,66,.15); color: var(--gold); border: 1px solid rgba(245,197,66,.3); }
+.ob-raid     { background: rgba(255,107,107,.15); color: #ff6b6b; border: 1px solid rgba(255,107,107,.3); }
+.ob-shop     { background: rgba(52,211,153,.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,.25); }
+.ob-latea    { background: rgba(124,106,255,.15); color: var(--accent2); border: 1px solid rgba(124,106,255,.3); }
+.ob-breed    { background: rgba(255,255,255,.06); color: var(--text3); border: 1px solid var(--border); }
 
 /* 모달 */
-.overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,.72); z-index: 300;
-  align-items: center; justify-content: center; padding: 16px;
-}
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
 .overlay.open { display: flex; }
-.modal {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: 18px; width: 100%; max-width: 520px;
-  max-height: 82vh; display: flex; flex-direction: column; overflow: hidden;
-}
-.modal-head {
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
+.modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; width: 100%; max-width: 520px; max-height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+.modal-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .modal-title { font-size: 14px; font-weight: 700; }
-.modal-x {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--text2); cursor: pointer; font-size: 15px;
-  display: flex; align-items: center; justify-content: center; transition: all .12s;
-}
+.modal-x { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all .12s; }
 .modal-x:hover { border-color: var(--border2); color: var(--text); }
 .modal-search-wrap { padding: 10px 14px; border-bottom: 1px solid var(--border); }
-.modal-search {
-  width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 9px; padding: 8px 12px; font-size: 13px;
-  color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none; transition: border-color .15s;
-}
+.modal-search { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px; font-size: 13px; color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none; transition: border-color .15s; }
 .modal-search::placeholder { color: var(--text3); }
 .modal-search:focus { border-color: var(--accent); }
-.modal-grid {
-  overflow-y: auto; padding: 10px;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); gap: 6px;
-}
+.modal-grid { overflow-y: auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); gap: 6px; }
 .modal-grid::-webkit-scrollbar { width: 3px; }
 .modal-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-.m-item {
-  background: var(--bg3); border: 1px solid var(--border); border-radius: 9px;
-  padding: 9px 6px 8px; cursor: pointer; display: flex; flex-direction: column;
-  align-items: center; gap: 4px; text-align: center; transition: border-color .12s, background .12s;
-}
+.m-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 9px; padding: 9px 6px 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; transition: border-color .12s, background .12s; }
 .m-item:hover { border-color: var(--accent); background: rgba(124,106,255,.06); }
 .m-item.cur { border-color: var(--accent); background: rgba(124,106,255,.1); }
-.m-img {
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
+.m-img { width: 46px; height: 46px; border-radius: 50%; background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .m-img img { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
 .m-kor { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .m-eng { font-size: 9px; color: var(--text3); margin-top: 1px; }
@@ -246,32 +172,32 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 @media (max-width: 560px) {
   .selector-row { grid-template-columns: 1fr 36px 1fr; }
   .result-grid { grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); }
+  .header-nav { display: none; }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div style="display:flex;align-items:center;gap:10px">
-    <a href="index.html" style="text-decoration:none">
-      <span class="logo">DV3</span>
-    </a>
+<header class="header">
+  <div class="header-left">
+    <a href="index.html" class="logo">DV3</a>
     <span class="sep">/</span>
     <span class="page-name">교배 계산기</span>
   </div>
-  <nav style="display:flex;gap:4px">
-    <a href="index.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)';this.style.background='var(--bg3)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'">홈</a>
-    <a href="breeding.html" style="font-size:12px;color:var(--accent2);padding:5px 12px;border-radius:7px;text-decoration:none;background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.2)">교배</a>
-    <a href="gem.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">보주</a>
-    <a href="ability.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">어빌리티</a>
-    <a href="dragon.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">드래곤</a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-a">홈</a>
+    <a href="breeding.html" class="nav-a active">교배</a>
+    <a href="gem.html" class="nav-a">보주</a>
+    <a href="ability.html" class="nav-a">어빌리티</a>
+    <a href="dragon.html" class="nav-a">드래곤</a>
   </nav>
-</div>
+</header>
 
 <div class="main">
   <div class="tabs">
     <button class="tab active" id="tab-forward" onclick="switchTab('forward')">부모 → 자식</button>
     <button class="tab" id="tab-reverse" onclick="switchTab('reverse')">자식 → 부모</button>
+    <button class="tab" id="tab-obtain" onclick="switchTab('obtain')">획득처</button>
   </div>
 
   <!-- 부모→자식 -->
@@ -303,11 +229,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
         </div>
       </div>
       <div class="result-body" id="fw-body">
-        <div class="empty">
-          <div class="empty-ico">🐉</div>
-          <div class="empty-txt">개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다</div>
-          <div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div>
-        </div>
+        <div class="empty"><div class="empty-ico">🐉</div><div class="empty-txt">개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다</div><div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div></div>
       </div>
     </div>
   </div>
@@ -315,9 +237,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   <!-- 자식→부모 -->
   <div id="mode-reverse" style="display:none">
     <div class="child-selector" id="child-sel" onclick="openModal('child')">
-      <div class="child-img" id="child-img">
-        <span style="font-size:26px;color:var(--text3)">＋</span>
-      </div>
+      <div class="child-img" id="child-img"><span style="font-size:26px;color:var(--text3)">＋</span></div>
       <div class="child-info">
         <div class="child-title">자식 드래곤</div>
         <div class="child-name" id="child-name">드래곤을 선택하세요</div>
@@ -331,13 +251,22 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
         <div class="result-meta"><span class="res-count" id="rv-count"></span></div>
       </div>
       <div class="result-body" id="rv-body">
-        <div class="empty">
-          <div class="empty-ico">🔍</div>
-          <div class="empty-txt">자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다</div>
-          <div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div>
-        </div>
+        <div class="empty"><div class="empty-ico">🔍</div><div class="empty-txt">자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다</div><div class="empty-sub">조합 데이터 수집 후 순차적으로 추가됩니다</div></div>
       </div>
     </div>
+  </div>
+
+  <!-- 획득처 -->
+  <div id="mode-obtain" style="display:none">
+    <div class="obtain-filter">
+      <button class="obtain-btn on" onclick="setObtain('all')">전체</button>
+      <button class="obtain-btn" onclick="setObtain('뽑기')">🎰 뽑기</button>
+      <button class="obtain-btn" onclick="setObtain('레이드')">⚔️ 레이드</button>
+      <button class="obtain-btn" onclick="setObtain('라테아의 문')">🚪 라테아의 문</button>
+      <button class="obtain-btn" onclick="setObtain('빌리지 상점')">🏪 빌리지 상점</button>
+      <button class="obtain-btn" onclick="setObtain('교배')">🧬 교배</button>
+    </div>
+    <div class="obtain-grid" id="obtain-grid"></div>
   </div>
 </div>
 
@@ -358,7 +287,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 <script>
 const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
 
-// id → { kor, eng } 이름 매핑
 const NAMES = {
   "afrit_00_adult":            { kor: "아프리트",        eng: "afrit" },
   "aila_00_adult":             { kor: "에이라",          eng: "aila" },
@@ -435,7 +363,7 @@ const NAMES = {
   "obex_00_adult":             { kor: "오벡스",          eng: "obex" },
   "patroa_00_adult":           { kor: "패트로아",        eng: "patroa" },
   "phoenix_00_adult":          { kor: "피닉스",          eng: "phoenix" },
-  "phoenix_01_adult":          { kor: "피닉스",          eng: "phoenix (변형)" },
+  "phoenix_01_adult":          { kor: "피닉스 (변형)",   eng: "phoenix (변형)" },
   "pierrotdragon_00_adult":    { kor: "삐에로 드래곤",   eng: "pierrotdragon" },
   "pinkbell_00_adult":         { kor: "핑크벨",          eng: "pinkbell" },
   "plumos_00_adult":           { kor: "플루모스",        eng: "plumos" },
@@ -463,6 +391,7 @@ const NAMES = {
   "taabire_00_adult":          { kor: "타아비레",        eng: "taabire" },
   "taros_00_adult":            { kor: "타로스",          eng: "taros" },
   "thunderboltdragon_00_adult":{ kor: "썬더볼트 드래곤", eng: "thunderboltdragon" },
+  "tiamat_00_adult":           { kor: "티아매트",        eng: "tiamat" },
   "toddletomtom_00_adult":     { kor: "터틀톰톰",        eng: "toddletomtom" },
   "totemdragon_00_adult":      { kor: "토템 드래곤",     eng: "totemdragon" },
   "tumpy_00_adult":            { kor: "텀피",            eng: "tumpy" },
@@ -474,12 +403,138 @@ const NAMES = {
   "zephyros_00_adult":         { kor: "제피로스",        eng: "zephyros" },
 };
 
-const DRAGONS = Object.keys(NAMES);
+// 획득처 데이터
+const OBTAIN = {
+  "darknix_00_adult": ["뽑기"],
+  "goddragon_00_adult": ["뽑기"],
+  "non_00_adult": ["뽑기"],
+  "florea_00_adult": ["뽑기"],
+  "selora_00_adult": ["뽑기"],
+  "angeljr_00_adult": ["교배 불가"],
+  "centura_00_adult": ["라테아의 문"],
+  "lucio_00_adult": ["뽑기"],
+  "crevasse_00_adult": ["레이드"],
+  "fides_00_adult": ["뽑기"],
+  "lightning_00_adult": ["뽑기"],
+  "power_00_adult": ["뽑기"],
+  "obex_00_adult": ["뽑기"],
+  "plumos_00_adult": ["교배"],
+  "tiamat_00_adult": ["레이드"],
+  "frost_00_adult": ["뽑기"],
+  "dragonslayer_00_adult": ["레이드"],
+  "shadow_00_adult": ["교배"],
+  "granos_00_adult": ["교배"],
+  "aila_00_adult": ["교배"],
+  "characen_00_adult": ["교배"],
+  "blackdragon_00_adult": ["교배"],
+  "whitedragon_00_adult": ["교배"],
+  "toddletomtom_00_adult": ["교배"],
+  "dreaden_00_adult": ["교배"],
+  "mummydragon_00_adult": ["뽑기"],
+  "mistdragon_00_adult": ["교배"],
+  "slimedragon_00_adult": ["교배"],
+  "gripo_00_adult": ["교배"],
+  "fairydragon_00_adult": ["교배"],
+  "pierrotdragon_00_adult": ["교배"],
+  "goldie_00_adult": ["교배"],
+  "henes_00_adult": ["교배"],
+  "alien_00_adult": ["뽑기"],
+  "seere_00_adult": ["교배"],
+  "cupid_00_adult": ["교배"],
+  "nebula_00_adult": ["교배"],
+  "catsgon_00_adult": ["교배"],
+  "witchdragon_00_adult": ["교배"],
+  "liso_00_adult": ["교배"],
+  "lunera_00_adult": ["뽑기"],
+  "baal_00_adult": ["교배"],
+  "kleptos_00_adult": ["교배"],
+  "lagtail_00_adult": ["교배"],
+  "centipededragon_00_adult": ["교배"],
+  "ninjadragon_00_adult": ["교배"],
+  "serpentdragon_00_adult": ["교배"],
+  "skelegon_00_adult": ["교배"],
+  "spicy_00_adult": ["교배"],
+  "solar_00_adult": ["뽑기"],
+  "rafael_00_adult": ["교배"],
+  "dilrang_00_adult": ["교배"],
+  "emerald_00_adult": ["교배"],
+  "haze_00_adult": ["교배"],
+  "taabire_00_adult": ["교배"],
+  "whitethunder_00_adult": ["교배"],
+  "splender_00_adult": ["교배"],
+  "bluefiretail_00_adult": ["교배"],
+  "cloud_00_adult": ["뽑기"],
+  "thunderboltdragon_00_adult": ["교배"],
+  "bluelightning_00_adult": ["교배"],
+  "tumpy_00_adult": ["교배"],
+  "mustardhammer_00_adult": ["교배"],
+  "scorpiondragon_00_adult": ["교배"],
+  "mushroom_00_adult": ["교배"],
+  "lakion_00_adult": ["교배"],
+  "leafdragon_00_adult": ["교배"],
+  "mud_00_adult": ["교배"],
+  "egg_00_adult": ["뽑기"],
+  "knightdragon_00_adult": ["교배"],
+  "fat_00_adult": ["교배"],
+  "blackarmor_00_adult": ["교배"],
+  "dragonoid_00_adult": ["교배"],
+  "sharptail_00_adult": ["교배"],
+  "pinkbell_00_adult": ["교배"],
+  "sixleghorn_00_adult": ["교배"],
+  "totemdragon_00_adult": ["교배"],
+  "beleth_00_adult": ["교배"],
+  "liberte_00_adult": ["교배"],
+  "blue_00_adult": ["교배"],
+  "applecheek_00_adult": ["교배"],
+  "zephyros_00_adult": ["교배"],
+  "typhoondragon_00_adult": ["교배"],
+  "frog_00_adult": ["교배"],
+  "rupia_00_adult": ["교배"],
+  "poisonriver_00_adult": ["교배"],
+  "swamp_00_adult": ["교배"],
+  "hyeonmu_00_adult": ["뽑기"],
+  "sharkgon_00_adult": ["교배"],
+  "patroa_00_adult": ["교배"],
+  "enturas_00_adult": ["라테아의 문"],
+  "popomo_00_adult": ["교배"],
+  "afrit_00_adult": ["라테아의 문"],
+  "hell_00_adult": ["교배"],
+  "phoenix_00_adult": ["뽑기"],
+  "phoenix_01_adult": ["뽑기"],
+  "ignis_00_adult": ["교배"],
+  "taros_00_adult": ["교배"],
+  "lava_00_adult": ["교배"],
+  "siamesedragon_00_adult": ["교배"],
+  "jujak_00_adult": ["교배"],
+  "firetail_00_adult": ["교배"],
+  "magnello_00_adult": ["교배"],
+  "goblindragon_00_adult": ["빌리지 상점"],
+  "lambgon_00_adult": ["빌리지 상점"],
+  "nox_00_adult": ["빌리지 상점"],
+  "ilios_00_adult": ["빌리지 상점"],
+  "bluethunder_00_adult": ["빌리지 상점"],
+  "rock_00_adult": ["빌리지 상점"],
+  "iron_00_adult": ["빌리지 상점"],
+  "wind_00_adult": ["빌리지 상점"],
+  "aquadragon_00_adult": ["빌리지 상점"],
+  "fire_00_adult": ["빌리지 상점"],
+};
 
-// 교배 데이터 (나중에 채울 것)
+// 교배 불가 목록 (뽑기/레이드/빌리지상점/라테아 only)
+const NON_BREED = new Set();
+for (const [id, obtains] of Object.entries(OBTAIN)) {
+  const hasBreed = obtains.includes('교배');
+  const hasNonBreed = obtains.some(o => ['뽑기','레이드','빌리지 상점','라테아의 문','교배 불가'].includes(o));
+  if (hasNonBreed && !hasBreed) NON_BREED.add(id);
+}
+
+// 교배 모달용 드래곤 (교배 가능한 것만)
+const BREED_DRAGONS = Object.keys(NAMES).filter(id => !NON_BREED.has(id));
+// 전체 드래곤
+const ALL_DRAGONS = Object.keys(NAMES);
+
 const BREED_DATA = {};
 
-// 역방향 인덱스 자동 생성
 function buildReverse() {
   const idx = {};
   for (const [key, results] of Object.entries(BREED_DATA)) {
@@ -496,202 +551,206 @@ const REVERSE = buildReverse();
 let sel = { p1: null, p2: null, child: null };
 let modalTarget = null;
 let sortMode = 'rate';
+let obtainFilter = 'all';
 
 function n(id) { return NAMES[id] || { kor: id, eng: id }; }
 function img(id) { return `<img src="${BASE}${id}.png" alt="${n(id).kor}" onerror="this.style.opacity=.25">`; }
 function rateClass(r) { return r >= 7 ? 'h' : r >= 3 ? 'm' : 'l'; }
 function rateStyle(r) {
-  return r >= 7
-    ? 'background:rgba(245,197,66,.15);color:var(--gold)'
-    : r >= 3
-    ? 'background:rgba(124,106,255,.15);color:var(--accent2)'
+  return r >= 7 ? 'background:rgba(245,197,66,.15);color:var(--gold)'
+    : r >= 3 ? 'background:rgba(124,106,255,.15);color:var(--accent2)'
     : 'background:rgba(255,255,255,.06);color:var(--text3)';
+}
+
+function obtainBadgeClass(o) {
+  if (o === '교배 불가') return 'ob-raid';
+  if (o === '뽑기') return 'ob-gacha';
+  if (o === '레이드') return 'ob-raid';
+  if (o === '빌리지 상점') return 'ob-shop';
+  if (o === '라테아의 문') return 'ob-latea';
+  return 'ob-breed';
+}
+function obtainLabel(o) {
+  if (o === '교배 불가') return '🚫 교배 불가';
+  if (o === '뽑기') return '🎰 뽑기';
+  if (o === '레이드') return '⚔️ 레이드';
+  if (o === '빌리지 상점') return '🏪 상점';
+  if (o === '라테아의 문') return '🚪 라테아';
+  return '🧬 교배';
 }
 
 // 탭
 function switchTab(tab) {
-  document.getElementById('mode-forward').style.display = tab === 'forward' ? '' : 'none';
-  document.getElementById('mode-reverse').style.display = tab === 'reverse' ? '' : 'none';
-  document.getElementById('tab-forward').classList.toggle('active', tab === 'forward');
-  document.getElementById('tab-reverse').classList.toggle('active', tab === 'reverse');
+  ['forward','reverse','obtain'].forEach(t => {
+    document.getElementById('mode-'+t).style.display = t === tab ? '' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'obtain') renderObtain();
 }
 
 // 부모 선택 UI
 function updateSelUI(target) {
   const id = sel[target];
   const num = target === 'p1' ? 1 : 2;
-  const imgEl = document.getElementById('si' + num);
-  const nameEl = document.getElementById('sn' + num);
-  const chEl  = document.getElementById('sch' + num);
-  const card  = document.getElementById('sc' + num);
+  const imgEl = document.getElementById('si'+num);
+  const nameEl = document.getElementById('sn'+num);
+  const chEl = document.getElementById('sch'+num);
+  const card = document.getElementById('sc'+num);
   if (id) {
     imgEl.innerHTML = img(id);
     nameEl.innerHTML = `<span class="sel-name">${n(id).kor}</span><span class="sel-engname">${n(id).eng}</span>`;
-    chEl.style.display = 'block';
-    card.classList.add('on');
+    chEl.style.display = 'block'; card.classList.add('on');
   } else {
     imgEl.innerHTML = '<span style="font-size:22px;color:var(--text3)">＋</span>';
     nameEl.innerHTML = '<span class="sel-hint">드래곤 선택</span>';
-    chEl.style.display = 'none';
-    card.classList.remove('on');
+    chEl.style.display = 'none'; card.classList.remove('on');
   }
 }
 
-// 자식 선택 UI
 function updateChildUI() {
   const id = sel.child;
-  const imgEl  = document.getElementById('child-img');
+  const imgEl = document.getElementById('child-img');
   const nameEl = document.getElementById('child-name');
-  const engEl  = document.getElementById('child-eng');
-  const card   = document.getElementById('child-sel');
+  const engEl = document.getElementById('child-eng');
+  const card = document.getElementById('child-sel');
   if (id) {
     imgEl.innerHTML = img(id);
     nameEl.textContent = n(id).kor;
-    engEl.textContent  = n(id).eng;
+    engEl.textContent = n(id).eng;
     card.classList.add('on');
   } else {
     imgEl.innerHTML = '<span style="font-size:26px;color:var(--text3)">＋</span>';
     nameEl.textContent = '드래곤을 선택하세요';
-    engEl.textContent  = '선택 후 가능한 부모 조합이 표시됩니다';
+    engEl.textContent = '선택 후 가능한 부모 조합이 표시됩니다';
     card.classList.remove('on');
   }
 }
 
-// 부모→자식 렌더
+// 결과 렌더
 function renderForward() {
-  const body    = document.getElementById('fw-body');
+  const body = document.getElementById('fw-body');
   const countEl = document.getElementById('fw-count');
-  const sortEl  = document.getElementById('fw-sort');
-
+  const sortEl = document.getElementById('fw-sort');
   if (!sel.p1 || !sel.p2) {
-    body.innerHTML = emptyHTML('🐉', '개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다', '조합 데이터 수집 후 순차적으로 추가됩니다');
-    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+    body.innerHTML = emptyHTML('🐉','개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다','조합 데이터 수집 후 순차적으로 추가됩니다');
+    countEl.textContent=''; sortEl.style.display='none'; return;
   }
   if (sel.p1 === sel.p2) {
-    body.innerHTML = emptyHTML('⚠️', '같은 드래곤은 교배할 수 없습니다');
-    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+    body.innerHTML = emptyHTML('⚠️','같은 드래곤은 교배할 수 없습니다');
+    countEl.textContent=''; sortEl.style.display='none'; return;
   }
-
   const data = BREED_DATA[sel.p1+'+'+sel.p2] || BREED_DATA[sel.p2+'+'+sel.p1] || null;
   if (!data) {
-    body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
-    countEl.textContent = ''; sortEl.style.display = 'none'; return;
+    body.innerHTML = emptyHTML('📋','아직 이 조합의 데이터가 없습니다','교배 데이터 수집 후 업데이트 예정입니다');
+    countEl.textContent=''; sortEl.style.display='none'; return;
   }
-
   let res = [...data];
   if (sortMode === 'rate') res.sort((a,b) => b.rate - a.rate);
   else res.sort((a,b) => n(a.id).kor.localeCompare(n(b.id).kor));
-
-  countEl.textContent = res.length + '종';
-  sortEl.style.display = 'flex';
-
+  countEl.textContent = res.length+'종'; sortEl.style.display='flex';
   body.innerHTML = `<div class="result-grid">${res.map(r => {
     const c = rateClass(r.rate);
-    return `<div class="res-card">
-      <div class="top-bar bar-${c}"></div>
-      <div class="res-img">${img(r.id)}</div>
-      <div class="name-tag-wrap">
-        <span class="eng-tag">${n(r.id).eng}</span>
-        <span class="kor-name">${n(r.id).kor}</span>
-      </div>
-      <span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span>
-    </div>`;
+    return `<div class="res-card"><div class="top-bar bar-${c}"></div><div class="res-img">${img(r.id)}</div><div class="name-tag-wrap"><span class="eng-tag">${n(r.id).eng}</span><span class="kor-name">${n(r.id).kor}</span></div><span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span></div>`;
   }).join('')}</div>`;
 }
 
-// 자식→부모 렌더
 function renderReverse() {
-  const body    = document.getElementById('rv-body');
+  const body = document.getElementById('rv-body');
   const countEl = document.getElementById('rv-count');
-
   if (!sel.child) {
-    body.innerHTML = emptyHTML('🔍', '자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다', '조합 데이터 수집 후 순차적으로 추가됩니다');
-    countEl.textContent = ''; return;
+    body.innerHTML = emptyHTML('🔍','자식 드래곤을 선택하면<br>가능한 부모 조합이 표시됩니다','조합 데이터 수집 후 순차적으로 추가됩니다');
+    countEl.textContent=''; return;
   }
-
   const pairs = REVERSE[sel.child] || [];
   if (!pairs.length) {
-    body.innerHTML = emptyHTML('📋', '아직 이 드래곤의 부모 조합 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
-    countEl.textContent = ''; return;
+    body.innerHTML = emptyHTML('📋','아직 이 드래곤의 부모 조합 데이터가 없습니다','교배 데이터 수집 후 업데이트 예정입니다');
+    countEl.textContent=''; return;
   }
-
   const grouped = {};
   for (const p of pairs) {
-    const key = [p.p1, p.p2].sort().join('+');
-    if (!grouped[key]) grouped[key] = { p1: p.p1, p2: p.p2, rates: [] };
+    const key = [p.p1,p.p2].sort().join('+');
+    if (!grouped[key]) grouped[key] = { p1:p.p1, p2:p.p2, rates:[] };
     grouped[key].rates.push(p.rate);
   }
-  const list = Object.values(grouped).sort((a,b) => Math.max(...b.rates) - Math.max(...a.rates));
-
-  countEl.textContent = list.length + '가지 조합';
-  body.innerHTML = `<div class="parent-list">${list.map((g, i) => {
-    const maxRate = Math.max(...g.rates);
-    return `<div class="parent-pair">
+  const list = Object.values(grouped).sort((a,b) => Math.max(...b.rates)-Math.max(...a.rates));
+  countEl.textContent = list.length+'가지 조합';
+  body.innerHTML = `<div class="parent-list">${list.map((g,i) => `
+    <div class="parent-pair">
       <span class="pair-num">#${i+1}</span>
       <div class="pair-dragons">
-        <div class="pair-dragon">
-          <div class="pair-img">${img(g.p1)}</div>
-          <div class="pair-dinfo">
-            <span class="pair-eng-tag">${n(g.p1).eng}</span>
-            <span class="pair-kor">${n(g.p1).kor}</span>
-          </div>
-        </div>
+        <div class="pair-dragon"><div class="pair-img">${img(g.p1)}</div><div class="pair-dinfo"><span class="pair-eng-tag">${n(g.p1).eng}</span><span class="pair-kor">${n(g.p1).kor}</span></div></div>
         <span class="pair-x">✕</span>
-        <div class="pair-dragon">
-          <div class="pair-img">${img(g.p2)}</div>
-          <div class="pair-dinfo">
-            <span class="pair-eng-tag">${n(g.p2).eng}</span>
-            <span class="pair-kor">${n(g.p2).kor}</span>
-          </div>
-        </div>
+        <div class="pair-dragon"><div class="pair-img">${img(g.p2)}</div><div class="pair-dinfo"><span class="pair-eng-tag">${n(g.p2).eng}</span><span class="pair-kor">${n(g.p2).kor}</span></div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">
-        ${g.rates.map(r => `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;${rateStyle(r)}">${r.toFixed(2)}%</span>`).join('')}
+        ${g.rates.map(r=>`<span style="font-size:10px;padding:2px 8px;border-radius:99px;${rateStyle(r)}">${r.toFixed(2)}%</span>`).join('')}
       </div>
-    </div>`;
-  }).join('')}</div>`;
+    </div>`).join('')}</div>`;
 }
 
-function emptyHTML(ico, txt, sub = '') {
-  return `<div class="empty">
-    <div class="empty-ico">${ico}</div>
-    <div class="empty-txt">${txt}</div>
-    ${sub ? `<div class="empty-sub">${sub}</div>` : ''}
-  </div>`;
+// 획득처 렌더
+function setObtain(filter) {
+  obtainFilter = filter;
+  document.querySelectorAll('.obtain-btn').forEach(b => b.classList.remove('on'));
+  event.target.classList.add('on');
+  renderObtain();
+}
+
+function renderObtain() {
+  const grid = document.getElementById('obtain-grid');
+  const filtered = ALL_DRAGONS.filter(id => {
+    if (obtainFilter === 'all') return true;
+    const obtains = OBTAIN[id] || [];
+    return obtains.includes(obtainFilter);
+  });
+  grid.innerHTML = filtered.map(id => {
+    const obtains = OBTAIN[id] || ['미정'];
+    const mainObtain = obtains[0];
+    return `<div class="obtain-card">
+      <div class="obtain-img">${img(id)}</div>
+      <div class="obtain-name">${n(id).kor}</div>
+      <div class="obtain-eng">${n(id).eng}</div>
+      <span class="obtain-badge ${obtainBadgeClass(mainObtain)}">${obtainLabel(mainObtain)}</span>
+    </div>`;
+  }).join('');
+}
+
+function emptyHTML(ico,txt,sub='') {
+  return `<div class="empty"><div class="empty-ico">${ico}</div><div class="empty-txt">${txt}</div>${sub?`<div class="empty-sub">${sub}</div>`:''}</div>`;
 }
 
 function setSort(m) {
   sortMode = m;
-  document.getElementById('sb-rate').classList.toggle('on', m === 'rate');
-  document.getElementById('sb-name').classList.toggle('on', m === 'name');
+  document.getElementById('sb-rate').classList.toggle('on', m==='rate');
+  document.getElementById('sb-name').classList.toggle('on', m==='name');
   renderForward();
 }
 
 // 모달
 function openModal(target) {
   modalTarget = target;
-  const titles = { p1: '개체 1 선택', p2: '개체 2 선택', child: '자식 드래곤 선택' };
+  const titles = { p1:'개체 1 선택', p2:'개체 2 선택', child:'자식 드래곤 선택' };
   document.getElementById('modal-ttl').textContent = titles[target];
   document.getElementById('msearch').value = '';
-  renderModalGrid(DRAGONS);
+  // 교배 탭에서는 교배 가능한 드래곤만, 자식→부모 탭은 전체
+  const list = target === 'child' ? ALL_DRAGONS : BREED_DRAGONS;
+  renderModalGrid(list);
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('msearch').focus(), 80);
 }
 function closeModal() { document.getElementById('overlay').classList.remove('open'); }
-function closeOverlay(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+function closeOverlay(e) { if (e.target===document.getElementById('overlay')) closeModal(); }
 
 function filterModal() {
-  const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g, '');
-  renderModalGrid(DRAGONS.filter(id =>
-    n(id).kor.replace(/ /g, '').toLowerCase().includes(q) ||
-    n(id).eng.replace(/ /g, '').toLowerCase().includes(q)
-  ));
+  const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g,'');
+  const list = modalTarget === 'child' ? ALL_DRAGONS : BREED_DRAGONS;
+  renderModalGrid(list.filter(id => n(id).kor.replace(/ /g,'').toLowerCase().includes(q) || n(id).eng.replace(/ /g,'').toLowerCase().includes(q)));
 }
 
 function renderModalGrid(list) {
   document.getElementById('mgrid').innerHTML = list.map(id => {
     const cur = sel[modalTarget] === id;
-    return `<div class="m-item${cur ? ' cur' : ''}" onclick="pick('${id}')">
+    return `<div class="m-item${cur?' cur':''}" onclick="pick('${id}')">
       <div class="m-img">${img(id)}</div>
       <span class="m-kor">${n(id).kor}</span>
       <span class="m-eng">${n(id).eng}</span>
@@ -702,16 +761,11 @@ function renderModalGrid(list) {
 function pick(id) {
   sel[modalTarget] = id;
   closeModal();
-  if (modalTarget === 'p1' || modalTarget === 'p2') {
-    updateSelUI(modalTarget);
-    renderForward();
-  } else {
-    updateChildUI();
-    renderReverse();
-  }
+  if (modalTarget==='p1'||modalTarget==='p2') { updateSelUI(modalTarget); renderForward(); }
+  else { updateChildUI(); renderReverse(); }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
 </script>
 </body>
 </html>
