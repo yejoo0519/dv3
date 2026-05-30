@@ -7,24 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d0f1a;
-  --bg2: #13162b;
-  --bg3: #1a1e35;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.15);
-  --accent: #7c6aff;
-  --accent2: #a693ff;
-  --gold: #f5c542;
-  --text: #e8e6f0;
-  --text2: #9996b0;
-  --text3: #5e5c72;
+  --bg: #0d0f1a; --bg2: #13162b; --bg3: #1a1e35;
+  --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.15);
+  --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
+  --text: #e8e6f0; --text2: #9996b0; --text3: #5e5c72;
   --radius: 14px;
   --IMG: https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
 
-/* 헤더 */
 .header {
   background: var(--bg2); border-bottom: 1px solid var(--border);
   padding: 0 24px; display: flex; align-items: center; gap: 10px; height: 52px;
@@ -33,15 +25,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .sep { color: var(--text3); font-size: 13px; }
 .page-name { font-size: 13px; color: var(--text2); }
 
-/* 메인 */
 .main { max-width: 860px; margin: 0 auto; padding: 28px 16px 80px; }
 
-/* 탭 */
 .tabs {
   display: flex; gap: 4px;
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 4px; margin-bottom: 24px;
-  width: fit-content;
+  border-radius: 12px; padding: 4px; margin-bottom: 24px; width: fit-content;
 }
 .tab {
   padding: 8px 20px; border-radius: 9px; border: none;
@@ -52,10 +41,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .tab.active { background: var(--accent); color: #fff; }
 .tab:not(.active):hover { color: var(--text2); background: var(--bg3); }
 
-/* ── 부모→자식 모드 ── */
+/* 부모 선택 카드 */
 .selector-row {
   display: grid; grid-template-columns: 1fr 44px 1fr;
-  gap: 0; align-items: center; margin-bottom: 28px;
+  align-items: center; margin-bottom: 28px;
 }
 .sel-card {
   background: var(--bg2); border: 1px solid var(--border);
@@ -78,18 +67,18 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .sel-img img { width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; }
-.sel-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.sel-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.sel-engname { font-size: 10px; color: var(--text3); }
 .sel-hint { font-size: 12px; color: var(--text3); }
 .sel-change { font-size: 11px; color: var(--accent2); }
 .cross { text-align: center; font-size: 18px; color: var(--text3); font-weight: 700; }
 
-/* ── 자식→부모 모드 ── */
+/* 자식 선택 */
 .child-selector {
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 20px;
   display: flex; align-items: center; gap: 20px;
-  cursor: pointer; margin-bottom: 28px;
-  transition: border-color 0.15s;
+  cursor: pointer; margin-bottom: 28px; transition: border-color 0.15s;
 }
 .child-selector:hover { border-color: var(--border2); }
 .child-selector.on { border-color: var(--accent); }
@@ -103,20 +92,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .child-info { flex: 1; }
 .child-title { font-size: 11px; font-weight: 700; letter-spacing: .07em; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
 .child-name { font-size: 15px; font-weight: 700; color: var(--text); }
-.child-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.child-eng { font-size: 11px; color: var(--text3); margin-top: 2px; }
 .child-btn {
   padding: 8px 16px; border-radius: 8px;
   border: 1px solid var(--border2); background: transparent;
   color: var(--accent2); font-size: 12px; font-weight: 500;
-  cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
-  white-space: nowrap;
+  cursor: pointer; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap;
 }
 
-/* 결과 패널 공통 */
-.result-panel {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-}
+/* 결과 패널 */
+.result-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .result-head {
   padding: 14px 18px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
@@ -128,32 +113,25 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .sort-btn {
   font-size: 11px; padding: 3px 10px; border-radius: 99px;
   border: 1px solid var(--border); background: transparent;
-  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
-  transition: all .12s;
+  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .12s;
 }
 .sort-btn:hover { border-color: var(--border2); color: var(--text2); }
 .sort-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
 .result-body { padding: 18px; }
 
 /* 빈 상태 */
-.empty {
-  text-align: center; padding: 44px 20px; color: var(--text3);
-}
+.empty { text-align: center; padding: 44px 20px; color: var(--text3); }
 .empty-ico { font-size: 36px; margin-bottom: 10px; }
 .empty-txt { font-size: 14px; line-height: 1.7; }
 .empty-sub { font-size: 12px; margin-top: 6px; opacity: .6; }
 
 /* 자식 결과 그리드 */
-.result-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 8px;
-}
+.result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
 .res-card {
   background: var(--bg3); border: 1px solid var(--border);
   border-radius: 11px; padding: 11px 7px 9px;
   display: flex; flex-direction: column; align-items: center;
-  gap: 5px; text-align: center; position: relative; overflow: hidden;
+  gap: 4px; text-align: center; position: relative; overflow: hidden;
   transition: border-color .15s, transform .15s;
 }
 .res-card:hover { border-color: var(--border2); transform: translateY(-2px); }
@@ -168,10 +146,18 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   overflow: hidden; margin-top: 3px;
 }
 .res-img img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
-.res-name { font-size: 10px; font-weight: 500; color: var(--text); line-height: 1.3; word-break: break-all; }
-.rate-pill {
-  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 1px;
+
+/* ★ 이름 태그 영역 */
+.name-tag-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 100%; }
+.eng-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
+  color: var(--text3); background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 1px 5px; line-height: 1.4;
 }
+.kor-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+.rate-pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 1px; }
 .rp-h { background: rgba(245,197,66,.15); color: var(--gold); }
 .rp-m { background: rgba(124,106,255,.15); color: var(--accent2); }
 .rp-l { background: rgba(255,255,255,.06); color: var(--text3); }
@@ -181,31 +167,28 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .parent-pair {
   background: var(--bg3); border: 1px solid var(--border);
   border-radius: 11px; padding: 12px 14px;
-  display: flex; align-items: center; gap: 12px;
-  transition: border-color .15s;
+  display: flex; align-items: center; gap: 12px; transition: border-color .15s;
 }
 .parent-pair:hover { border-color: var(--border2); }
-.pair-num {
-  font-size: 11px; color: var(--text3); font-weight: 700;
-  min-width: 24px;
-}
-.pair-dragons { display: flex; align-items: center; gap: 8px; flex: 1; }
-.pair-dragon {
-  display: flex; align-items: center; gap: 6px;
-}
+.pair-num { font-size: 11px; color: var(--text3); font-weight: 700; min-width: 22px; }
+.pair-dragons { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+.pair-dragon { display: flex; align-items: center; gap: 8px; }
 .pair-img {
   width: 40px; height: 40px; border-radius: 50%;
   background: var(--bg2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
 }
 .pair-img img { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
-.pair-dname { font-size: 12px; font-weight: 500; color: var(--text); }
-.pair-x { font-size: 13px; color: var(--text3); font-weight: 700; padding: 0 2px; }
-.pair-rates { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-.pair-rate-badge {
-  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+.pair-dinfo { display: flex; flex-direction: column; gap: 1px; }
+.pair-kor { font-size: 12px; font-weight: 700; color: var(--text); }
+.pair-eng-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
+  color: var(--text3); background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 1px 5px; line-height: 1.4; display: inline-block; width: fit-content;
 }
+.pair-x { font-size: 13px; color: var(--text3); font-weight: 700; padding: 0 2px; }
+.pair-rate { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
 
 /* 모달 */
 .overlay {
@@ -216,7 +199,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .overlay.open { display: flex; }
 .modal {
   background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: 18px; width: 100%; max-width: 500px;
+  border-radius: 18px; width: 100%; max-width: 520px;
   max-height: 82vh; display: flex; flex-direction: column; overflow: hidden;
 }
 .modal-head {
@@ -228,30 +211,27 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   width: 26px; height: 26px; border-radius: 50%;
   border: 1px solid var(--border); background: transparent;
   color: var(--text2); cursor: pointer; font-size: 15px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .12s;
+  display: flex; align-items: center; justify-content: center; transition: all .12s;
 }
 .modal-x:hover { border-color: var(--border2); color: var(--text); }
 .modal-search-wrap { padding: 10px 14px; border-bottom: 1px solid var(--border); }
 .modal-search {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
   border-radius: 9px; padding: 8px 12px; font-size: 13px;
-  color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none;
-  transition: border-color .15s;
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif; outline: none; transition: border-color .15s;
 }
 .modal-search::placeholder { color: var(--text3); }
 .modal-search:focus { border-color: var(--accent); }
 .modal-grid {
   overflow-y: auto; padding: 10px;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); gap: 6px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); gap: 6px;
 }
 .modal-grid::-webkit-scrollbar { width: 3px; }
 .modal-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 .m-item {
   background: var(--bg3); border: 1px solid var(--border); border-radius: 9px;
-  padding: 9px 5px 7px; cursor: pointer; display: flex; flex-direction: column;
-  align-items: center; gap: 5px; text-align: center;
-  transition: border-color .12s, background .12s;
+  padding: 9px 6px 8px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; text-align: center; transition: border-color .12s, background .12s;
 }
 .m-item:hover { border-color: var(--accent); background: rgba(124,106,255,.06); }
 .m-item.cur { border-color: var(--accent); background: rgba(124,106,255,.1); }
@@ -260,31 +240,41 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .m-img img { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
-.m-name { font-size: 9px; color: var(--text2); line-height: 1.3; word-break: break-all; }
+.m-kor { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.m-eng { font-size: 9px; color: var(--text3); margin-top: 1px; }
 
 @media (max-width: 560px) {
   .selector-row { grid-template-columns: 1fr 36px 1fr; }
-  .result-grid { grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); }
+  .result-grid { grid-template-columns: repeat(auto-fill, minmax(96px,1fr)); }
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <span class="logo">DV3</span>
-  <span class="sep">/</span>
-  <span class="page-name">교배 계산기</span>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="index.html" style="text-decoration:none">
+      <span class="logo">DV3</span>
+    </a>
+    <span class="sep">/</span>
+    <span class="page-name">교배 계산기</span>
+  </div>
+  <nav style="display:flex;gap:4px">
+    <a href="index.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)';this.style.background='var(--bg3)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'">홈</a>
+    <a href="breeding.html" style="font-size:12px;color:var(--accent2);padding:5px 12px;border-radius:7px;text-decoration:none;background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.2)">교배</a>
+    <a href="gem.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">보주</a>
+    <a href="ability.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">어빌리티</a>
+    <a href="dragon.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">드래곤</a>
+  </nav>
 </div>
 
 <div class="main">
-
-  <!-- 탭 -->
   <div class="tabs">
     <button class="tab active" id="tab-forward" onclick="switchTab('forward')">부모 → 자식</button>
     <button class="tab" id="tab-reverse" onclick="switchTab('reverse')">자식 → 부모</button>
   </div>
 
-  <!-- 부모→자식 모드 -->
+  <!-- 부모→자식 -->
   <div id="mode-forward">
     <div class="selector-row">
       <div class="sel-card" id="sc1" onclick="openModal('p1')">
@@ -301,7 +291,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
         <span class="sel-change" id="sch2" style="display:none">변경하기</span>
       </div>
     </div>
-
     <div class="result-panel">
       <div class="result-head">
         <span class="result-head-title">교배 결과</span>
@@ -323,7 +312,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
     </div>
   </div>
 
-  <!-- 자식→부모 모드 -->
+  <!-- 자식→부모 -->
   <div id="mode-reverse" style="display:none">
     <div class="child-selector" id="child-sel" onclick="openModal('child')">
       <div class="child-img" id="child-img">
@@ -332,17 +321,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
       <div class="child-info">
         <div class="child-title">자식 드래곤</div>
         <div class="child-name" id="child-name">드래곤을 선택하세요</div>
-        <div class="child-sub" id="child-sub">선택 후 가능한 부모 조합이 표시됩니다</div>
+        <div class="child-eng" id="child-eng">선택 후 가능한 부모 조합이 표시됩니다</div>
       </div>
       <button class="child-btn">선택하기</button>
     </div>
-
     <div class="result-panel">
       <div class="result-head">
         <span class="result-head-title">부모 조합</span>
-        <div class="result-meta">
-          <span class="res-count" id="rv-count"></span>
-        </div>
+        <div class="result-meta"><span class="res-count" id="rv-count"></span></div>
       </div>
       <div class="result-body" id="rv-body">
         <div class="empty">
@@ -353,7 +339,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- 모달 -->
@@ -364,7 +349,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
       <button class="modal-x" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-search-wrap">
-      <input class="modal-search" type="text" id="msearch" placeholder="드래곤 이름 검색..." oninput="filterModal()">
+      <input class="modal-search" type="text" id="msearch" placeholder="한국어 또는 영어 이름 검색..." oninput="filterModal()">
     </div>
     <div class="modal-grid" id="mgrid"></div>
   </div>
@@ -373,47 +358,129 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 <script>
 const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
 
-const DRAGONS = [
-  "afrit_00_adult","aila_00_adult","alien_00_adult","angeljr_00_adult","applecheek_00_adult",
-  "aquadragon_00_adult","baal_00_adult","beleth_00_adult","blackarmor_00_adult","blackdragon_00_adult",
-  "blue_00_adult","bluefiretail_00_adult","bluelightning_00_adult","bluethunder_00_adult","catsgon_00_adult",
-  "centipededragon_00_adult","centura_00_adult","characen_00_adult","cloud_00_adult","crevasse_00_adult",
-  "cupid_00_adult","darknix_00_adult","dilrang_00_adult","dragonoid_00_adult","dragonslayer_00_adult",
-  "dreaden_00_adult","egg_00_adult","emerald_00_adult","enturas_00_adult","fairydragon_00_adult",
-  "fat_00_adult","fides_00_adult","fire_00_adult","firetail_00_adult","florea_00_adult",
-  "frog_00_adult","frost_00_adult","goblindragon_00_adult","goddragon_00_adult","goldie_00_adult",
-  "granos_00_adult","gripo_00_adult","haze_00_adult","hell_00_adult","henes_00_adult",
-  "hyeonmu_00_adult","ignis_00_adult","ilios_00_adult","iron_00_adult","jujak_00_adult",
-  "kleptos_00_adult","knightdragon_00_adult","lagtail_00_adult","lakion_00_adult","lambgon_00_adult",
-  "lava_00_adult","leafdragon_00_adult","liberte_00_adult","lightning_00_adult","liso_00_adult",
-  "lucio_00_adult","lunera_00_adult","magnello_00_adult","mistdragon_00_adult","mud_00_adult",
-  "mummydragon_00_adult","mushroom_00_adult","mustardhammer_00_adult","nebula_00_adult","ninjadragon_00_adult",
-  "non_00_adult","nox_00_adult","obex_00_adult","patroa_00_adult","phoenix_00_adult",
-  "phoenix_01_adult","pierrotdragon_00_adult","pinkbell_00_adult","plumos_00_adult","poisonriver_00_adult",
-  "popomo_00_adult","power_00_adult","rafael_00_adult","rock_00_adult","rupia_00_adult",
-  "scorpiondragon_00_adult","seere_00_adult","selora_00_adult","serpentdragon_00_adult","shadow_00_adult",
-  "sharkgon_00_adult","sharptail_00_adult","siamesedragon_00_adult","sixleghorn_00_adult","skelegon_00_adult",
-  "slimedragon_00_adult","solar_00_adult","spicy_00_adult","splender_00_adult","swamp_00_adult",
-  "taabire_00_adult","taros_00_adult","thunderboltdragon_00_adult","toddletomtom_00_adult","totemdragon_00_adult",
-  "tumpy_00_adult","typhoondragon_00_adult","whitedragon_00_adult","whitethunder_00_adult","wind_00_adult",
-  "witchdragon_00_adult","zephyros_00_adult"
-];
-
-// ── 교배 데이터 ──────────────────────────────────────────
-// 형식: "부모A+부모B": [{ id: "자식id", rate: 확률 }, ...]
-// 데이터 수집 후 여기에 추가하면 됩니다
-const BREED_DATA = {
-  // 예시:
-  // "fire_00_adult+frost_00_adult": [
-  //   { id: "phoenix_00_adult", rate: 9.14 },
-  //   { id: "cloud_00_adult", rate: 7.87 },
-  // ],
+// id → { kor, eng } 이름 매핑
+const NAMES = {
+  "afrit_00_adult":            { kor: "아프리트",        eng: "afrit" },
+  "aila_00_adult":             { kor: "에이라",          eng: "aila" },
+  "alien_00_adult":            { kor: "에일리언 드래곤",  eng: "alien" },
+  "angeljr_00_adult":          { kor: "엔젤주니어",      eng: "angeljr" },
+  "applecheek_00_adult":       { kor: "애플칙",          eng: "applecheek" },
+  "aquadragon_00_adult":       { kor: "아쿠아 드래곤",   eng: "aquadragon" },
+  "baal_00_adult":             { kor: "바알",            eng: "baal" },
+  "beleth_00_adult":           { kor: "벨레드",          eng: "beleth" },
+  "blackarmor_00_adult":       { kor: "블랙아머",        eng: "blackarmor" },
+  "blackdragon_00_adult":      { kor: "흑룡",            eng: "blackdragon" },
+  "blue_00_adult":             { kor: "청룡",            eng: "blue" },
+  "bluefiretail_00_adult":     { kor: "청불나래",        eng: "bluefiretail" },
+  "bluelightning_00_adult":    { kor: "블루라이트닝",    eng: "bluelightning" },
+  "bluethunder_00_adult":      { kor: "블루썬더",        eng: "bluethunder" },
+  "catsgon_00_adult":          { kor: "캣츠곤",          eng: "catsgon" },
+  "centipededragon_00_adult":  { kor: "G네 드래곤",      eng: "centipededragon" },
+  "centura_00_adult":          { kor: "센투라",          eng: "centura" },
+  "characen_00_adult":         { kor: "카라선",          eng: "characen" },
+  "cloud_00_adult":            { kor: "클라우드",        eng: "cloud" },
+  "crevasse_00_adult":         { kor: "크레바스",        eng: "crevasse" },
+  "cupid_00_adult":            { kor: "큐피트",          eng: "cupid" },
+  "darknix_00_adult":          { kor: "다크닉스",        eng: "darknix" },
+  "dilrang_00_adult":          { kor: "딜랑",            eng: "dilrang" },
+  "dragonoid_00_adult":        { kor: "드라고노이드",    eng: "dragonoid" },
+  "dragonslayer_00_adult":     { kor: "드래곤슬레이어",  eng: "dragonslayer" },
+  "dreaden_00_adult":          { kor: "드래든",          eng: "dreaden" },
+  "egg_00_adult":              { kor: "에그 드래곤",     eng: "egg" },
+  "emerald_00_adult":          { kor: "에메랄드",        eng: "emerald" },
+  "enturas_00_adult":          { kor: "엔투라스",        eng: "enturas" },
+  "fairydragon_00_adult":      { kor: "페어리 드래곤",   eng: "fairydragon" },
+  "fat_00_adult":              { kor: "패트",            eng: "fat" },
+  "fides_00_adult":            { kor: "피데스",          eng: "fides" },
+  "fire_00_adult":             { kor: "파이어 드래곤",   eng: "fire" },
+  "firetail_00_adult":         { kor: "불나래",          eng: "firetail" },
+  "florea_00_adult":           { kor: "플로레",          eng: "florea" },
+  "frog_00_adult":             { kor: "프로그 드래곤",   eng: "frog" },
+  "frost_00_adult":            { kor: "빙하고룡",        eng: "frost" },
+  "goblindragon_00_adult":     { kor: "깨비곤",          eng: "goblindragon" },
+  "goddragon_00_adult":        { kor: "고대신룡",        eng: "goddragon" },
+  "goldie_00_adult":           { kor: "골디",            eng: "goldie" },
+  "granos_00_adult":           { kor: "그라노스",        eng: "granos" },
+  "gripo_00_adult":            { kor: "그리포",          eng: "gripo" },
+  "haze_00_adult":             { kor: "헤이즈",          eng: "haze" },
+  "hell_00_adult":             { kor: "헬 드래곤",       eng: "hell" },
+  "henes_00_adult":            { kor: "헤네스",          eng: "henes" },
+  "hyeonmu_00_adult":          { kor: "현무",            eng: "hyeonmu" },
+  "ignis_00_adult":            { kor: "이그니스",        eng: "ignis" },
+  "ilios_00_adult":            { kor: "일리오스",        eng: "ilios" },
+  "iron_00_adult":             { kor: "아이언 드래곤",   eng: "iron" },
+  "jujak_00_adult":            { kor: "주작",            eng: "jujak" },
+  "kleptos_00_adult":          { kor: "클렙토",          eng: "kleptos" },
+  "knightdragon_00_adult":     { kor: "나이트 드래곤",   eng: "knightdragon" },
+  "lagtail_00_adult":          { kor: "렉테일",          eng: "lagtail" },
+  "lakion_00_adult":           { kor: "라키온",          eng: "lakion" },
+  "lambgon_00_adult":          { kor: "램곤",            eng: "lambgon" },
+  "lava_00_adult":             { kor: "라바 드래곤",     eng: "lava" },
+  "leafdragon_00_adult":       { kor: "리프 드래곤",     eng: "leafdragon" },
+  "liberte_00_adult":          { kor: "리베티",          eng: "liberte" },
+  "lightning_00_adult":        { kor: "번개고룡",        eng: "lightning" },
+  "liso_00_adult":             { kor: "리소",            eng: "liso" },
+  "lucio_00_adult":            { kor: "루시오",          eng: "lucio" },
+  "lunera_00_adult":           { kor: "루네라",          eng: "lunera" },
+  "magnello_00_adult":         { kor: "마그넬로",        eng: "magnello" },
+  "mistdragon_00_adult":       { kor: "미스틱 드래곤",   eng: "mistdragon" },
+  "mud_00_adult":              { kor: "머드 드래곤",     eng: "mud" },
+  "mummydragon_00_adult":      { kor: "미이라곤",        eng: "mummydragon" },
+  "mushroom_00_adult":         { kor: "머쉬움 드래곤",   eng: "mushroom" },
+  "mustardhammer_00_adult":    { kor: "머스타드해머",    eng: "mustardhammer" },
+  "nebula_00_adult":           { kor: "네뷸라",          eng: "nebula" },
+  "ninjadragon_00_adult":      { kor: "닌자 드래곤",     eng: "ninjadragon" },
+  "non_00_adult":              { kor: "논",              eng: "non" },
+  "nox_00_adult":              { kor: "녹스",            eng: "nox" },
+  "obex_00_adult":             { kor: "오벡스",          eng: "obex" },
+  "patroa_00_adult":           { kor: "패트로아",        eng: "patroa" },
+  "phoenix_00_adult":          { kor: "피닉스",          eng: "phoenix" },
+  "phoenix_01_adult":          { kor: "피닉스",          eng: "phoenix (변형)" },
+  "pierrotdragon_00_adult":    { kor: "삐에로 드래곤",   eng: "pierrotdragon" },
+  "pinkbell_00_adult":         { kor: "핑크벨",          eng: "pinkbell" },
+  "plumos_00_adult":           { kor: "플루모스",        eng: "plumos" },
+  "poisonriver_00_adult":      { kor: "포이즌리버",      eng: "poisonriver" },
+  "popomo_00_adult":           { kor: "포포모",          eng: "popomo" },
+  "power_00_adult":            { kor: "파워 드래곤",     eng: "power" },
+  "rafael_00_adult":           { kor: "라파엘",          eng: "rafael" },
+  "rock_00_adult":             { kor: "바위 드래곤",     eng: "rock" },
+  "rupia_00_adult":            { kor: "루피아",          eng: "rupia" },
+  "scorpiondragon_00_adult":   { kor: "스콜피온 드래곤", eng: "scorpiondragon" },
+  "seere_00_adult":            { kor: "세에레",          eng: "seere" },
+  "selora_00_adult":           { kor: "셀오라",          eng: "selora" },
+  "serpentdragon_00_adult":    { kor: "서펀트 드래곤",   eng: "serpentdragon" },
+  "shadow_00_adult":           { kor: "섀도우 드래곤",   eng: "shadow" },
+  "sharkgon_00_adult":         { kor: "샤크곤",          eng: "sharkgon" },
+  "sharptail_00_adult":        { kor: "샤프테일",        eng: "sharptail" },
+  "siamesedragon_00_adult":    { kor: "샴 드래곤",       eng: "siamesedragon" },
+  "sixleghorn_00_adult":       { kor: "식스레그혼",      eng: "sixleghorn" },
+  "skelegon_00_adult":         { kor: "스켈레곤",        eng: "skelegon" },
+  "slimedragon_00_adult":      { kor: "슬라임 드래곤",   eng: "slimedragon" },
+  "solar_00_adult":            { kor: "솔라 드래곤",     eng: "solar" },
+  "spicy_00_adult":            { kor: "스파이시",        eng: "spicy" },
+  "splender_00_adult":         { kor: "스플렌더",        eng: "splender" },
+  "swamp_00_adult":            { kor: "스왐프 드래곤",   eng: "swamp" },
+  "taabire_00_adult":          { kor: "타아비레",        eng: "taabire" },
+  "taros_00_adult":            { kor: "타로스",          eng: "taros" },
+  "thunderboltdragon_00_adult":{ kor: "썬더볼트 드래곤", eng: "thunderboltdragon" },
+  "toddletomtom_00_adult":     { kor: "터틀톰톰",        eng: "toddletomtom" },
+  "totemdragon_00_adult":      { kor: "토템 드래곤",     eng: "totemdragon" },
+  "tumpy_00_adult":            { kor: "텀피",            eng: "tumpy" },
+  "typhoondragon_00_adult":    { kor: "타이푼 드래곤",   eng: "typhoondragon" },
+  "whitedragon_00_adult":      { kor: "백룡",            eng: "whitedragon" },
+  "whitethunder_00_adult":     { kor: "화이트썬더",      eng: "whitethunder" },
+  "wind_00_adult":             { kor: "윈드 드래곤",     eng: "wind" },
+  "witchdragon_00_adult":      { kor: "윗치 드래곤",     eng: "witchdragon" },
+  "zephyros_00_adult":         { kor: "제피로스",        eng: "zephyros" },
 };
-// ────────────────────────────────────────────────────────
 
-// BREED_DATA에서 역방향 인덱스 자동 생성
-// reverseIndex[자식id] = [{ p1, p2, rate }, ...]
-function buildReverseIndex() {
+const DRAGONS = Object.keys(NAMES);
+
+// 교배 데이터 (나중에 채울 것)
+const BREED_DATA = {};
+
+// 역방향 인덱스 자동 생성
+function buildReverse() {
   const idx = {};
   for (const [key, results] of Object.entries(BREED_DATA)) {
     const [p1, p2] = key.split('+');
@@ -424,38 +491,42 @@ function buildReverseIndex() {
   }
   return idx;
 }
-const REVERSE = buildReverseIndex();
+const REVERSE = buildReverse();
 
-// 상태
 let sel = { p1: null, p2: null, child: null };
 let modalTarget = null;
 let sortMode = 'rate';
-let curTab = 'forward';
 
-function img(id) { return `<img src="${BASE}${id}.png" alt="${id}" onerror="this.style.opacity=.25">`; }
-function dname(id) { return id.replace(/_00_adult|_01_adult/g,'').replace(/_/g,' '); }
+function n(id) { return NAMES[id] || { kor: id, eng: id }; }
+function img(id) { return `<img src="${BASE}${id}.png" alt="${n(id).kor}" onerror="this.style.opacity=.25">`; }
 function rateClass(r) { return r >= 7 ? 'h' : r >= 3 ? 'm' : 'l'; }
+function rateStyle(r) {
+  return r >= 7
+    ? 'background:rgba(245,197,66,.15);color:var(--gold)'
+    : r >= 3
+    ? 'background:rgba(124,106,255,.15);color:var(--accent2)'
+    : 'background:rgba(255,255,255,.06);color:var(--text3)';
+}
 
-// ── 탭 전환 ──
+// 탭
 function switchTab(tab) {
-  curTab = tab;
   document.getElementById('mode-forward').style.display = tab === 'forward' ? '' : 'none';
   document.getElementById('mode-reverse').style.display = tab === 'reverse' ? '' : 'none';
   document.getElementById('tab-forward').classList.toggle('active', tab === 'forward');
   document.getElementById('tab-reverse').classList.toggle('active', tab === 'reverse');
 }
 
-// ── 부모→자식 선택 UI ──
+// 부모 선택 UI
 function updateSelUI(target) {
   const id = sel[target];
   const num = target === 'p1' ? 1 : 2;
   const imgEl = document.getElementById('si' + num);
   const nameEl = document.getElementById('sn' + num);
-  const chEl = document.getElementById('sch' + num);
-  const card = document.getElementById('sc' + num);
+  const chEl  = document.getElementById('sch' + num);
+  const card  = document.getElementById('sc' + num);
   if (id) {
     imgEl.innerHTML = img(id);
-    nameEl.innerHTML = `<span class="sel-name">${dname(id)}</span>`;
+    nameEl.innerHTML = `<span class="sel-name">${n(id).kor}</span><span class="sel-engname">${n(id).eng}</span>`;
     chEl.style.display = 'block';
     card.classList.add('on');
   } else {
@@ -466,31 +537,31 @@ function updateSelUI(target) {
   }
 }
 
-// ── 자식 선택 UI ──
+// 자식 선택 UI
 function updateChildUI() {
   const id = sel.child;
-  const imgEl = document.getElementById('child-img');
+  const imgEl  = document.getElementById('child-img');
   const nameEl = document.getElementById('child-name');
-  const subEl = document.getElementById('child-sub');
-  const card = document.getElementById('child-sel');
+  const engEl  = document.getElementById('child-eng');
+  const card   = document.getElementById('child-sel');
   if (id) {
     imgEl.innerHTML = img(id);
-    nameEl.textContent = dname(id);
-    subEl.textContent = '가능한 부모 조합';
+    nameEl.textContent = n(id).kor;
+    engEl.textContent  = n(id).eng;
     card.classList.add('on');
   } else {
     imgEl.innerHTML = '<span style="font-size:26px;color:var(--text3)">＋</span>';
     nameEl.textContent = '드래곤을 선택하세요';
-    subEl.textContent = '선택 후 가능한 부모 조합이 표시됩니다';
+    engEl.textContent  = '선택 후 가능한 부모 조합이 표시됩니다';
     card.classList.remove('on');
   }
 }
 
-// ── 부모→자식 결과 렌더 ──
+// 부모→자식 렌더
 function renderForward() {
-  const body = document.getElementById('fw-body');
+  const body    = document.getElementById('fw-body');
   const countEl = document.getElementById('fw-count');
-  const sortEl = document.getElementById('fw-sort');
+  const sortEl  = document.getElementById('fw-sort');
 
   if (!sel.p1 || !sel.p2) {
     body.innerHTML = emptyHTML('🐉', '개체 1과 개체 2를 선택하면<br>교배 결과가 표시됩니다', '조합 데이터 수집 후 순차적으로 추가됩니다');
@@ -501,9 +572,7 @@ function renderForward() {
     countEl.textContent = ''; sortEl.style.display = 'none'; return;
   }
 
-  const key1 = sel.p1+'+'+sel.p2, key2 = sel.p2+'+'+sel.p1;
-  const data = BREED_DATA[key1] || BREED_DATA[key2] || null;
-
+  const data = BREED_DATA[sel.p1+'+'+sel.p2] || BREED_DATA[sel.p2+'+'+sel.p1] || null;
   if (!data) {
     body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
     countEl.textContent = ''; sortEl.style.display = 'none'; return;
@@ -511,7 +580,7 @@ function renderForward() {
 
   let res = [...data];
   if (sortMode === 'rate') res.sort((a,b) => b.rate - a.rate);
-  else res.sort((a,b) => a.id.localeCompare(b.id));
+  else res.sort((a,b) => n(a.id).kor.localeCompare(n(b.id).kor));
 
   countEl.textContent = res.length + '종';
   sortEl.style.display = 'flex';
@@ -521,15 +590,18 @@ function renderForward() {
     return `<div class="res-card">
       <div class="top-bar bar-${c}"></div>
       <div class="res-img">${img(r.id)}</div>
-      <span class="res-name">${dname(r.id)}</span>
+      <div class="name-tag-wrap">
+        <span class="eng-tag">${n(r.id).eng}</span>
+        <span class="kor-name">${n(r.id).kor}</span>
+      </div>
       <span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span>
     </div>`;
   }).join('')}</div>`;
 }
 
-// ── 자식→부모 결과 렌더 ──
+// 자식→부모 렌더
 function renderReverse() {
-  const body = document.getElementById('rv-body');
+  const body    = document.getElementById('rv-body');
   const countEl = document.getElementById('rv-count');
 
   if (!sel.child) {
@@ -543,41 +615,44 @@ function renderReverse() {
     countEl.textContent = ''; return;
   }
 
-  // 같은 부모 조합에서 여러 확률로 나올 수 있으므로 그룹핑
   const grouped = {};
   for (const p of pairs) {
     const key = [p.p1, p.p2].sort().join('+');
     if (!grouped[key]) grouped[key] = { p1: p.p1, p2: p.p2, rates: [] };
     grouped[key].rates.push(p.rate);
   }
-
   const list = Object.values(grouped).sort((a,b) => Math.max(...b.rates) - Math.max(...a.rates));
-  countEl.textContent = list.length + '가지 조합';
 
+  countEl.textContent = list.length + '가지 조합';
   body.innerHTML = `<div class="parent-list">${list.map((g, i) => {
     const maxRate = Math.max(...g.rates);
-    const c = rateClass(maxRate);
     return `<div class="parent-pair">
       <span class="pair-num">#${i+1}</span>
       <div class="pair-dragons">
         <div class="pair-dragon">
           <div class="pair-img">${img(g.p1)}</div>
-          <span class="pair-dname">${dname(g.p1)}</span>
+          <div class="pair-dinfo">
+            <span class="pair-eng-tag">${n(g.p1).eng}</span>
+            <span class="pair-kor">${n(g.p1).kor}</span>
+          </div>
         </div>
         <span class="pair-x">✕</span>
         <div class="pair-dragon">
           <div class="pair-img">${img(g.p2)}</div>
-          <span class="pair-dname">${dname(g.p2)}</span>
+          <div class="pair-dinfo">
+            <span class="pair-eng-tag">${n(g.p2).eng}</span>
+            <span class="pair-kor">${n(g.p2).kor}</span>
+          </div>
         </div>
       </div>
-      <div class="pair-rates">
-        ${g.rates.map(r => `<span class="pair-rate-badge rp-${rateClass(r)}" style="font-size:10px;padding:2px 8px;border-radius:99px;background:${r>=7?'rgba(245,197,66,.15)':r>=3?'rgba(124,106,255,.15)':'rgba(255,255,255,.06)'};color:${r>=7?'var(--gold)':r>=3?'var(--accent2)':'var(--text3)'}">${r.toFixed(2)}%</span>`).join('')}
+      <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">
+        ${g.rates.map(r => `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;${rateStyle(r)}">${r.toFixed(2)}%</span>`).join('')}
       </div>
     </div>`;
   }).join('')}</div>`;
 }
 
-function emptyHTML(ico, txt, sub='') {
+function emptyHTML(ico, txt, sub = '') {
   return `<div class="empty">
     <div class="empty-ico">${ico}</div>
     <div class="empty-txt">${txt}</div>
@@ -587,15 +662,15 @@ function emptyHTML(ico, txt, sub='') {
 
 function setSort(m) {
   sortMode = m;
-  document.getElementById('sb-rate').classList.toggle('on', m==='rate');
-  document.getElementById('sb-name').classList.toggle('on', m==='name');
+  document.getElementById('sb-rate').classList.toggle('on', m === 'rate');
+  document.getElementById('sb-name').classList.toggle('on', m === 'name');
   renderForward();
 }
 
-// ── 모달 ──
+// 모달
 function openModal(target) {
   modalTarget = target;
-  const titles = { p1:'개체 1 선택', p2:'개체 2 선택', child:'자식 드래곤 선택' };
+  const titles = { p1: '개체 1 선택', p2: '개체 2 선택', child: '자식 드래곤 선택' };
   document.getElementById('modal-ttl').textContent = titles[target];
   document.getElementById('msearch').value = '';
   renderModalGrid(DRAGONS);
@@ -606,16 +681,20 @@ function closeModal() { document.getElementById('overlay').classList.remove('ope
 function closeOverlay(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
 
 function filterModal() {
-  const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g,'');
-  renderModalGrid(DRAGONS.filter(id => id.includes(q) || dname(id).replace(/ /g,'').includes(q)));
+  const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g, '');
+  renderModalGrid(DRAGONS.filter(id =>
+    n(id).kor.replace(/ /g, '').toLowerCase().includes(q) ||
+    n(id).eng.replace(/ /g, '').toLowerCase().includes(q)
+  ));
 }
 
 function renderModalGrid(list) {
   document.getElementById('mgrid').innerHTML = list.map(id => {
     const cur = sel[modalTarget] === id;
-    return `<div class="m-item${cur?' cur':''}" onclick="pick('${id}')">
+    return `<div class="m-item${cur ? ' cur' : ''}" onclick="pick('${id}')">
       <div class="m-img">${img(id)}</div>
-      <span class="m-name">${dname(id)}</span>
+      <span class="m-kor">${n(id).kor}</span>
+      <span class="m-eng">${n(id).eng}</span>
     </div>`;
   }).join('');
 }
