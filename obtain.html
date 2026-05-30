@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>획득처 - Dragon Village 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
+  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
+
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,12,24,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px;
+}
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); text-decoration: none; }
+.header-nav { display: flex; gap: 4px; }
+.nav-a { font-size: 12px; color: var(--text3); padding: 5px 12px; border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s; }
+.nav-a:hover { color: var(--text2); background: var(--bg3); }
+.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+
+.main { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* 탭 */
+.tabs {
+  display: flex; gap: 4px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 4px; margin-bottom: 24px;
+  width: fit-content; flex-wrap: wrap;
+}
+.tab {
+  padding: 8px 18px; border-radius: 9px; border: none;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.15s; color: var(--text3); background: transparent;
+  display: flex; align-items: center; gap: 6px;
+}
+.tab.active { color: #fff; }
+.tab:not(.active):hover { color: var(--text2); background: var(--bg3); }
+
+.tab-gacha.active  { background: #b45309; }
+.tab-raid.active   { background: #b91c1c; }
+.tab-latea.active  { background: var(--accent); }
+.tab-shop.active   { background: #065f46; }
+.tab-breed.active  { background: #374151; }
+
+/* 툴바 */
+.toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.search-input {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 14px; font-size: 13px;
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif;
+  outline: none; transition: border-color .15s; width: 200px;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--accent); }
+.sort-grp { display: flex; gap: 4px; margin-left: auto; }
+.sort-btn {
+  font-size: 11px; padding: 5px 12px; border-radius: 99px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .12s;
+}
+.sort-btn:hover { border-color: var(--border2); color: var(--text2); }
+.sort-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.result-count { font-size: 12px; color: var(--text3); }
+
+/* 섹션 헤더 */
+.section-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon { font-size: 20px; }
+.section-title { font-family: 'Black Han Sans', sans-serif; font-size: 18px; color: var(--text); letter-spacing: -.5px; }
+.section-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px;
+}
+.section-desc { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.section-count { font-size: 12px; color: var(--text3); margin-left: auto; }
+
+/* 드래곤 그리드 */
+.dragon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px; margin-bottom: 40px;
+}
+.dragon-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 8px 10px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 5px; text-align: center; transition: border-color .15s, transform .15s;
+}
+.dragon-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.dc-img {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.dc-img img { width: 46px; height: 46px; object-fit: contain; image-rendering: pixelated; }
+.dc-kor { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.dc-eng { font-size: 9px; color: var(--text3); }
+
+/* 등급 배지 색상 */
+.badge-gacha { background: rgba(245,197,66,.15); color: var(--gold); border: 1px solid rgba(245,197,66,.3); }
+.badge-raid  { background: rgba(255,107,107,.15); color: #ff6b6b; border: 1px solid rgba(255,107,107,.3); }
+.badge-latea { background: rgba(124,106,255,.15); color: var(--accent2); border: 1px solid rgba(124,106,255,.3); }
+.badge-shop  { background: rgba(52,211,153,.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,.25); }
+.badge-breed { background: rgba(255,255,255,.06); color: var(--text3); border: 1px solid var(--border); }
+
+.no-result { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+
+@media (max-width: 560px) {
+  .header-nav { display: none; }
+  .dragon-grid { grid-template-columns: repeat(auto-fill, minmax(85px,1fr)); }
+  .search-input { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">DV3</a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-a">홈</a>
+    <a href="breeding.html" class="nav-a">교배</a>
+    <a href="gem.html" class="nav-a">보주</a>
+    <a href="ability.html" class="nav-a">어빌리티</a>
+    <a href="dragon.html" class="nav-a">드래곤</a>
+    <a href="obtain.html" class="nav-a active">획득처</a>
+  </nav>
+</header>
+
+<div class="main">
+
+  <!-- 탭 -->
+  <div class="tabs">
+    <button class="tab tab-gacha active" onclick="switchTab('gacha')" id="tab-gacha">🎰 뽑기</button>
+    <button class="tab tab-raid"  onclick="switchTab('raid')"  id="tab-raid">⚔️ 레이드</button>
+    <button class="tab tab-latea" onclick="switchTab('latea')" id="tab-latea">🚪 라테아의 문</button>
+    <button class="tab tab-shop"  onclick="switchTab('shop')"  id="tab-shop">🏪 빌리지 상점</button>
+    <button class="tab tab-breed" onclick="switchTab('breed')" id="tab-breed">🧬 교배</button>
+  </div>
+
+  <!-- 툴바 -->
+  <div class="toolbar">
+    <input class="search-input" type="text" id="search" placeholder="드래곤 이름 검색..." oninput="render()">
+    <div class="sort-grp">
+      <button class="sort-btn on" onclick="setSort('grade')" id="sort-grade">등급순</button>
+      <button class="sort-btn" onclick="setSort('name')" id="sort-name">이름순</button>
+    </div>
+    <span class="result-count" id="result-count"></span>
+  </div>
+
+  <!-- 콘텐츠 -->
+  <div id="content"></div>
+</div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
+
+// ── 드래곤 데이터 ──────────────────────────────────────────
+// 나중에 드래곤 추가 시 여기에만 추가하면 됨
+// grade: legendary | heroic | rare | common
+// obtain: 뽑기 | 레이드 | 라테아의 문 | 빌리지 상점 | 교배
+const DRAGONS = [
+  // 뽑기
+  { id:'darknix_00_adult',      kor:'다크닉스',        eng:'darknix',         grade:'legendary', obtain:'뽑기' },
+  { id:'goddragon_00_adult',    kor:'고대신룡',        eng:'goddragon',       grade:'legendary', obtain:'뽑기' },
+  { id:'non_00_adult',          kor:'논',              eng:'non',             grade:'legendary', obtain:'뽑기' },
+  { id:'florea_00_adult',       kor:'플로레',          eng:'florea',          grade:'legendary', obtain:'뽑기' },
+  { id:'selora_00_adult',       kor:'셀오라',          eng:'selora',          grade:'legendary', obtain:'뽑기' },
+  { id:'lucio_00_adult',        kor:'루시오',          eng:'lucio',           grade:'legendary', obtain:'뽑기' },
+  { id:'fides_00_adult',        kor:'피데스',          eng:'fides',           grade:'legendary', obtain:'뽑기' },
+  { id:'lightning_00_adult',    kor:'번개고룡',        eng:'lightning',       grade:'legendary', obtain:'뽑기' },
+  { id:'power_00_adult',        kor:'파워 드래곤',     eng:'power',           grade:'legendary', obtain:'뽑기' },
+  { id:'obex_00_adult',         kor:'오벡스',          eng:'obex',            grade:'legendary', obtain:'뽑기' },
+  { id:'frost_00_adult',        kor:'빙하고룡',        eng:'frost',           grade:'legendary', obtain:'뽑기' },
+  { id:'mummydragon_00_adult',  kor:'미이라곤',        eng:'mummydragon',     grade:'heroic',    obtain:'뽑기' },
+  { id:'alien_00_adult',        kor:'에일리언 드래곤', eng:'alien',           grade:'heroic',    obtain:'뽑기' },
+  { id:'lunera_00_adult',       kor:'루네라',          eng:'lunera',          grade:'heroic',    obtain:'뽑기' },
+  { id:'solar_00_adult',        kor:'솔라 드래곤',     eng:'solar',           grade:'heroic', obtain:'뽑기' },
+  { id:'cloud_00_adult',        kor:'클라우드',        eng:'cloud',           grade:'heroic',    obtain:'뽑기' },
+  { id:'egg_00_adult',          kor:'에그 드래곤',     eng:'egg',             grade:'heroic',    obtain:'뽑기' },
+  { id:'phoenix_00_adult',      kor:'피닉스',          eng:'phoenix',         grade:'heroic', obtain:'뽑기' },
+  { id:'phoenix_01_adult',      kor:'피닉스 (변형)',   eng:'phoenix (변형)',  grade:'heroic', obtain:'뽑기' },
+  { id:'hyeonmu_00_adult',      kor:'현무',            eng:'hyeonmu',         grade:'heroic', obtain:'뽑기' },
+
+  // 레이드
+  { id:'crevasse_00_adult',     kor:'크레바스',        eng:'crevasse',        grade:'legendary', obtain:'레이드' },
+  { id:'tiamat_00_adult',       kor:'티아매트',        eng:'tiamat',          grade:'legendary', obtain:'레이드' },
+  { id:'dragonslayer_00_adult', kor:'드래곤슬레이어',  eng:'dragonslayer',    grade:'legendary', obtain:'레이드' },
+
+  // 라테아의 문
+  { id:'centura_00_adult',      kor:'센투라',          eng:'centura',         grade:'legendary', obtain:'라테아의 문' },
+  { id:'enturas_00_adult',      kor:'엔투라스',        eng:'enturas',         grade:'heroic', obtain:'라테아의 문' },
+  { id:'afrit_00_adult',        kor:'아프리트',        eng:'afrit',           grade:'heroic',    obtain:'라테아의 문' },
+
+  // 빌리지 상점 (희귀)
+  { id:'goblindragon_00_adult', kor:'깨비곤',          eng:'goblindragon',    grade:'rare',      obtain:'빌리지 상점' },
+  { id:'lambgon_00_adult',      kor:'램곤',            eng:'lambgon',         grade:'rare',      obtain:'빌리지 상점' },
+  { id:'nox_00_adult',          kor:'녹스',            eng:'nox',             grade:'rare',      obtain:'빌리지 상점' },
+  { id:'ilios_00_adult',        kor:'일리오스',        eng:'ilios',           grade:'rare',      obtain:'빌리지 상점' },
+  { id:'bluethunder_00_adult',  kor:'블루썬더',        eng:'bluethunder',     grade:'rare',      obtain:'빌리지 상점' },
+  { id:'rock_00_adult',         kor:'바위 드래곤',     eng:'rock',            grade:'rare',      obtain:'빌리지 상점' },
+  { id:'iron_00_adult',         kor:'아이언 드래곤',   eng:'iron',            grade:'rare',      obtain:'빌리지 상점' },
+  { id:'wind_00_adult',         kor:'윈드 드래곤',     eng:'wind',            grade:'rare',      obtain:'빌리지 상점' },
+  { id:'aquadragon_00_adult',   kor:'아쿠아 드래곤',   eng:'aquadragon',      grade:'rare',      obtain:'빌리지 상점' },
+  { id:'fire_00_adult',         kor:'파이어 드래곤',   eng:'fire',            grade:'rare',      obtain:'빌리지 상점' },
+
+  // 교배
+  { id:'angeljr_00_adult',      kor:'엔젤주니어',      eng:'angeljr',         grade:'legendary', obtain:'교배', note:'교배 불가' },
+  { id:'plumos_00_adult',       kor:'플루모스',        eng:'plumos',          grade:'legendary', obtain:'교배' },
+  { id:'shadow_00_adult',       kor:'섀도우 드래곤',   eng:'shadow',          grade:'heroic',    obtain:'교배' },
+  { id:'granos_00_adult',       kor:'그라노스',        eng:'granos',          grade:'heroic',    obtain:'교배' },
+  { id:'aila_00_adult',         kor:'에이라',          eng:'aila',            grade:'heroic',    obtain:'교배' },
+  { id:'characen_00_adult',     kor:'카라선',          eng:'characen',        grade:'heroic',    obtain:'교배' },
+  { id:'blackdragon_00_adult',  kor:'흑룡',            eng:'blackdragon',     grade:'heroic',    obtain:'교배' },
+  { id:'whitedragon_00_adult',  kor:'백룡',            eng:'whitedragon',     grade:'heroic',    obtain:'교배' },
+  { id:'toddletomtom_00_adult', kor:'터틀톰톰',        eng:'toddletomtom',    grade:'heroic',    obtain:'교배' },
+  { id:'dreaden_00_adult',      kor:'드래든',          eng:'dreaden',         grade:'heroic',    obtain:'교배' },
+  { id:'mistdragon_00_adult',   kor:'미스틱 드래곤',   eng:'mistdragon',      grade:'heroic',    obtain:'교배' },
+  { id:'slimedragon_00_adult',  kor:'슬라임 드래곤',   eng:'slimedragon',     grade:'heroic',    obtain:'교배' },
+  { id:'gripo_00_adult',        kor:'그리포',          eng:'gripo',           grade:'heroic',    obtain:'교배' },
+  { id:'fairydragon_00_adult',  kor:'페어리 드래곤',   eng:'fairydragon',     grade:'heroic',    obtain:'교배' },
+  { id:'pierrotdragon_00_adult',kor:'삐에로 드래곤',   eng:'pierrotdragon',   grade:'heroic',    obtain:'교배' },
+  { id:'goldie_00_adult',       kor:'골디',            eng:'goldie',          grade:'heroic',    obtain:'교배' },
+  { id:'henes_00_adult',        kor:'헤네스',          eng:'henes',           grade:'heroic',    obtain:'교배' },
+  { id:'seere_00_adult',        kor:'세에레',          eng:'seere',           grade:'heroic',    obtain:'교배' },
+  { id:'cupid_00_adult',        kor:'큐피트',          eng:'cupid',           grade:'heroic',    obtain:'교배' },
+  { id:'nebula_00_adult',       kor:'네뷸라',          eng:'nebula',          grade:'heroic', obtain:'교배' },
+  { id:'catsgon_00_adult',      kor:'캣츠곤',          eng:'catsgon',         grade:'heroic',    obtain:'교배' },
+  { id:'witchdragon_00_adult',  kor:'윗치 드래곤',     eng:'witchdragon',     grade:'heroic',    obtain:'교배' },
+  { id:'liso_00_adult',         kor:'리소',            eng:'liso',            grade:'heroic',    obtain:'교배' },
+  { id:'baal_00_adult',         kor:'바알',            eng:'baal',            grade:'heroic',    obtain:'교배' },
+  { id:'kleptos_00_adult',      kor:'클렙토',          eng:'kleptos',         grade:'heroic',    obtain:'교배' },
+  { id:'lagtail_00_adult',      kor:'렉테일',          eng:'lagtail',         grade:'heroic',    obtain:'교배' },
+  { id:'centipededragon_00_adult',kor:'G네 드래곤',    eng:'centipededragon', grade:'heroic',    obtain:'교배' },
+  { id:'ninjadragon_00_adult',  kor:'닌자 드래곤',     eng:'ninjadragon',     grade:'heroic',    obtain:'교배' },
+  { id:'serpentdragon_00_adult',kor:'서펀트 드래곤',   eng:'serpentdragon',   grade:'heroic',    obtain:'교배' },
+  { id:'skelegon_00_adult',     kor:'스켈레곤',        eng:'skelegon',        grade:'heroic',    obtain:'교배' },
+  { id:'spicy_00_adult',        kor:'스파이시',        eng:'spicy',           grade:'heroic', obtain:'교배' },
+  { id:'rafael_00_adult',       kor:'라파엘',          eng:'rafael',          grade:'heroic', obtain:'교배' },
+  { id:'dilrang_00_adult',      kor:'딜랑',            eng:'dilrang',         grade:'heroic',    obtain:'교배' },
+  { id:'emerald_00_adult',      kor:'에메랄드',        eng:'emerald',         grade:'heroic',    obtain:'교배' },
+  { id:'haze_00_adult',         kor:'헤이즈',          eng:'haze',            grade:'heroic',    obtain:'교배' },
+  { id:'taabire_00_adult',      kor:'타아비레',        eng:'taabire',         grade:'heroic', obtain:'교배' },
+  { id:'whitethunder_00_adult', kor:'화이트썬더',      eng:'whitethunder',    grade:'heroic',    obtain:'교배' },
+  { id:'splender_00_adult',     kor:'스플렌더',        eng:'splender',        grade:'heroic', obtain:'교배' },
+  { id:'bluefiretail_00_adult', kor:'청불나래',        eng:'bluefiretail',    grade:'heroic',    obtain:'교배' },
+  { id:'thunderboltdragon_00_adult',kor:'썬더볼트 드래곤',eng:'thunderboltdragon',grade:'heroic',obtain:'교배' },
+  { id:'bluelightning_00_adult',kor:'블루라이트닝',    eng:'bluelightning',   grade:'heroic',    obtain:'교배' },
+  { id:'tumpy_00_adult',        kor:'텀피',            eng:'tumpy',           grade:'heroic',    obtain:'교배' },
+  { id:'mustardhammer_00_adult',kor:'머스타드해머',    eng:'mustardhammer',   grade:'heroic',    obtain:'교배' },
+  { id:'scorpiondragon_00_adult',kor:'스콜피온 드래곤',eng:'scorpiondragon',  grade:'heroic',    obtain:'교배' },
+  { id:'mushroom_00_adult',     kor:'머쉬움 드래곤',   eng:'mushroom',        grade:'heroic',    obtain:'교배' },
+  { id:'lakion_00_adult',       kor:'라키온',          eng:'lakion',          grade:'heroic', obtain:'교배' },
+  { id:'leafdragon_00_adult',   kor:'리프 드래곤',     eng:'leafdragon',      grade:'heroic',    obtain:'교배' },
+  { id:'mud_00_adult',          kor:'머드 드래곤',     eng:'mud',             grade:'heroic',    obtain:'교배' },
+  { id:'knightdragon_00_adult', kor:'나이트 드래곤',   eng:'knightdragon',    grade:'heroic',    obtain:'교배' },
+  { id:'fat_00_adult',          kor:'패트',            eng:'fat',             grade:'heroic',    obtain:'교배' },
+  { id:'blackarmor_00_adult',   kor:'블랙아머',        eng:'blackarmor',      grade:'heroic',    obtain:'교배' },
+  { id:'dragonoid_00_adult',    kor:'드라고노이드',    eng:'dragonoid',       grade:'heroic',    obtain:'교배' },
+  { id:'sharptail_00_adult',    kor:'샤프테일',        eng:'sharptail',       grade:'heroic',    obtain:'교배' },
+  { id:'pinkbell_00_adult',     kor:'핑크벨',          eng:'pinkbell',        grade:'heroic',    obtain:'교배' },
+  { id:'sixleghorn_00_adult',   kor:'식스레그혼',      eng:'sixleghorn',      grade:'heroic',    obtain:'교배' },
+  { id:'totemdragon_00_adult',  kor:'토템 드래곤',     eng:'totemdragon',     grade:'heroic',    obtain:'교배' },
+  { id:'beleth_00_adult',       kor:'벨레드',          eng:'beleth',          grade:'heroic',    obtain:'교배' },
+  { id:'liberte_00_adult',      kor:'리베티',          eng:'liberte',         grade:'heroic',    obtain:'교배' },
+  { id:'blue_00_adult',         kor:'청룡',            eng:'blue',            grade:'heroic',    obtain:'교배' },
+  { id:'applecheek_00_adult',   kor:'애플칙',          eng:'applecheek',      grade:'heroic',    obtain:'교배' },
+  { id:'zephyros_00_adult',     kor:'제피로스',        eng:'zephyros',        grade:'heroic', obtain:'교배' },
+  { id:'typhoondragon_00_adult',kor:'타이푼 드래곤',   eng:'typhoondragon',   grade:'heroic',    obtain:'교배' },
+  { id:'frog_00_adult',         kor:'프로그 드래곤',   eng:'frog',            grade:'heroic',    obtain:'교배' },
+  { id:'rupia_00_adult',        kor:'루피아',          eng:'rupia',           grade:'heroic',    obtain:'교배' },
+  { id:'poisonriver_00_adult',  kor:'포이즌리버',      eng:'poisonriver',     grade:'heroic',    obtain:'교배' },
+  { id:'swamp_00_adult',        kor:'스왐프 드래곤',   eng:'swamp',           grade:'heroic',    obtain:'교배' },
+  { id:'sharkgon_00_adult',     kor:'샤크곤',          eng:'sharkgon',        grade:'heroic',    obtain:'교배' },
+  { id:'patroa_00_adult',       kor:'패트로아',        eng:'patroa',          grade:'heroic',    obtain:'교배' },
+  { id:'popomo_00_adult',       kor:'포포모',          eng:'popomo',          grade:'heroic',    obtain:'교배' },
+  { id:'hell_00_adult',         kor:'헬 드래곤',       eng:'hell',            grade:'heroic',    obtain:'교배' },
+  { id:'ignis_00_adult',        kor:'이그니스',        eng:'ignis',           grade:'heroic', obtain:'교배' },
+  { id:'taros_00_adult',        kor:'타로스',          eng:'taros',           grade:'heroic', obtain:'교배' },
+  { id:'lava_00_adult',         kor:'라바 드래곤',     eng:'lava',            grade:'heroic',    obtain:'교배' },
+  { id:'siamesedragon_00_adult',kor:'샴 드래곤',       eng:'siamesedragon',   grade:'heroic',    obtain:'교배' },
+  { id:'jujak_00_adult',        kor:'주작',            eng:'jujak',           grade:'heroic', obtain:'교배' },
+  { id:'firetail_00_adult',     kor:'불나래',          eng:'firetail',        grade:'heroic',    obtain:'교배' },
+  { id:'magnello_00_adult',     kor:'마그넬로',        eng:'magnello',        grade:'heroic', obtain:'교배' },
+];
+
+const TAB_INFO = {
+  gacha:  { key:'뽑기',       icon:'🎰', label:'뽑기',       desc:'가챠를 통해 획득할 수 있는 드래곤',       badge:'badge-gacha' },
+  raid:   { key:'레이드',     icon:'⚔️', label:'레이드',     desc:'레이드 보상으로 획득할 수 있는 드래곤',   badge:'badge-raid'  },
+  latea:  { key:'라테아의 문',icon:'🚪', label:'라테아의 문',desc:'라테아의 문을 통해 획득할 수 있는 드래곤', badge:'badge-latea' },
+  shop:   { key:'빌리지 상점',icon:'🏪', label:'빌리지 상점',desc:'빌리지 상점에서 구매할 수 있는 드래곤',   badge:'badge-shop'  },
+  breed:  { key:'교배',       icon:'🧬', label:'교배',       desc:'교배를 통해 획득할 수 있는 드래곤',       badge:'badge-breed' },
+};
+
+const GRADE_ORDER = { legendary:4, heroic:3, rare:2, common:1 };
+
+let currentTab = 'gacha';
+let sortMode = 'grade';
+
+function switchTab(tab) {
+  currentTab = tab;
+  Object.keys(TAB_INFO).forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  render();
+}
+
+function setSort(s) {
+  sortMode = s;
+  document.getElementById('sort-grade').classList.toggle('on', s==='grade');
+  document.getElementById('sort-name').classList.toggle('on', s==='name');
+  render();
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase().replace(/ /g,'');
+  const info = TAB_INFO[currentTab];
+  const countEl = document.getElementById('result-count');
+  const content = document.getElementById('content');
+
+  let list = DRAGONS.filter(d => {
+    const tabMatch = d.obtain === info.key;
+    const searchMatch = !q || d.kor.replace(/ /g,'').toLowerCase().includes(q) || d.eng.toLowerCase().includes(q);
+    return tabMatch && searchMatch;
+  });
+
+  if (sortMode === 'grade') {
+    list.sort((a,b) => (GRADE_ORDER[b.grade]||0) - (GRADE_ORDER[a.grade]||0) || a.kor.localeCompare(b.kor));
+  } else {
+    list.sort((a,b) => a.kor.localeCompare(b.kor));
+  }
+
+  countEl.textContent = list.length + '마리';
+
+  if (!list.length) {
+    content.innerHTML = '<div class="no-result">해당하는 드래곤이 없습니다</div>';
+    return;
+  }
+
+  // 등급별 그룹핑 (등급순일 때만)
+  if (sortMode === 'grade') {
+    const groups = {};
+    const gradeLabel = { legendary:'전설', heroic:'영웅', rare:'희귀', common:'일반' };
+    list.forEach(d => {
+      if (!groups[d.grade]) groups[d.grade] = [];
+      groups[d.grade].push(d);
+    });
+
+    const order = ['legendary','heroic','rare','common'];
+    content.innerHTML = order.filter(g => groups[g]).map(g => `
+      <div>
+        <div class="section-head">
+          <span class="section-title">${gradeLabel[g]}</span>
+          <span class="section-count">${groups[g].length}마리</span>
+        </div>
+        <div class="dragon-grid">${groups[g].map(d => dragonCard(d)).join('')}</div>
+      </div>
+    `).join('');
+  } else {
+    content.innerHTML = `<div class="dragon-grid">${list.map(d => dragonCard(d)).join('')}</div>`;
+  }
+}
+
+function dragonCard(d) {
+  const noteTag = d.note ? `<span style="font-size:9px;color:var(--text3)">${d.note}</span>` : '';
+  return `<div class="dragon-card">
+    <div class="dc-img"><img src="${BASE}${d.id}.png" alt="${d.kor}" onerror="this.style.opacity=.2"></div>
+    <div class="dc-kor">${d.kor}</div>
+    <div class="dc-eng">${d.eng}</div>
+    ${noteTag}
+  </div>`;
+}
+
+render();
+</script>
+</body>
+</html>

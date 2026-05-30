@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어빌리티 - Dragon Village 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30; --bg4: #1c2038;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
+  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
+
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,12,24,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px;
+}
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); text-decoration: none; }
+.header-nav { display: flex; gap: 4px; }
+.nav-a { font-size: 12px; color: var(--text3); padding: 5px 12px; border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s; }
+.nav-a:hover { color: var(--text2); background: var(--bg3); }
+.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+
+.main { max-width: 960px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* 검색 + 필터 */
+.toolbar {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; flex-wrap: wrap;
+}
+.search-input {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 14px; font-size: 13px;
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif;
+  outline: none; transition: border-color .15s; width: 220px;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--accent); }
+.result-info { font-size: 12px; color: var(--text3); margin-left: auto; }
+
+/* 카테고리 필터 */
+.cat-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+.cat-btn {
+  font-size: 11px; padding: 5px 14px; border-radius: 99px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .15s;
+}
+.cat-btn:hover { border-color: var(--border2); color: var(--text2); }
+.cat-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+
+/* 어빌리티 카드 */
+.ability-list { display: flex; flex-direction: column; gap: 10px; }
+
+.ability-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  transition: border-color .15s;
+}
+.ability-card:hover { border-color: var(--border2); }
+
+.ability-head {
+  padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
+  cursor: pointer; user-select: none;
+}
+.ability-icon {
+  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; background: var(--bg3); border: 1px solid var(--border);
+}
+.ability-info { flex: 1; }
+.ability-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.ability-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.ability-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.cat-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+  letter-spacing: .04em;
+}
+.dragon-count { font-size: 11px; color: var(--text3); }
+.expand-btn {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text3); display: flex; align-items: center; justify-content: center;
+  font-size: 12px; transition: all .15s; cursor: pointer;
+}
+.ability-card.open .expand-btn { background: var(--bg3); color: var(--text2); transform: rotate(180deg); }
+
+/* 드래곤 목록 */
+.dragon-list {
+  display: none; padding: 0 20px 16px;
+  border-top: 1px solid var(--border);
+}
+.ability-card.open .dragon-list { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; }
+
+.dragon-chip {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 99px; padding: 5px 10px 5px 6px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text2); transition: border-color .15s;
+}
+.dragon-chip:hover { border-color: var(--border2); color: var(--text); }
+.chip-img { width: 24px; height: 24px; border-radius: 50%; background: var(--bg2); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.chip-img img { width: 20px; height: 20px; object-fit: contain; image-rendering: pixelated; }
+
+.no-result { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+
+/* 카테고리 색상 */
+.cat-공격  { background: rgba(255,107,107,.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,.25); }
+.cat-방어  { background: rgba(96,165,250,.12); color: #60a5fa; border: 1px solid rgba(96,165,250,.25); }
+.cat-상태  { background: rgba(167,139,250,.12); color: #a78bfa; border: 1px solid rgba(167,139,250,.25); }
+.cat-날씨  { background: rgba(52,211,153,.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,.25); }
+.cat-지형  { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); }
+.cat-기타  { background: rgba(148,163,184,.12); color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
+
+@media (max-width: 560px) {
+  .header-nav { display: none; }
+  .search-input { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">DV3</a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-a">홈</a>
+    <a href="breeding.html" class="nav-a">교배</a>
+    <a href="gem.html" class="nav-a">보주</a>
+    <a href="ability.html" class="nav-a active">어빌리티</a>
+    <a href="dragon.html" class="nav-a">드래곤</a>
+  </nav>
+</header>
+
+<div class="main">
+  <div class="toolbar">
+    <input class="search-input" type="text" id="search" placeholder="어빌리티 또는 드래곤 이름 검색..." oninput="render()">
+    <span class="result-info" id="result-info"></span>
+  </div>
+
+  <div class="cat-filter" id="cat-filter">
+    <button class="cat-btn on" onclick="setCat('전체')">전체</button>
+    <button class="cat-btn" onclick="setCat('공격')">⚔️ 공격</button>
+    <button class="cat-btn" onclick="setCat('방어')">🛡️ 방어</button>
+    <button class="cat-btn" onclick="setCat('상태')">✨ 상태이상</button>
+    <button class="cat-btn" onclick="setCat('날씨')">🌤️ 날씨</button>
+    <button class="cat-btn" onclick="setCat('지형')">🌊 지형/속박</button>
+    <button class="cat-btn" onclick="setCat('기타')">💡 기타</button>
+  </div>
+
+  <div class="ability-list" id="ability-list"></div>
+</div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
+
+// 카테고리 분류
+const CAT = {
+  '공격': ['괴력','난폭한 힘','광분','충동','명사수','화염투혼','심해의 힘','숲의 분노','화염 증폭','흡수','절연체','충전','전격피부','차력'],
+  '방어': ['강인한 의지','강심장','인내','무결','급소 회피','공중부양','필사의 의지'],
+  '상태': ['불면증','유연한 몸','냉기저항','내성','내열성 외피','여유로움','무관심','피로 회복','재생','정화','행운아','불쏘시개','날카로운 비늘','접촉 금지','전염','불길한 동행','속박','속박'],
+  '날씨': ['태풍','봄바람','일출','소나기','치유의 비','절대기류'],
+  '지형': ['늪','자력장','속박','동화'],
+  '기타': ['속도광','포효','천리안','악몽','숨결의 동화'],
+};
+
+function getCategory(name) {
+  for (const [cat, names] of Object.entries(CAT)) {
+    if (names.includes(name)) return cat;
+  }
+  return '기타';
+}
+
+const CAT_ICON = {
+  '공격': '⚔️', '방어': '🛡️', '상태': '✨', '날씨': '🌤️', '지형': '🌊', '기타': '💡'
+};
+
+const ABILITIES = [
+  { name:'강심장', desc:'적에 의해 자신의 공격 능력치가 하락하지 않는다.', dragons:[{id:'knightdragon_00_adult',kor:'나이트 드래곤'},{id:'mustardhammer_00_adult',kor:'머스타드해머'},{id:'popomo_00_adult',kor:'포포모'}] },
+  { name:'강인한 의지', desc:'상대에 의해 능력치가 하락하지 않는다.', dragons:[{id:'centura_00_adult',kor:'센투라'},{id:'blackarmor_00_adult',kor:'블랙아머'},{id:'liberte_00_adult',kor:'리베티'}] },
+  { name:'공중부양', desc:'바닥에 깔리는 스킬의 영향을 받지 않으며, 자신에게 영향을 미치는 땅 속성 공격을 1번 무효로 한다.', dragons:[{id:'obex_00_adult',kor:'오벡스'},{id:'gripo_00_adult',kor:'그리포'},{id:'alien_00_adult',kor:'에일리언 드래곤'}] },
+  { name:'광분', desc:'자신에게 상태 이상이 적용된 상태에서 공격할 때, 피해가 1.5배로 적용된다.', dragons:[{id:'egg_00_adult',kor:'에그 드래곤'},{id:'fat_00_adult',kor:'패트'},{id:'lava_00_adult',kor:'라바 드래곤'}] },
+  { name:'괴력', desc:'물리 공격의 피해가 1.5배로 적용된다.', dragons:[{id:'power_00_adult',kor:'파워 드래곤'}] },
+  { name:'급소 회피', desc:'피격 시 치명타가 발생하지 않는다.', dragons:[{id:'dreaden_00_adult',kor:'드래든'},{id:'bluefiretail_00_adult',kor:'청불나래'},{id:'ninjadragon_00_adult',kor:'닌자 드래곤'}] },
+  { name:'난폭한 힘', desc:'물리 공격을 가할 때 자신의 공격 능력치를 1.5배로 계산하고, 스킬의 명중률은 0.8배로 적용한다.', dragons:[{id:'shadow_00_adult',kor:'섀도우 드래곤'},{id:'lagtail_00_adult',kor:'렉테일'}] },
+  { name:'날카로운 비늘', desc:'피격 시 50% 확률로 상대의 최대 체력의 1/8만큼의 피해를 입힌다.', dragons:[{id:'kleptos_00_adult',kor:'클렙토'},{id:'sharptail_00_adult',kor:'샤프테일'}] },
+  { name:'내성', desc:'침식 상태가 되지 않는다.', dragons:[{id:'mushroom_00_adult',kor:'머쉬움 드래곤'},{id:'scorpiondragon_00_adult',kor:'스콜피온 드래곤'},{id:'taros_00_adult',kor:'타로스'}] },
+  { name:'내열성 외피', desc:'화상 상태가 되지 않는다.', dragons:[{id:'rock_00_adult',kor:'바위 드래곤'}] },
+  { name:'냉기저항', desc:'결정 상태가 되지 않는다.', dragons:[{id:'mistdragon_00_adult',kor:'미스틱 드래곤'},{id:'catsgon_00_adult',kor:'캣츠곤'},{id:'fire_00_adult',kor:'파이어 드래곤'}] },
+  { name:'늪', desc:'이 드래곤이 존재하는 동안 늪에 발을 빠뜨려, 드래곤 교체 행동을 선택할 수 없게한다.', dragons:[{id:'slimedragon_00_adult',kor:'슬라임 드래곤'},{id:'mud_00_adult',kor:'머드 드래곤'}] },
+  { name:'동화', desc:'피격 시 주 속성이 피격당한 스킬의 속성으로 변경된다.', dragons:[{id:'goblindragon_00_adult',kor:'깨비곤'},{id:'lakion_00_adult',kor:'라키온'}] },
+  { name:'명사수', desc:'스킬의 명중률이 1.3배로 적용된다.', dragons:[{id:'spicy_00_adult',kor:'스파이시'},{id:'zephyros_00_adult',kor:'제피로스'}] },
+  { name:'무결', desc:'피격 시 스킬의 추가 효과에 의한 상태 이상 및 능력치 변화를 받지 않는다.', dragons:[{id:'darknix_00_adult',kor:'다크닉스'},{id:'goddragon_00_adult',kor:'고대신룡'}] },
+  { name:'무관심', desc:'압도 상태가 되지 않는다.', dragons:[{id:'lunera_00_adult',kor:'루네라'},{id:'sixleghorn_00_adult',kor:'식스레그혼'},{id:'splender_00_adult',kor:'스플렌더'}] },
+  { name:'봄바람', desc:'맑은 날씨에서 자신의 속도 능력치가 2배 증가한다.', dragons:[{id:'frog_00_adult',kor:'프로그 드래곤'},{id:'pinkbell_00_adult',kor:'핑크벨'}] },
+  { name:'불길한 동행', desc:'피격 시 25% 확률로 적을 침식 상태로 만든다. 영혼, 강철 속성 드래곤은 침식 상태가 적용되지 않는다.', dragons:[{id:'witchdragon_00_adult',kor:'윗치 드래곤'}] },
+  { name:'불면증', desc:'수면 상태가 되지 않는다.', dragons:[{id:'non_00_adult',kor:'논'},{id:'lucio_00_adult',kor:'루시오'},{id:'seere_00_adult',kor:'세에레'}] },
+  { name:'불쏘시개', desc:'피격 시 25% 확률로 적을 화상 상태로 만든다. 불 속성 드래곤은 화상 상태가 적용되지 않는다.', dragons:[{id:'afrit_00_adult',kor:'아프리트'},{id:'enturas_00_adult',kor:'엔투라스'},{id:'ilios_00_adult',kor:'일리오스'}] },
+  { name:'소나기', desc:'등장 시 날씨를 5턴 동안 비 상태로 변경한다.', dragons:[{id:'hyeonmu_00_adult',kor:'현무'}] },
+  { name:'속도광', desc:'매 턴마다 자신의 속도 능력치가 1단계 상승한다.', dragons:[{id:'dilrang_00_adult',kor:'딜랑'},{id:'taabire_00_adult',kor:'타아비레'}] },
+  { name:'속박', desc:'이 드래곤이 존재하는 동안 적을 속박해, 드래곤 교체 행동을 선택할 수 없게한다.', dragons:[{id:'aila_00_adult',kor:'에이라'},{id:'baal_00_adult',kor:'바알'},{id:'swamp_00_adult',kor:'스왐프 드래곤'}] },
+  { name:'숨결의 동화', desc:'필드에 나와있는 동안 1회 한정으로 사용한 스킬과 동일한 속성으로 자신의 주 속성이 변경된 뒤 발동한다.', dragons:[{id:'angeljr_00_adult',kor:'엔젤주니어'}] },
+  { name:'숲의 분노', desc:'체력이 1/3 이하일 때 바람 속성 스킬의 피해가 1.5배로 적용된다.', dragons:[{id:'applecheek_00_adult',kor:'애플칙'}] },
+  { name:'심해의 힘', desc:'체력이 1/3 이하일 때 물 속성 스킬의 피해가 1.5배로 적용된다.', dragons:[{id:'frost_00_adult',kor:'빙하고룡'}] },
+  { name:'악몽', desc:'턴 종료 시 적이 수면 상태일 경우, 적에게 적의 최대 체력의 1/8만큼 피해를 입힌다.', dragons:[{id:'crevasse_00_adult',kor:'크레바스'}] },
+  { name:'여유로움', desc:'암흑 상태가 되지 않는다.', dragons:[{id:'blue_00_adult',kor:'청룡'},{id:'iron_00_adult',kor:'아이언 드래곤'},{id:'leafdragon_00_adult',kor:'리프 드래곤'}] },
+  { name:'유연한 몸', desc:'마비 상태가 되지 않는다.', dragons:[{id:'whitedragon_00_adult',kor:'백룡'},{id:'nox_00_adult',kor:'녹스'},{id:'wind_00_adult',kor:'윈드 드래곤'}] },
+  { name:'인내', desc:'자신에게 상태 이상이 적용되는 동안 자신의 방어 능력치가 1.5배로 적용된다.', dragons:[{id:'florea_00_adult',kor:'플로레'},{id:'pierrotdragon_00_adult',kor:'삐에로 드래곤'},{id:'siamesedragon_00_adult',kor:'샴 드래곤'}] },
+  { name:'일출', desc:'등장 시 날씨를 5턴 동안 맑음 상태로 변경한다.', dragons:[{id:'patroa_00_adult',kor:'패트로아'},{id:'solar_00_adult',kor:'솔라 드래곤'}] },
+  { name:'자력장', desc:'이 드래곤이 존재하는 동안 강철 속성 드래곤은 교체 행동을 선택할 수 없게한다.', dragons:[{id:'dragonoid_00_adult',kor:'드라고노이드'}] },
+  { name:'재생', desc:'매 턴 종료 시 상태 이상을 1/3 확률로 회복한다.', dragons:[{id:'mummydragon_00_adult',kor:'미이라곤'},{id:'lambgon_00_adult',kor:'램곤'},{id:'whitethunder_00_adult',kor:'화이트썬더'}] },
+  { name:'전격피부', desc:'물리 스킬에 피격 시, 공격한 적에게 30% 확률로 마비 상태를 적용한다.', dragons:[{id:'thunderboltdragon_00_adult',kor:'썬더볼트 드래곤'}] },
+  { name:'전염', desc:'침식, 부식, 마비, 화상 상태가 되었을 때 상대에게 같은 상태 이상을 적용한다.', dragons:[{id:'skelegon_00_adult',kor:'스켈레곤'}] },
+  { name:'절대기류', desc:'전투 중일 때 날씨의 효과가 적용되지 않는다.', dragons:[{id:'plumos_00_adult',kor:'플루모스'},{id:'bluethunder_00_adult',kor:'블루썬더'},{id:'typhoondragon_00_adult',kor:'타이푼 드래곤'}] },
+  { name:'절연체', desc:'번개 속성 스킬에 피격 시 1번 스킬을 무효로 하고, 자신의 마력 능력치가 1단계 상승한다.', dragons:[{id:'lightning_00_adult',kor:'번개고룡'}] },
+  { name:'접촉 금지', desc:'피격 시 20% 확률로, 적에게 침식, 마비, 수면 중 하나의 상태 이상을 적용한다.', dragons:[{id:'centipededragon_00_adult',kor:'G네 드래곤'},{id:'poisonriver_00_adult',kor:'포이즌리버'}] },
+  { name:'정화', desc:'교체 시 상태 이상이 제거된다.', dragons:[{id:'selora_00_adult',kor:'셀오라'},{id:'toddletomtom_00_adult',kor:'터틀톰톰'},{id:'fairydragon_00_adult',kor:'페어리 드래곤'},{id:'haze_00_adult',kor:'헤이즈'}] },
+  { name:'차력', desc:'불, 혼돈 속성 공격으로 받는 피해가 절반으로 감소한다.', dragons:[{id:'henes_00_adult',kor:'헤네스'},{id:'rafael_00_adult',kor:'라파엘'}] },
+  { name:'천리안', desc:'적에 의해 명중 능력치가 하락하지 않는다.', dragons:[{id:'beleth_00_adult',kor:'벨레드'},{id:'nebula_00_adult',kor:'네뷸라'},{id:'tumpy_00_adult',kor:'텀피'}] },
+  { name:'충동', desc:'치명타 피격 시 자신의 공격 능력치가 6단계 상승한다.', dragons:[{id:'dragonslayer_00_adult',kor:'드래곤슬레이어'}] },
+  { name:'충전', desc:'번개 속성 스킬에 피격 시 1번 스킬을 무효로 하고, 자신의 최대 체력의 1/4만큼 자신의 체력을 회복한다.', dragons:[{id:'bluelightning_00_adult',kor:'블루라이트닝'}] },
+  { name:'치유의 비', desc:'턴 종료 시, 비가 오는 날씨라면 자신의 최대 체력의 1/16만큼 자신의 체력을 회복한다.', dragons:[{id:'characen_00_adult',kor:'카라선'},{id:'totemdragon_00_adult',kor:'토템 드래곤'}] },
+  { name:'태풍', desc:'비가 오는 날씨에서 자신의 속도 능력치가 2배 증가한다.', dragons:[{id:'aquadragon_00_adult',kor:'아쿠아 드래곤'},{id:'cloud_00_adult',kor:'클라우드'},{id:'sharkgon_00_adult',kor:'샤크곤'}] },
+  { name:'포효', desc:'등장 시 적의 공격 능력치를 1단계 하락시킨다.', dragons:[{id:'fides_00_adult',kor:'피데스'},{id:'blackdragon_00_adult',kor:'흑룡'},{id:'magnello_00_adult',kor:'마그넬로'}] },
+  { name:'피로 회복', desc:'수면 상태가 되었을 때 해제 되기까지의 턴 수가 절반으로 감소한다.', dragons:[{id:'cupid_00_adult',kor:'큐피트'},{id:'liso_00_adult',kor:'리소'},{id:'serpentdragon_00_adult',kor:'서펀트 드래곤'}] },
+  { name:'필사의 의지', desc:'최대 체력 상태일 때 한 번에 전투 불능이 되지 않으며, 체력이 1 남는다.', dragons:[{id:'jujak_00_adult',kor:'주작'}] },
+  { name:'행운아', desc:'스킬의 추가 효과의 발동 확률이 2배로 적용된다.', dragons:[{id:'granos_00_adult',kor:'그라노스'},{id:'goldie_00_adult',kor:'골디'},{id:'emerald_00_adult',kor:'에메랄드'}] },
+  { name:'화염 증폭', desc:'불 속성 스킬에 피격 시 1번 스킬을 무효로 하고, 자신의 불 속성 스킬 피해가 1.5배로 적용된다.', dragons:[{id:'ignis_00_adult',kor:'이그니스'},{id:'phoenix_00_adult',kor:'피닉스'},{id:'phoenix_01_adult',kor:'피닉스 (변형)'}] },
+  { name:'화염투혼', desc:'체력이 1/3 이하일 때 불 속성 스킬의 피해가 1.5배로 적용된다.', dragons:[{id:'firetail_00_adult',kor:'불나래'},{id:'hell_00_adult',kor:'헬 드래곤'}] },
+  { name:'흡수', desc:'물 속성 스킬에 피격 시 1번 스킬을 무효로 하고, 자신의 최대 체력의 1/4만큼 자신의 체력을 회복한다.', dragons:[{id:'rupia_00_adult',kor:'루피아'}] },
+];
+
+let currentCat = '전체';
+let openCards = new Set();
+
+function setCat(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('on', b.textContent.includes(cat) || (cat==='전체' && b.textContent==='전체'));
+  });
+  render();
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase().replace(/ /g,'');
+  const list = document.getElementById('ability-list');
+  const infoEl = document.getElementById('result-info');
+
+  let filtered = ABILITIES.filter(ab => {
+    const catMatch = currentCat === '전체' || getCategory(ab.name) === currentCat;
+    const searchMatch = !q ||
+      ab.name.toLowerCase().includes(q) ||
+      ab.desc.toLowerCase().includes(q) ||
+      ab.dragons.some(d => d.kor.replace(/ /g,'').toLowerCase().includes(q));
+    return catMatch && searchMatch;
+  });
+
+  infoEl.textContent = `${filtered.length}개`;
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="no-result">검색 결과가 없습니다</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(ab => {
+    const cat = getCategory(ab.name);
+    const isOpen = openCards.has(ab.name);
+    return `<div class="ability-card${isOpen?' open':''}" id="card-${ab.name}">
+      <div class="ability-head" onclick="toggleCard('${ab.name}')">
+        <div class="ability-icon">${CAT_ICON[cat]}</div>
+        <div class="ability-info">
+          <div class="ability-name">${ab.name}</div>
+          <div class="ability-desc">${ab.desc}</div>
+          <div class="ability-meta">
+            <span class="cat-badge cat-${cat}">${cat}</span>
+            <span class="dragon-count">${ab.dragons.length}마리 보유</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="event.stopPropagation();toggleCard('${ab.name}')">▼</button>
+      </div>
+      <div class="dragon-list">
+        ${ab.dragons.map(d => `
+          <div class="dragon-chip">
+            <div class="chip-img"><img src="${BASE}${d.id}.png" alt="${d.kor}" onerror="this.style.opacity=.2"></div>
+            ${d.kor}
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(name) {
+  if (openCards.has(name)) openCards.delete(name);
+  else openCards.add(name);
+  const card = document.getElementById('card-'+name);
+  if (card) card.classList.toggle('open', openCards.has(name));
+}
+
+render();
+</script>
+</body>
+</html>
