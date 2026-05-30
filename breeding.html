@@ -19,9 +19,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 
 .header {
   background: var(--bg2); border-bottom: 1px solid var(--border);
-  padding: 0 24px; display: flex; align-items: center; gap: 10px; height: 52px;
+  padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 52px;
 }
-.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); }
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 17px; color: var(--accent2); text-decoration: none; }
 .sep { color: var(--text3); font-size: 13px; }
 .page-name { font-size: 13px; color: var(--text2); }
 
@@ -251,22 +251,21 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 </head>
 <body>
 
-<div class="header">
+<header class="header">
   <div style="display:flex;align-items:center;gap:10px">
-    <a href="index.html" style="text-decoration:none">
-      <span class="logo">DV3</span>
-    </a>
+    <a href="index.html" class="logo">DV3</a>
     <span class="sep">/</span>
     <span class="page-name">교배 계산기</span>
   </div>
-  <nav style="display:flex;gap:4px">
-    <a href="index.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)';this.style.background='var(--bg3)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'">홈</a>
-    <a href="breeding.html" style="font-size:12px;color:var(--accent2);padding:5px 12px;border-radius:7px;text-decoration:none;background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.2)">교배</a>
-    <a href="gem.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent;transition:all .15s" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">보주</a>
-    <a href="ability.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">어빌리티</a>
-    <a href="dragon.html" style="font-size:12px;color:var(--text3);padding:5px 12px;border-radius:7px;text-decoration:none;border:1px solid transparent" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">드래곤</a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-a">홈</a>
+    <a href="breeding.html" class="nav-a active">교배</a>
+    <a href="gem.html" class="nav-a">보주</a>
+    <a href="ability.html" class="nav-a">어빌리티</a>
+    <a href="dragon.html" class="nav-a">드래곤</a>
+    <a href="obtain.html" class="nav-a">획득처</a>
   </nav>
-</div>
+</header>
 
 <div class="main">
   <div class="tabs">
