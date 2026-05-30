@@ -31,82 +31,57 @@ body {
   overflow-x: hidden;
 }
 
-/* 배경 오브 */
-.orb {
-  position: fixed; border-radius: 50%;
-  filter: blur(90px); pointer-events: none; z-index: 0;
-}
+.orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
 .orb1 { width: 500px; height: 500px; background: rgba(124,106,255,0.12); top: -100px; left: -100px; }
 .orb2 { width: 400px; height: 400px; background: rgba(245,197,66,0.07); bottom: -80px; right: -80px; }
 .orb3 { width: 300px; height: 300px; background: rgba(124,106,255,0.07); top: 50%; left: 50%; transform: translate(-50%,-50%); }
 
-/* 헤더 */
 .header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10,12,24,0.85);
-  backdrop-filter: blur(20px);
+  background: rgba(10,12,24,0.85); backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   padding: 0 28px;
   display: flex; align-items: center; justify-content: space-between;
   height: 58px;
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
-.logo {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 20px; color: var(--accent2);
-  letter-spacing: -0.5px;
-}
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 20px; color: var(--accent2); letter-spacing: -0.5px; }
 .logo-badge {
   font-size: 10px; font-weight: 700;
-  background: rgba(124,106,255,0.2);
-  border: 1px solid rgba(124,106,255,0.3);
-  color: var(--accent2);
-  padding: 2px 7px; border-radius: 99px;
-  letter-spacing: 0.05em;
+  background: rgba(124,106,255,0.2); border: 1px solid rgba(124,106,255,0.3);
+  color: var(--accent2); padding: 2px 7px; border-radius: 99px; letter-spacing: 0.05em;
 }
 .header-nav { display: flex; gap: 4px; }
 .nav-link {
-  font-size: 13px; color: var(--text2);
-  padding: 6px 14px; border-radius: 8px;
-  text-decoration: none; transition: all 0.15s;
-  border: 1px solid transparent;
+  font-size: 13px; color: var(--text2); padding: 6px 14px; border-radius: 8px;
+  text-decoration: none; transition: all 0.15s; border: 1px solid transparent;
 }
 .nav-link:hover { color: var(--text); background: var(--bg3); border-color: var(--border); }
 .nav-link.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
 
-/* 히어로 */
 .hero {
   position: relative; z-index: 1;
-  padding: 80px 28px 64px;
-  text-align: center;
+  padding: 80px 28px 64px; text-align: center;
   max-width: 700px; margin: 0 auto;
 }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
   color: var(--accent2); text-transform: uppercase;
-  background: rgba(124,106,255,0.1);
-  border: 1px solid rgba(124,106,255,0.2);
-  padding: 5px 14px; border-radius: 99px;
-  margin-bottom: 20px;
+  background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.2);
+  padding: 5px 14px; border-radius: 99px; margin-bottom: 20px;
 }
 .hero-eyebrow::before { content: '◆'; font-size: 7px; }
 .hero-title {
   font-family: 'Black Han Sans', sans-serif;
   font-size: clamp(36px, 7vw, 64px);
-  line-height: 1.1; letter-spacing: -1px;
-  color: var(--text);
-  margin-bottom: 16px;
+  line-height: 1.1; letter-spacing: -1px; color: var(--text); margin-bottom: 16px;
 }
 .hero-title .highlight {
   background: linear-gradient(135deg, var(--accent2), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.hero-desc {
-  font-size: 15px; color: var(--text2); line-height: 1.7;
-  margin-bottom: 32px;
-}
+.hero-desc { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 32px; }
 .hero-notice {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 12px; color: var(--text3);
@@ -116,91 +91,60 @@ body {
 .dot-live { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* 메뉴 그리드 */
-.menu-section {
-  position: relative; z-index: 1;
-  max-width: 880px; margin: 0 auto;
-  padding: 0 20px 80px;
-}
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
+.menu-section { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 0 20px 80px; }
+.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
-/* 메뉴 카드 */
 .menu-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 24px;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex; flex-direction: column;
-  gap: 14px;
-  position: relative; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px; cursor: pointer;
+  text-decoration: none; display: flex; flex-direction: column;
+  gap: 14px; position: relative; overflow: hidden;
   transition: border-color 0.2s, transform 0.2s;
-  group: true;
 }
 .menu-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  opacity: 0; transition: opacity 0.2s;
-  border-radius: 20px;
+  content: ''; position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.2s; border-radius: 20px;
 }
 .menu-card:hover { border-color: var(--border2); transform: translateY(-3px); }
 .menu-card:hover::before { opacity: 1; }
 
 /* 카드별 색상 */
-.card-breed::before  { background: radial-gradient(circle at 0% 0%, rgba(124,106,255,0.1) 0%, transparent 60%); }
-.card-gem::before    { background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.08) 0%, transparent 60%); }
-.card-ability::before{ background: radial-gradient(circle at 0% 0%, rgba(245,158,11,0.08) 0%, transparent 60%); }
-.card-dragon::before { background: radial-gradient(circle at 0% 0%, rgba(52,211,153,0.08) 0%, transparent 60%); }
+.card-breed::before   { background: radial-gradient(circle at 0% 0%, rgba(124,106,255,0.1) 0%, transparent 60%); }
+.card-gem::before     { background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.08) 0%, transparent 60%); }
+.card-ability::before { background: radial-gradient(circle at 0% 0%, rgba(245,158,11,0.08) 0%, transparent 60%); }
+.card-dragon::before  { background: radial-gradient(circle at 0% 0%, rgba(52,211,153,0.08) 0%, transparent 60%); }
+.card-obtain::before  { background: radial-gradient(circle at 0% 0%, rgba(251,191,36,0.08) 0%, transparent 60%); }
 
-.card-breed:hover  { border-color: rgba(124,106,255,0.35); }
-.card-gem:hover    { border-color: rgba(56,189,248,0.3); }
-.card-ability:hover{ border-color: rgba(245,158,11,0.3); }
-.card-dragon:hover { border-color: rgba(52,211,153,0.3); }
+.card-breed:hover   { border-color: rgba(124,106,255,0.35); }
+.card-gem:hover     { border-color: rgba(56,189,248,0.3); }
+.card-ability:hover { border-color: rgba(245,158,11,0.3); }
+.card-dragon:hover  { border-color: rgba(52,211,153,0.3); }
+.card-obtain:hover  { border-color: rgba(251,191,36,0.3); }
 
 .card-icon {
-  width: 52px; height: 52px;
-  border-radius: 14px;
+  width: 52px; height: 52px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  position: relative; z-index: 1;
+  font-size: 24px; position: relative; z-index: 1;
 }
-.icon-breed  { background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.2); }
-.icon-gem    { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.18); }
-.icon-ability{ background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.18); }
-.icon-dragon { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.18); }
+.icon-breed   { background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.2); }
+.icon-gem     { background: rgba(56,189,248,0.12);  border: 1px solid rgba(56,189,248,0.18); }
+.icon-ability { background: rgba(245,158,11,0.12);  border: 1px solid rgba(245,158,11,0.18); }
+.icon-dragon  { background: rgba(52,211,153,0.12);  border: 1px solid rgba(52,211,153,0.18); }
+.icon-obtain  { background: rgba(251,191,36,0.12);  border: 1px solid rgba(251,191,36,0.18); }
 
 .card-content { position: relative; z-index: 1; flex: 1; }
-.card-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; margin-bottom: 6px;
-}
-.label-breed  { color: var(--accent2); }
-.label-gem    { color: #7dd3fc; }
-.label-ability{ color: #fcd34d; }
-.label-dragon { color: #6ee7b7; }
+.card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.label-breed   { color: var(--accent2); }
+.label-gem     { color: #7dd3fc; }
+.label-ability { color: #fcd34d; }
+.label-dragon  { color: #6ee7b7; }
+.label-obtain  { color: #fde68a; }
 
-.card-title {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 22px; color: var(--text);
-  letter-spacing: -0.5px; margin-bottom: 8px;
-}
-.card-desc {
-  font-size: 13px; color: var(--text2); line-height: 1.6;
-}
+.card-title { font-family: 'Black Han Sans', sans-serif; font-size: 22px; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px; }
+.card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
 
-.card-footer {
-  position: relative; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.card-status {
-  font-size: 11px; font-weight: 500;
-  padding: 3px 10px; border-radius: 99px;
-}
+.card-footer { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
+.card-status { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
 .status-ready { background: rgba(52,211,153,0.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); }
 .status-soon  { background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border); }
 
@@ -208,38 +152,29 @@ body {
   width: 30px; height: 30px; border-radius: 50%;
   background: var(--bg3); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: var(--text3);
-  transition: all 0.15s;
+  font-size: 14px; color: var(--text3); transition: all 0.15s;
 }
-.menu-card:hover .card-arrow {
-  background: var(--accent); border-color: var(--accent);
-  color: #fff; transform: translateX(3px);
-}
-.card-breed:hover  .card-arrow { background: var(--accent); border-color: var(--accent); }
-.card-gem:hover    .card-arrow { background: #38bdf8; border-color: #38bdf8; }
-.card-ability:hover .card-arrow { background: #f59e0b; border-color: #f59e0b; }
-.card-dragon:hover  .card-arrow { background: #34d399; border-color: #34d399; }
+.menu-card:hover .card-arrow { color: #fff; transform: translateX(3px); }
+.card-breed:hover   .card-arrow { background: var(--accent);  border-color: var(--accent); }
+.card-gem:hover     .card-arrow { background: #38bdf8;        border-color: #38bdf8; }
+.card-ability:hover .card-arrow { background: #f59e0b;        border-color: #f59e0b; }
+.card-dragon:hover  .card-arrow { background: #34d399;        border-color: #34d399; }
+.card-obtain:hover  .card-arrow { background: #f59e0b;        border-color: #f59e0b; }
 
-/* 준비중 카드 dim */
 .menu-card.wip { opacity: 0.6; cursor: not-allowed; }
 .menu-card.wip:hover { transform: none; border-color: var(--border); }
 .menu-card.wip:hover .card-arrow { background: var(--bg3); border-color: var(--border); color: var(--text3); transform: none; }
 .menu-card.wip::before { display: none; }
 
-/* 하단 정보 */
 .footer-info {
-  position: relative; z-index: 1;
-  max-width: 880px; margin: 0 auto;
-  padding: 0 20px 48px;
-  display: flex; gap: 10px; flex-wrap: wrap;
+  position: relative; z-index: 1; max-width: 880px; margin: 0 auto;
+  padding: 0 20px 48px; display: flex; gap: 10px; flex-wrap: wrap;
 }
 .info-chip {
-  font-size: 12px; color: var(--text3);
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 6px 14px; border-radius: 99px;
+  font-size: 12px; color: var(--text3); background: var(--bg2);
+  border: 1px solid var(--border); padding: 6px 14px; border-radius: 99px;
   display: flex; align-items: center; gap: 5px;
 }
-.info-chip::before { font-size: 10px; }
 
 @media (max-width: 560px) {
   .menu-grid { grid-template-columns: 1fr; }
@@ -265,6 +200,7 @@ body {
     <a href="gem.html" class="nav-link">보주</a>
     <a href="ability.html" class="nav-link">어빌리티</a>
     <a href="dragon.html" class="nav-link">드래곤 정보</a>
+    <a href="obtain.html" class="nav-link">획득처</a>
   </nav>
 </header>
 
@@ -310,7 +246,7 @@ body {
     </a>
 
     <!-- 어빌리티 -->
-    <a href="ability.html" class="menu-card card-ability wip">
+    <a href="ability.html" class="menu-card card-ability">
       <div class="card-icon icon-ability">⚡</div>
       <div class="card-content">
         <div class="card-label label-ability">Ability</div>
@@ -324,18 +260,32 @@ body {
     </a>
 
     <!-- 드래곤 정보 -->
-<a href="dragon.html" class="menu-card card-dragon">
-  <div class="card-icon icon-dragon">🐉</div>
-  <div class="card-content">
-    <div class="card-label label-dragon">Dragon</div>
-    <div class="card-title">드래곤 정보</div>
-    <div class="card-desc">112마리 드래곤의 속성, 스탯, 스킬 등 상세 정보를 도감 형태로 확인하세요</div>
-  </div>
-  <div class="card-footer">
-    <span class="card-status status-ready">✦ 이용 가능</span>
-    <div class="card-arrow">→</div>
-  </div>
-</a>
+    <a href="dragon.html" class="menu-card card-dragon">
+      <div class="card-icon icon-dragon">🐉</div>
+      <div class="card-content">
+        <div class="card-label label-dragon">Dragon</div>
+        <div class="card-title">드래곤 정보</div>
+        <div class="card-desc">112마리 드래곤의 속성, 스탯, 스킬 등 상세 정보를 도감 형태로 확인하세요</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status status-ready">✦ 이용 가능</span>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <!-- 획득처 -->
+    <a href="obtain.html" class="menu-card card-obtain">
+      <div class="card-icon icon-obtain">📍</div>
+      <div class="card-content">
+        <div class="card-label label-obtain">Obtain</div>
+        <div class="card-title">획득처</div>
+        <div class="card-desc">뽑기, 레이드, 라테아의 문, 빌리지 상점, 교배 등 드래곤별 획득 방법을 확인하세요</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status status-ready">✦ 이용 가능</span>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
 
   </div>
 </section>
