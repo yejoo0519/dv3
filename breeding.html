@@ -129,6 +129,19 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .empty-ico { font-size: 36px; margin-bottom: 10px; }
 .empty-txt { font-size: 14px; line-height: 1.7; }
 .empty-sub { font-size: 12px; margin-top: 6px; opacity: .6; }
+.report-btns { display: flex; gap: 10px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+.report-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border2);
+  font-size: 12px; font-weight: 600; font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer; text-decoration: none; transition: all .15s;
+  background: var(--bg3); color: var(--text2);
+}
+.report-btn:hover { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,0.08); }
+.report-btn.kakao { border-color: rgba(255,220,0,0.3); color: #f5d800; background: rgba(255,220,0,0.06); }
+.report-btn.kakao:hover { border-color: #f5d800; background: rgba(255,220,0,0.12); }
+.report-btn.form { border-color: rgba(66,133,244,0.3); color: #7aabf7; background: rgba(66,133,244,0.06); }
+.report-btn.form:hover { border-color: #7aabf7; background: rgba(66,133,244,0.12); }
 
 /* 자식 결과 그리드 */
 .result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
@@ -932,7 +945,7 @@ function renderForward() {
   const breedKey = [sel.p1, sel.p2].sort().join('+');
   const data = BREED_DATA[breedKey] || null;
   if (!data) {
-    body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
+    body.innerHTML = emptyHTML('📋', '아직 이 조합의 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다', true);
     countEl.textContent = ''; sortEl.style.display = 'none'; return;
   }
 
@@ -969,7 +982,7 @@ function renderReverse() {
 
   const pairs = REVERSE[sel.child] || [];
   if (!pairs.length) {
-    body.innerHTML = emptyHTML('📋', '아직 이 드래곤의 부모 조합 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다');
+    body.innerHTML = emptyHTML('📋', '아직 이 드래곤의 부모 조합 데이터가 없습니다', '교배 데이터 수집 후 업데이트 예정입니다', true);
     countEl.textContent = ''; return;
   }
 
@@ -1010,11 +1023,26 @@ function renderReverse() {
   }).join('')}</div>`;
 }
 
-function emptyHTML(ico, txt, sub = '') {
+const KAKAO_LINK = 'https://open.kakao.com/o/sgNwijri';
+const FORM_LINK  = 'https://docs.google.com/forms/d/e/1FAIpQLSfgAvHcmfIHHUknk2rcbW3RpU13UAKE0XgqjYbxEhNB21WmjA/viewform?usp=dialog';
+
+function emptyHTML(ico, txt, sub = '', showReport = false) {
+  const reportHTML = showReport ? `
+    <div class="report-btns">
+      <a class="report-btn kakao" href="${KAKAO_LINK}" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.7 1.6 5.1 4 6.6l-.9 3.4 3.9-2.5c.9.2 1.9.3 2.9.3 5.523 0 10-3.477 10-7.8S17.523 3 12 3z"/></svg>
+        카카오톡 제보
+      </a>
+      <a class="report-btn form" href="${FORM_LINK}" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+        구글 폼 제보
+      </a>
+    </div>` : '';
   return `<div class="empty">
     <div class="empty-ico">${ico}</div>
     <div class="empty-txt">${txt}</div>
     ${sub ? `<div class="empty-sub">${sub}</div>` : ''}
+    ${reportHTML}
   </div>`;
 }
 
