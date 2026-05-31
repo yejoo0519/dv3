@@ -175,6 +175,22 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 }
 .kor-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
 
+
+/* 등급별 카드 테두리 */
+.res-card.grade-legendary { border-color: rgba(245,197,66,0.5); }
+.res-card.grade-legendary:hover { border-color: rgba(245,197,66,0.85); }
+.res-card.grade-legendary .top-bar { background: linear-gradient(90deg,#f5c542,#ffda6a); }
+
+.res-card.grade-heroic { border-color: rgba(166,147,255,0.35); }
+.res-card.grade-heroic:hover { border-color: rgba(166,147,255,0.7); }
+.res-card.grade-heroic .top-bar { background: linear-gradient(90deg,#7c6aff,#a693ff); }
+
+.res-card.grade-rare { border-color: rgba(56,189,248,0.35); }
+.res-card.grade-rare:hover { border-color: rgba(56,189,248,0.7); }
+.res-card.grade-rare .top-bar { background: linear-gradient(90deg,#0ea5e9,#38bdf8); }
+
+.res-card.grade-common { border-color: rgba(255,255,255,0.1); }
+.res-card.grade-common .top-bar { background: var(--text3); }
 .rate-pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 1px; }
 .rp-h { background: rgba(245,197,66,.15); color: var(--gold); }
 .rp-m { background: rgba(124,106,255,.15); color: var(--accent2); }
@@ -378,6 +394,122 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
 
 // id → { kor, eng } 이름 매핑
+const GRADES = {
+  "afrit_00_adult":                              "heroic",
+  "aila_00_adult":                               "heroic",
+  "alien_00_adult":                              "heroic",
+  "angeljr_00_adult":                            "legendary",
+  "applecheek_00_adult":                         "heroic",
+  "aquadragon_00_adult":                         "rare",
+  "baal_00_adult":                               "heroic",
+  "beleth_00_adult":                             "heroic",
+  "blackarmor_00_adult":                         "heroic",
+  "blackdragon_00_adult":                        "heroic",
+  "blue_00_adult":                               "heroic",
+  "bluefiretail_00_adult":                       "heroic",
+  "bluelightning_00_adult":                      "heroic",
+  "bluethunder_00_adult":                        "rare",
+  "catsgon_00_adult":                            "heroic",
+  "centipededragon_00_adult":                    "heroic",
+  "centura_00_adult":                            "legendary",
+  "characen_00_adult":                           "heroic",
+  "cloud_00_adult":                              "heroic",
+  "crevasse_00_adult":                           "legendary",
+  "cupid_00_adult":                              "heroic",
+  "darknix_00_adult":                            "legendary",
+  "dilrang_00_adult":                            "heroic",
+  "dragonoid_00_adult":                          "heroic",
+  "dragonslayer_00_adult":                       "legendary",
+  "dreaden_00_adult":                            "heroic",
+  "egg_00_adult":                                "heroic",
+  "emerald_00_adult":                            "heroic",
+  "enturas_00_adult":                            "heroic",
+  "fairydragon_00_adult":                        "heroic",
+  "fat_00_adult":                                "heroic",
+  "fides_00_adult":                              "legendary",
+  "fire_00_adult":                               "rare",
+  "firetail_00_adult":                           "heroic",
+  "florea_00_adult":                             "legendary",
+  "frog_00_adult":                               "heroic",
+  "frost_00_adult":                              "legendary",
+  "goblindragon_00_adult":                       "rare",
+  "goddragon_00_adult":                          "legendary",
+  "goldie_00_adult":                             "heroic",
+  "granos_00_adult":                             "heroic",
+  "gripo_00_adult":                              "heroic",
+  "haze_00_adult":                               "heroic",
+  "hell_00_adult":                               "heroic",
+  "henes_00_adult":                              "heroic",
+  "hyeonmu_00_adult":                            "heroic",
+  "ignis_00_adult":                              "heroic",
+  "ilios_00_adult":                              "rare",
+  "iron_00_adult":                               "rare",
+  "jujak_00_adult":                              "heroic",
+  "kleptos_00_adult":                            "heroic",
+  "knightdragon_00_adult":                       "heroic",
+  "lagtail_00_adult":                            "heroic",
+  "lakion_00_adult":                             "heroic",
+  "lambgon_00_adult":                            "rare",
+  "lava_00_adult":                               "heroic",
+  "leafdragon_00_adult":                         "heroic",
+  "liberte_00_adult":                            "heroic",
+  "lightning_00_adult":                          "legendary",
+  "liso_00_adult":                               "heroic",
+  "lucio_00_adult":                              "legendary",
+  "lunera_00_adult":                             "heroic",
+  "magnello_00_adult":                           "heroic",
+  "mistdragon_00_adult":                         "heroic",
+  "mud_00_adult":                                "heroic",
+  "mummydragon_00_adult":                        "heroic",
+  "mushroom_00_adult":                           "heroic",
+  "mustardhammer_00_adult":                      "heroic",
+  "nebula_00_adult":                             "heroic",
+  "ninjadragon_00_adult":                        "heroic",
+  "non_00_adult":                                "legendary",
+  "nox_00_adult":                                "rare",
+  "obex_00_adult":                               "legendary",
+  "patroa_00_adult":                             "heroic",
+  "phoenix_00_adult":                            "heroic",
+  "phoenix_01_adult":                            "heroic",
+  "pierrotdragon_00_adult":                      "heroic",
+  "pinkbell_00_adult":                           "heroic",
+  "plumos_00_adult":                             "legendary",
+  "poisonriver_00_adult":                        "heroic",
+  "popomo_00_adult":                             "heroic",
+  "power_00_adult":                              "legendary",
+  "rafael_00_adult":                             "heroic",
+  "rock_00_adult":                               "rare",
+  "rupia_00_adult":                              "heroic",
+  "scorpiondragon_00_adult":                     "heroic",
+  "seere_00_adult":                              "heroic",
+  "selora_00_adult":                             "legendary",
+  "serpentdragon_00_adult":                      "heroic",
+  "shadow_00_adult":                             "heroic",
+  "sharkgon_00_adult":                           "heroic",
+  "sharptail_00_adult":                          "heroic",
+  "siamesedragon_00_adult":                      "heroic",
+  "sixleghorn_00_adult":                         "heroic",
+  "skelegon_00_adult":                           "heroic",
+  "slimedragon_00_adult":                        "heroic",
+  "solar_00_adult":                              "heroic",
+  "spicy_00_adult":                              "heroic",
+  "splender_00_adult":                           "heroic",
+  "swamp_00_adult":                              "heroic",
+  "taabire_00_adult":                            "heroic",
+  "taros_00_adult":                              "heroic",
+  "thunderboltdragon_00_adult":                  "heroic",
+  "tiamat_00_adult":                             "legendary",
+  "toddletomtom_00_adult":                       "heroic",
+  "totemdragon_00_adult":                        "heroic",
+  "tumpy_00_adult":                              "heroic",
+  "typhoondragon_00_adult":                      "heroic",
+  "whitedragon_00_adult":                        "heroic",
+  "whitethunder_00_adult":                       "heroic",
+  "wind_00_adult":                               "rare",
+  "witchdragon_00_adult":                        "heroic",
+  "zephyros_00_adult":                           "heroic",
+};
+
 const NAMES = {
   "afrit_00_adult"                            : { kor: "아프리트",            eng: "afrit" },
   "aila_00_adult"                             : { kor: "에이라",             eng: "aila" },
@@ -498,6 +630,9 @@ const NAMES = {
 const NO_BREED = new Set(['angeljr_00_adult']);
 
 const DRAGONS = Object.keys(NAMES).filter(id => !NO_BREED.has(id));
+// 자식→부모 탭에서 선택 가능한 드래곤 (교배 획득처만)
+const CHILD_DRAGONS = ['plumos_00_adult', 'shadow_00_adult', 'granos_00_adult', 'aila_00_adult', 'characen_00_adult', 'blackdragon_00_adult', 'whitedragon_00_adult', 'toddletomtom_00_adult', 'dreaden_00_adult', 'mistdragon_00_adult', 'slimedragon_00_adult', 'gripo_00_adult', 'fairydragon_00_adult', 'pierrotdragon_00_adult', 'goldie_00_adult', 'henes_00_adult', 'seere_00_adult', 'cupid_00_adult', 'nebula_00_adult', 'catsgon_00_adult', 'witchdragon_00_adult', 'liso_00_adult', 'baal_00_adult', 'kleptos_00_adult', 'lagtail_00_adult', 'centipededragon_00_adult', 'ninjadragon_00_adult', 'serpentdragon_00_adult', 'skelegon_00_adult', 'spicy_00_adult', 'rafael_00_adult', 'dilrang_00_adult', 'emerald_00_adult', 'haze_00_adult', 'taabire_00_adult', 'whitethunder_00_adult', 'splender_00_adult', 'bluefiretail_00_adult', 'thunderboltdragon_00_adult', 'bluelightning_00_adult', 'tumpy_00_adult', 'mustardhammer_00_adult', 'scorpiondragon_00_adult', 'mushroom_00_adult', 'lakion_00_adult', 'leafdragon_00_adult', 'mud_00_adult', 'knightdragon_00_adult', 'fat_00_adult', 'blackarmor_00_adult', 'dragonoid_00_adult', 'sharptail_00_adult', 'pinkbell_00_adult', 'sixleghorn_00_adult', 'totemdragon_00_adult', 'beleth_00_adult', 'liberte_00_adult', 'blue_00_adult', 'applecheek_00_adult', 'zephyros_00_adult', 'typhoondragon_00_adult', 'frog_00_adult', 'rupia_00_adult', 'poisonriver_00_adult', 'swamp_00_adult', 'sharkgon_00_adult', 'patroa_00_adult', 'popomo_00_adult', 'hell_00_adult', 'ignis_00_adult', 'taros_00_adult', 'lava_00_adult', 'siamesedragon_00_adult', 'jujak_00_adult', 'firetail_00_adult', 'magnello_00_adult'].filter(id => NAMES[id]);
+
 
 // 교배 데이터
 // key: "부모1+부모2" (알파벳 오름차순 정렬)
@@ -1401,15 +1536,16 @@ function renderForward() {
 
   body.innerHTML = `<div class="result-grid">${res.map(r => {
     const c = rateClass(r.rate);
-    return `<div class="res-card">
-      <div class="top-bar bar-${c}"></div>
+    const grade = GRADES[r.id] || 'common';
+    return `<div class="res-card grade-${grade}">
+      <div class="top-bar"></div>
       <div class="res-img">${img(r.id)}</div>
       <div class="name-tag-wrap">
         <span class="eng-tag">${n(r.id).eng}</span>
         <span class="kor-name">${n(r.id).kor}</span>
       </div>
       ${r.inferred
-        ? `<span class="rate-pill rp-inferred"><span class="inferred-mark">((정확하지 않은 확률입니다.))</span> ${r.rate.toFixed(2)}%</span>`
+        ? `<span class="rate-pill rp-inferred"><span class="inferred-mark">*확률 ?*</span> ${r.rate.toFixed(2)}%</span>`
         : `<span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span>`
       }
     </div>`;
@@ -1464,7 +1600,7 @@ function renderReverse() {
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">
-        ${g.rates.map((r,i) => g.inferred ? `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;border:1px dashed rgba(255,180,0,.3);background:rgba(255,180,0,.08);color:#c8a84b;"><span style="font-size:9px;">(정확하지 않은 확률입니다.)</span> ${r.toFixed(2)}%</span>` : `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;${rateStyle(r)}">${r.toFixed(2)}%</span>`).join('')}
+        ${g.rates.map((r,i) => g.inferred ? `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;border:1px dashed rgba(255,180,0,.3);background:rgba(255,180,0,.08);color:#c8a84b;"><span style="font-size:9px;">*확률 ?*</span> ${r.toFixed(2)}%</span>` : `<span class="pair-rate" style="font-size:10px;padding:2px 8px;border-radius:99px;${rateStyle(r)}">${r.toFixed(2)}%</span>`).join('')}
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -1506,7 +1642,7 @@ function openModal(target) {
   const titles = { p1: '개체 1 선택', p2: '개체 2 선택', child: '자식 드래곤 선택' };
   document.getElementById('modal-ttl').textContent = titles[target];
   document.getElementById('msearch').value = '';
-  renderModalGrid(DRAGONS);
+  renderModalGrid(target === 'child' ? CHILD_DRAGONS : DRAGONS);
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('msearch').focus(), 80);
 }
@@ -1515,7 +1651,8 @@ function closeOverlay(e) { if (e.target === document.getElementById('overlay')) 
 
 function filterModal() {
   const q = document.getElementById('msearch').value.toLowerCase().replace(/ /g, '');
-  renderModalGrid(DRAGONS.filter(id =>
+  const baseList = modalTarget === 'child' ? CHILD_DRAGONS : DRAGONS;
+  renderModalGrid(baseList.filter(id =>
     n(id).kor.replace(/ /g, '').toLowerCase().includes(q) ||
     n(id).eng.replace(/ /g, '').toLowerCase().includes(q)
   ));
