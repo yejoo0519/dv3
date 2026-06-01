@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30;
-  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --bg: #121316; --bg2: #17181c; --bg3: #1d1f24;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
   --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
-  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+  --text: #ededee; --text2: #9a9ba1; --text3: #6f7077;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
@@ -46,7 +46,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .tab:not(.active):hover { color: var(--text2); background: var(--bg3); }
 .tab-gacha.active  { background: #b45309; }
 .tab-raid.active   { background: #b91c1c; }
-.tab-latea.active  { background: var(--accent); }
+.tab-latea.active  { background: #7c6aff; }
 .tab-shop.active   { background: #065f46; }
 .tab-breed.active  { background: #374151; }
 
@@ -153,10 +153,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   font-size: 10px; font-weight: 700; letter-spacing: .06em;
   padding: 3px 10px; border-radius: 99px; margin-bottom: 6px;
 }
-.badge-legendary { background: rgba(245,197,66,.15); color: var(--gold); border: 1px solid rgba(245,197,66,.3); }
-.badge-heroic    { background: rgba(124,106,255,.15); color: var(--accent2); border: 1px solid rgba(124,106,255,.3); }
+.badge-legendary { background: rgba(245,197,66,.15); color: #f5c542; border: 1px solid rgba(245,197,66,.3); }
+.badge-heroic    { background: rgba(180,127,255,.15); color: #b47fff; border: 1px solid rgba(180,127,255,.3); }
 .badge-rare      { background: rgba(56,189,248,.12); color: #7dd3fc; border: 1px solid rgba(56,189,248,.25); }
-.badge-common    { background: rgba(255,255,255,.06); color: var(--text3); border: 1px solid var(--border); }
+.badge-common    { background: rgba(255,255,255,.04); color: var(--text3); border: 1px solid var(--border); }
 .detail-kor { font-family: 'Black Han Sans', sans-serif; font-size: 22px; letter-spacing: -.5px; color: var(--text); }
 .detail-eng { font-size: 12px; color: var(--text3); margin-top: 2px; }
 
@@ -193,7 +193,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .obtain-icon { font-size: 20px; line-height: 1; margin-top: 1px; }
 .obtain-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
 .obtain-detail { font-size: 12px; color: var(--text2); line-height: 1.5; }
-.obtain-note { font-size: 11px; color: #ef4444; margin-top: 4px; font-weight: 600; }
+.obtain-note { font-size: 11px; color: #cdced2; margin-top: 4px; font-weight: 600; }
 
 @media (max-width: 560px) {
   .header-nav { display: flex; gap: 4px; }
@@ -201,6 +201,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   .search-input { width: 100%; }
   .detail-sheet { border-radius: 20px 20px 0 0; padding: 20px 18px 32px; }
 }
+/* ── 무채색 리파인 ── */
+body { word-break: keep-all; }
+
+
+.sort-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.search-input:focus { border-color: var(--accent); }
 </style>
 </head>
 <body>

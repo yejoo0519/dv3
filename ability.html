@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30; --bg4: #1c2038;
+  --bg: #121316; --bg2: #17181c; --bg3: #1d1f24; --bg4: #26282e;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
   --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
-  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+  --text: #ededee; --text2: #9a9ba1; --text3: #5d5e65;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; }
@@ -27,7 +27,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .nav-a:hover { color: var(--text2); background: var(--bg3); }
 .nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
 
-.main { max-width: 960px; margin: 0 auto; padding: 28px 20px 80px; }
+.main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
 
 /* 검색 + 필터 */
 .toolbar {
@@ -45,82 +45,89 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .result-info { font-size: 12px; color: var(--text3); margin-left: auto; }
 
 /* 카테고리 필터 */
-.cat-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+.cat-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
 .cat-btn {
-  font-size: 11px; padding: 5px 14px; border-radius: 99px;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; padding: 6px 14px; border-radius: 99px;
   border: 1px solid var(--border); background: transparent;
-  color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .15s;
+  color: var(--text2); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .15s;
 }
-.cat-btn:hover { border-color: var(--border2); color: var(--text2); }
+.cat-btn:hover { border-color: var(--border2); color: var(--text); }
 .cat-btn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.cat-btn .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-공격 { background:#ff7a6b; } .dot-방어 { background:#60a5fa; } .dot-상태 { background:#b47fff; }
+.dot-날씨 { background:#4fc3e8; } .dot-지형 { background:#5fd0a0; } .dot-기타 { background:#9aa6b8; }
 
-/* 어빌리티 카드 */
-.ability-list { display: flex; flex-direction: column; gap: 10px; }
-
+/* 어빌리티 그리드 */
+.ability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px; align-items: start;
+}
 .ability-card {
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 16px; overflow: hidden;
-  transition: border-color .15s;
+  border-radius: 14px; padding: 15px 17px; cursor: pointer;
+  transition: border-color .15s, background .15s;
 }
-.ability-card:hover { border-color: var(--border2); }
+.ability-card:hover { border-color: var(--border2); background: var(--bg3); }
+.ability-card.open { background: var(--bg3); border-color: var(--border2); }
 
-.ability-head {
-  padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
-  cursor: pointer; user-select: none;
+.ac-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.ac-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.ac-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .03em;
+  padding: 3px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0;
 }
-.ability-icon {
-  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; background: var(--bg3); border: 1px solid var(--border);
+.ac-desc {
+  font-size: 12.5px; color: var(--text2); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.ability-info { flex: 1; }
-.ability-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.ability-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
-.ability-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-.cat-badge {
-  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
-  letter-spacing: .04em;
-}
-.dragon-count { font-size: 11px; color: var(--text3); }
-.expand-btn {
-  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--text3); display: flex; align-items: center; justify-content: center;
-  font-size: 12px; transition: all .15s; cursor: pointer;
-}
-.ability-card.open .expand-btn { background: var(--bg3); color: var(--text2); transform: rotate(180deg); }
+.ability-card.open .ac-desc { -webkit-line-clamp: unset; }
 
-/* 드래곤 목록 */
-.dragon-list {
-  display: none; padding: 0 20px 16px;
-  border-top: 1px solid var(--border);
+.ac-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+.ac-count { font-size: 11px; color: var(--text3); }
+.ac-chev {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid var(--border); background: transparent; color: var(--text3);
+  display: flex; align-items: center; justify-content: center; font-size: 10px;
+  transition: transform .2s, color .15s;
 }
-.ability-card.open .dragon-list { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; }
+.ability-card.open .ac-chev { transform: rotate(180deg); color: var(--text2); }
 
+.ac-dragons { display: none; }
+.ability-card.open .ac-dragons {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-top: 13px; padding-top: 13px; border-top: 1px solid var(--border);
+}
 .dragon-chip {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 99px; padding: 5px 10px 5px 6px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 99px; padding: 4px 11px 4px 5px;
   display: flex; align-items: center; gap: 6px;
   font-size: 12px; color: var(--text2); transition: border-color .15s;
 }
 .dragon-chip:hover { border-color: var(--border2); color: var(--text); }
-.chip-img { width: 24px; height: 24px; border-radius: 50%; background: var(--bg2); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.chip-img img { width: 20px; height: 20px; object-fit: contain; image-rendering: pixelated; }
+.chip-img { width: 22px; height: 22px; border-radius: 50%; background: var(--bg3); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.chip-img img { width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated; }
 
-.no-result { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+.no-result { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; grid-column: 1 / -1; }
 
-/* 카테고리 색상 */
-.cat-공격  { background: rgba(255,107,107,.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,.25); }
-.cat-방어  { background: rgba(96,165,250,.12); color: #60a5fa; border: 1px solid rgba(96,165,250,.25); }
-.cat-상태  { background: rgba(167,139,250,.12); color: #a78bfa; border: 1px solid rgba(167,139,250,.25); }
-.cat-날씨  { background: rgba(52,211,153,.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,.25); }
-.cat-지형  { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); }
-.cat-기타  { background: rgba(148,163,184,.12); color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
+/* 카테고리 태그 색상 */
+.tag-공격 { background: rgba(255,122,107,.14); color:#ff9485; }
+.tag-방어 { background: rgba(96,165,250,.14); color:#7fb4f5; }
+.tag-상태 { background: rgba(180,127,255,.14); color:#bfa3ff; }
+.tag-날씨 { background: rgba(79,195,232,.14); color:#7dd3ef; }
+.tag-지형 { background: rgba(95,208,160,.14); color:#85dcb4; }
+.tag-기타 { background: rgba(154,166,184,.14); color:#aeb8c8; }
 
 @media (max-width: 560px) {
   .header-nav { display: flex; gap: 4px; }
   .search-input { width: 100%; }
 }
+
+/* ── 무채색: 한글 줄바꿈 + 플레이스홀더 무채색화 ── */
+body { word-break: keep-all; }
+.empty-ico, .no-img, .no-img-lg, .obtain-icon, .report-btn.kakao { filter: grayscale(1); }
+
 </style>
 </head>
 <body>

@@ -21,20 +21,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c18;
-  --bg2: #10132a;
-  --bg3: #161a30;
-  --bg4: #1c2038;
+  --bg: #121316;
+  --bg2: #17181c;
+  --bg3: #1d1f24;
+  --bg4: #26282e;
   --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
+  --border2: rgba(255,255,255,0.14);
+  --text: #ededee;
+  --text2: #9a9ba1;
+  --text3: #6f7077;
   --accent: #7c6aff;
   --accent2: #a693ff;
-  --accent3: #c4b8ff;
   --gold: #f5c542;
-  --gold2: #ffda6a;
-  --text: #eae8f5;
-  --text2: #9996b0;
-  --text3: #4e4c66;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { min-height: 100vh; }
@@ -43,164 +41,160 @@ body {
   color: var(--text);
   font-family: 'Noto Sans KR', sans-serif;
   overflow-x: hidden;
+  word-break: keep-all;
 }
 
-.orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
-.orb1 { width: 500px; height: 500px; background: rgba(124,106,255,0.12); top: -100px; left: -100px; }
-.orb2 { width: 400px; height: 400px; background: rgba(245,197,66,0.07); bottom: -80px; right: -80px; }
-.orb3 { width: 300px; height: 300px; background: rgba(124,106,255,0.07); top: 50%; left: 50%; transform: translate(-50%,-50%); }
-
+/* ── 헤더 ── */
 .header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10,12,24,0.85); backdrop-filter: blur(20px);
+  background: rgba(18,19,22,0.85); backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   padding: 0 28px;
   display: flex; align-items: center; justify-content: space-between;
-  height: 58px;
+  height: 56px;
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
-.logo { font-family: 'Black Han Sans', sans-serif; font-size: 20px; color: var(--accent2); letter-spacing: -0.5px; }
+.logo { font-family: 'Black Han Sans', sans-serif; font-size: 19px; color: var(--text); letter-spacing: -0.5px; }
 .logo-badge {
   font-size: 10px; font-weight: 700;
-  background: rgba(124,106,255,0.2); border: 1px solid rgba(124,106,255,0.3);
-  color: var(--accent2); padding: 2px 7px; border-radius: 99px; letter-spacing: 0.05em;
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text2); padding: 2px 8px; border-radius: 99px; letter-spacing: 0.02em;
 }
-.header-nav { display: flex; gap: 4px; }
+.header-nav { display: flex; gap: 2px; }
 .nav-link {
-  font-size: 13px; color: var(--text2); padding: 6px 14px; border-radius: 8px;
+  font-size: 13px; color: var(--text2); padding: 6px 13px; border-radius: 8px;
   text-decoration: none; transition: all 0.15s; border: 1px solid transparent;
+  white-space: nowrap;
 }
-.nav-link:hover { color: var(--text); background: var(--bg3); border-color: var(--border); }
-.nav-link.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+.nav-link:hover { color: var(--text); background: var(--bg3); }
+.nav-link.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.22); }
 
+/* ── 히어로 ── */
 .hero {
-  position: relative; z-index: 1;
-  padding: 80px 28px 64px; text-align: center;
-  max-width: 700px; margin: 0 auto;
+  position: relative;
+  padding: 64px 28px 40px; text-align: center;
+  max-width: 720px; margin: 0 auto;
 }
 .hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
   color: var(--accent2); text-transform: uppercase;
-  background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.2);
-  padding: 5px 14px; border-radius: 99px; margin-bottom: 20px;
+  background: rgba(124,106,255,0.08); border: 1px solid rgba(124,106,255,0.2);
+  padding: 5px 14px; border-radius: 99px; margin-bottom: 22px;
 }
-.hero-eyebrow::before { content: '◆'; font-size: 7px; }
+.hero-eyebrow::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); }
 .hero-title {
   font-family: 'Black Han Sans', sans-serif;
-  font-size: clamp(36px, 7vw, 64px);
-  line-height: 1.1; letter-spacing: -1px; color: var(--text); margin-bottom: 16px;
+  font-size: clamp(34px, 6.5vw, 58px);
+  line-height: 1.12; letter-spacing: -1px; color: var(--text); margin-bottom: 18px;
 }
-.hero-title .highlight {
-  background: linear-gradient(135deg, var(--accent2), var(--gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.hero-desc { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 32px; }
+.hero-title .highlight { background: linear-gradient(120deg, var(--accent2), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-desc { font-size: 15px; color: var(--text2); line-height: 1.75; margin-bottom: 26px; }
 .hero-notice {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 7px;
   font-size: 12px; color: var(--text3);
-  background: var(--bg3); border: 1px solid var(--border);
+  background: var(--bg2); border: 1px solid var(--border);
   padding: 6px 14px; border-radius: 99px;
 }
 .dot-live { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-.menu-section { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 0 20px 80px; }
-.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+/* ── 메뉴 ── */
+.menu-section { max-width: 860px; margin: 0 auto; padding: 0 20px 24px; }
 
+/* featured: 핵심 도구 */
+.featured-card {
+  display: flex; align-items: center; gap: 22px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 18px; padding: 26px 28px; margin-bottom: 14px;
+  text-decoration: none; position: relative; overflow: hidden;
+  transition: border-color 0.18s, transform 0.18s, background 0.18s;
+}
+.featured-card:hover { border-color: var(--border2); transform: translateY(-2px); background: var(--bg3); }
+.featured-icon {
+  width: 60px; height: 60px; border-radius: 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  background: var(--bg4); border: 1px solid var(--border2);
+}
+.featured-body { flex: 1; min-width: 0; }
+.featured-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.featured-title { font-family: 'Black Han Sans', sans-serif; font-size: 23px; color: var(--text); letter-spacing: -0.5px; white-space: nowrap; }
+.pill {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 2px 9px; border-radius: 99px;
+  background: rgba(124,106,255,0.14); border: 1px solid rgba(124,106,255,0.28); color: var(--accent2);
+}
+.featured-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.featured-arrow {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--bg3); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: var(--text2); transition: all 0.15s;
+}
+.featured-card:hover .featured-arrow { background: #ececed; border-color: #ececed; color: #16171a; transform: translateX(3px); }
+
+/* 나머지 그리드 */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
 .menu-card {
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 20px; padding: 28px 24px; cursor: pointer;
+  border-radius: 16px; padding: 22px 20px; cursor: pointer;
   text-decoration: none; display: flex; flex-direction: column;
-  gap: 14px; position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s;
+  gap: 14px; position: relative;
+  transition: border-color 0.18s, transform 0.18s, background 0.18s;
 }
-.menu-card::before {
-  content: ''; position: absolute; inset: 0;
-  opacity: 0; transition: opacity 0.2s; border-radius: 20px;
-}
-.menu-card:hover { border-color: var(--border2); transform: translateY(-3px); }
-.menu-card:hover::before { opacity: 1; }
-
-.card-breed::before   { background: radial-gradient(circle at 0% 0%, rgba(124,106,255,0.1) 0%, transparent 60%); }
-.card-gem::before     { background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.08) 0%, transparent 60%); }
-.card-ability::before { background: radial-gradient(circle at 0% 0%, rgba(245,158,11,0.08) 0%, transparent 60%); }
-.card-dragon::before  { background: radial-gradient(circle at 0% 0%, rgba(52,211,153,0.08) 0%, transparent 60%); }
-.card-obtain::before  { background: radial-gradient(circle at 0% 0%, rgba(251,191,36,0.08) 0%, transparent 60%); }
-
-.card-breed:hover   { border-color: rgba(124,106,255,0.35); }
-.card-gem:hover     { border-color: rgba(56,189,248,0.3); }
-.card-ability:hover { border-color: rgba(245,158,11,0.3); }
-.card-dragon:hover  { border-color: rgba(52,211,153,0.3); }
-.card-obtain:hover  { border-color: rgba(251,191,36,0.3); }
-
+.menu-card:hover { border-color: var(--border2); transform: translateY(-3px); background: var(--bg3); }
 .card-icon {
-  width: 52px; height: 52px; border-radius: 14px;
+  width: 46px; height: 46px; border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px; position: relative; z-index: 1;
+  font-size: 22px;
+  background: var(--bg4); border: 1px solid var(--border);
 }
-.icon-breed   { background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.2); }
-.icon-gem     { background: rgba(56,189,248,0.12);  border: 1px solid rgba(56,189,248,0.18); }
-.icon-ability { background: rgba(245,158,11,0.12);  border: 1px solid rgba(245,158,11,0.18); }
-.icon-dragon  { background: rgba(52,211,153,0.12);  border: 1px solid rgba(52,211,153,0.18); }
-.icon-obtain  { background: rgba(251,191,36,0.12);  border: 1px solid rgba(251,191,36,0.18); }
-
-.card-content { position: relative; z-index: 1; flex: 1; }
-.card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-.label-breed   { color: var(--accent2); }
+.card-body { flex: 1; }
+.card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 7px; }
+.label-dragon  { color: #6ee7b7; }
 .label-gem     { color: #7dd3fc; }
 .label-ability { color: #fcd34d; }
-.label-dragon  { color: #6ee7b7; }
-.label-obtain  { color: #fde68a; }
-
-.card-title { font-family: 'Black Han Sans', sans-serif; font-size: 22px; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px; }
-.card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-.card-footer { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
-.card-status { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
-.status-ready { background: rgba(52,211,153,0.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); }
-.status-soon  { background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border); }
-
+.label-obtain  { color: #fcd34d; }
+.card-title { font-family: 'Black Han Sans', sans-serif; font-size: 19px; color: var(--text); letter-spacing: -0.5px; margin-bottom: 7px; }
+.card-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; }
+.card-meta { font-size: 11px; color: var(--text3); }
 .card-arrow {
-  width: 30px; height: 30px; border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   background: var(--bg3); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: var(--text3); transition: all 0.15s;
+  font-size: 13px; color: var(--text3); transition: all 0.15s;
 }
-.menu-card:hover .card-arrow { color: #fff; transform: translateX(3px); }
-.card-breed:hover   .card-arrow { background: var(--accent);  border-color: var(--accent); }
-.card-gem:hover     .card-arrow { background: #38bdf8;        border-color: #38bdf8; }
-.card-ability:hover .card-arrow { background: #f59e0b;        border-color: #f59e0b; }
-.card-dragon:hover  .card-arrow { background: #34d399;        border-color: #34d399; }
-.card-obtain:hover  .card-arrow { background: #f59e0b;        border-color: #f59e0b; }
+.menu-card:hover .card-arrow { background: #ececed; border-color: #ececed; color: #16171a; transform: translateX(2px); }
 
-.menu-card.wip { opacity: 0.6; cursor: not-allowed; }
-.menu-card.wip:hover { transform: none; border-color: var(--border); }
-.menu-card.wip:hover .card-arrow { background: var(--bg3); border-color: var(--border); color: var(--text3); transform: none; }
-.menu-card.wip::before { display: none; }
-
+/* ── 푸터 ── */
 .footer-info {
-  position: relative; z-index: 1; max-width: 880px; margin: 0 auto;
-  padding: 0 20px 48px; display: flex; gap: 10px; flex-wrap: wrap;
+  max-width: 860px; margin: 0 auto;
+  padding: 8px 20px 56px; display: flex; gap: 8px; flex-wrap: wrap;
 }
 .info-chip {
   font-size: 12px; color: var(--text3); background: var(--bg2);
-  border: 1px solid var(--border); padding: 6px 14px; border-radius: 99px;
-  display: flex; align-items: center; gap: 5px;
+  border: 1px solid var(--border); padding: 6px 13px; border-radius: 99px;
+  display: flex; align-items: center; gap: 6px;
 }
 
 @media (max-width: 560px) {
-  .menu-grid { grid-template-columns: 1fr; }
-  .hero { padding: 48px 20px 40px; }
+  .header { padding: 0 18px; }
   .header-nav { display: none; }
+  .hero { padding: 44px 20px 32px; }
+  .featured-card { gap: 16px; padding: 22px 20px; }
+  .featured-arrow { display: none; }
+  .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .menu-card { padding: 18px 16px; }
 }
 </style>
 </head>
 <body>
-
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
 
 <header class="header">
   <div class="header-left">
@@ -209,17 +203,17 @@ body {
   </div>
   <nav class="header-nav">
     <a href="index.html" class="nav-link active">홈</a>
-    <a href="breeding.html" class="nav-link">교배 계산기</a>
+    <a href="breeding.html" class="nav-link">교배</a>
     <a href="gem.html" class="nav-link">보주</a>
     <a href="ability.html" class="nav-link">어빌리티</a>
-    <a href="dragon.html" class="nav-link">드래곤 정보</a>
+    <a href="dragon.html" class="nav-link">드래곤</a>
     <a href="obtain.html" class="nav-link">획득처</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-eyebrow">Dragon Village 3 정보사이트</div>
-  <h1 class="hero-title">드래곤 빌리지 3<br><span class="highlight">도감 & 정보</span></h1>
+  <h1 class="hero-title">드래곤 빌리지 3<br><span class="highlight">도감 &amp; 정보</span></h1>
   <p class="hero-desc">교배 조합, 보주, 어빌리티, 드래곤 정보까지<br>드빌3 플레이에 필요한 모든 정보를 한 곳에서</p>
   <div class="hero-notice">
     <span class="dot-live"></span>
@@ -228,69 +222,69 @@ body {
 </section>
 
 <section class="menu-section">
+
+  <a href="breeding.html" class="featured-card">
+    <div class="featured-icon">🧬</div>
+    <div class="featured-body">
+      <div class="featured-row">
+        <span class="featured-title">교배 계산기</span>
+        <span class="pill">핵심 도구</span>
+      </div>
+      <div class="featured-desc">부모 조합으로 자식 드래곤과 확률을 확인하거나, 원하는 드래곤을 얻는 부모 조합을 역으로 검색하세요</div>
+    </div>
+    <div class="featured-arrow">→</div>
+  </a>
+
   <div class="menu-grid">
 
-    <a href="breeding.html" class="menu-card card-breed">
-      <div class="card-icon icon-breed">🧬</div>
-      <div class="card-content">
-        <div class="card-label label-breed">Calculator</div>
-        <div class="card-title">교배 계산기</div>
-        <div class="card-desc">부모 조합으로 자식 드래곤과 확률을 확인하거나, 원하는 드래곤을 얻을 수 있는 부모 조합을 역으로 검색해보세요</div>
-      </div>
-      <div class="card-footer">
-        <span class="card-status status-ready">✦ 이용 가능</span>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
-    <a href="gem.html" class="menu-card card-gem">
-      <div class="card-icon icon-gem">💎</div>
-      <div class="card-content">
-        <div class="card-label label-gem">Gem</div>
-        <div class="card-title">보주</div>
-        <div class="card-desc">보주 종류별 효과와 등급, 조합 정보를 확인하세요</div>
-      </div>
-      <div class="card-footer">
-        <span class="card-status status-ready">✦ 이용 가능</span>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
-    <a href="ability.html" class="menu-card card-ability">
-      <div class="card-icon icon-ability">⚡</div>
-      <div class="card-content">
-        <div class="card-label label-ability">Ability</div>
-        <div class="card-title">어빌리티</div>
-        <div class="card-desc">드래곤별 어빌리티 목록과 효과, 발동 조건을 한눈에 확인하세요</div>
-      </div>
-      <div class="card-footer">
-        <span class="card-status status-ready">✦ 이용 가능</span>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
-    <a href="dragon.html" class="menu-card card-dragon">
-      <div class="card-icon icon-dragon">🐉</div>
-      <div class="card-content">
+    <a href="dragon.html" class="menu-card">
+      <div class="card-icon">🐉</div>
+      <div class="card-body">
         <div class="card-label label-dragon">Dragon</div>
         <div class="card-title">드래곤 정보</div>
-        <div class="card-desc">112마리 드래곤의 속성, 스탯, 스킬 등 상세 정보를 도감 형태로 확인하세요</div>
+        <div class="card-desc">속성·스탯·스킬 등 상세 정보를 도감 형태로 확인</div>
       </div>
-      <div class="card-footer">
-        <span class="card-status status-ready">✦ 이용 가능</span>
+      <div class="card-foot">
+        <span class="card-meta">112마리 수록</span>
         <div class="card-arrow">→</div>
       </div>
     </a>
 
-    <a href="obtain.html" class="menu-card card-obtain">
-      <div class="card-icon icon-obtain">📍</div>
-      <div class="card-content">
+    <a href="gem.html" class="menu-card">
+      <div class="card-icon">💎</div>
+      <div class="card-body">
+        <div class="card-label label-gem">Gem</div>
+        <div class="card-title">보주</div>
+        <div class="card-desc">보주 종류별 효과와 등급, 조합 정보를 확인</div>
+      </div>
+      <div class="card-foot">
+        <span class="card-meta">등급별 정리</span>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="ability.html" class="menu-card">
+      <div class="card-icon">⚡</div>
+      <div class="card-body">
+        <div class="card-label label-ability">Ability</div>
+        <div class="card-title">어빌리티</div>
+        <div class="card-desc">어빌리티 목록과 효과, 발동 조건을 한눈에 확인</div>
+      </div>
+      <div class="card-foot">
+        <span class="card-meta">효과·조건</span>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="obtain.html" class="menu-card">
+      <div class="card-icon">📍</div>
+      <div class="card-body">
         <div class="card-label label-obtain">Obtain</div>
         <div class="card-title">획득처</div>
-        <div class="card-desc">뽑기, 레이드, 라테아의 문, 빌리지 상점, 교배 등 드래곤별 획득 방법을 확인하세요</div>
+        <div class="card-desc">뽑기·레이드·라테아의 문·상점·교배별 획득 방법</div>
       </div>
-      <div class="card-footer">
-        <span class="card-status status-ready">✦ 이용 가능</span>
+      <div class="card-foot">
+        <span class="card-meta">경로별 정리</span>
         <div class="card-arrow">→</div>
       </div>
     </a>
@@ -299,9 +293,9 @@ body {
 </section>
 
 <div class="footer-info">
-  <span class="info-chip">📌 비공식 팬사이트입니다</span>
-  <span class="info-chip">📊 데이터는 지속적으로 업데이트됩니다</span>
-  <span class="info-chip">🐉 드래곤 총 112마리</span>
+  <span class="info-chip">비공식 팬사이트입니다</span>
+  <span class="info-chip">데이터는 지속적으로 업데이트됩니다</span>
+  <span class="info-chip">드래곤 총 112마리</span>
 </div>
 
 </body>

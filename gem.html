@@ -7,10 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30; --bg4: #1c2038;
+  --bg: #121316; --bg2: #17181c; --bg3: #1d1f24; --bg4: #26282e;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
   --accent: #7c6aff; --accent2: #a693ff; --gold: #f5c542;
-  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+  --text: #ededee; --text2: #9a9ba1; --text3: #5d5e65;
   --legendary: #f5c542; --legendary-bg: rgba(245,197,66,0.12); --legendary-border: rgba(245,197,66,0.25);
   --heroic: #b47fff; --heroic-bg: rgba(180,127,255,0.12); --heroic-border: rgba(180,127,255,0.25);
   --rare: #38bdf8; --rare-bg: rgba(56,189,248,0.10); --rare-border: rgba(56,189,248,0.22);
@@ -28,7 +28,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .header-nav { display: flex; gap: 4px; }
 .nav-a { font-size: 12px; color: var(--text3); padding: 5px 12px; border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s; }
 .nav-a:hover { color: var(--text2); background: var(--bg3); }
-.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+.nav-a.active { color: var(--accent2); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
 
 .main { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
 
@@ -51,7 +51,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   color: var(--text3); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .12s;
 }
 .fbtn:hover { border-color: var(--border2); color: var(--text2); }
-.fbtn.on { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.fbtn.on { border-color: var(--accent); color: var(--accent2); background: rgba(255,255,255,.1); }
 .fbtn.grade-legendary.on { border-color: var(--legendary-border); color: var(--legendary); background: var(--legendary-bg); }
 .fbtn.grade-heroic.on { border-color: var(--heroic-border); color: var(--heroic); background: var(--heroic-bg); }
 .fbtn.grade-rare.on { border-color: var(--rare-border); color: var(--rare); background: var(--rare-bg); }
@@ -98,9 +98,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .badge-heroic    { background: var(--heroic-bg); color: var(--heroic); border: 1px solid var(--heroic-border); }
 .badge-rare      { background: var(--rare-bg); color: var(--rare); border: 1px solid var(--rare-border); }
 .badge-attr      { background: rgba(255,255,255,.06); color: var(--text2); border: 1px solid var(--border); }
-.badge-physical  { background: rgba(255,107,107,.1); color: #ff6b6b; }
-.badge-magic     { background: rgba(124,106,255,.1); color: var(--accent2); }
-.badge-change    { background: rgba(52,211,153,.1); color: #6ee7b7; }
+.badge-physical  { background: rgba(184,185,190,.1); color: #c2c3c8; }
+.badge-magic     { background: rgba(255,255,255,.1); color: var(--accent2); }
+.badge-change    { background: rgba(184,185,190,.1); color: #c2c3c8; }
 
 .orb-skill-name { font-size: 11px; color: var(--text2); }
 .orb-obtain { font-size: 10px; color: var(--text3); margin-top: 3px; }
@@ -164,7 +164,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
 .enhance-label { font-size: 12px; color: var(--text2); min-width: 90px; }
-.enhance-val { font-size: 13px; font-weight: 700; color: #6ee7b7; min-width: 60px; text-align: right; }
+.enhance-val { font-size: 13px; font-weight: 700; color: #c2c3c8; min-width: 60px; text-align: right; }
 
 /* 스텝퍼 (+0~+5) */
 .stepper {
@@ -180,7 +180,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   transition: all .1s; line-height: 1;
 }
 .stepper-btn:hover { background: var(--bg2); color: var(--text); border-color: var(--accent); }
-.stepper-btn:active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.stepper-btn:active { background: var(--accent); color: #16171a; border-color: var(--accent); }
 .stepper-val {
   font-size: 13px; font-weight: 700; color: var(--gold);
   min-width: 28px; text-align: center;
@@ -203,9 +203,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .skill-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .skill-name-big { font-size: 15px; font-weight: 700; color: var(--text); }
 .skill-kind { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
-.kind-물리 { background: rgba(255,107,107,.12); color: #ff6b6b; }
-.kind-마법 { background: rgba(124,106,255,.12); color: var(--accent2); }
-.kind-변화 { background: rgba(52,211,153,.12); color: #6ee7b7; }
+.kind-물리 { background: rgba(184,185,190,.12); color: #c2c3c8; }
+.kind-마법 { background: rgba(255,255,255,.12); color: var(--accent2); }
+.kind-변화 { background: rgba(184,185,190,.12); color: #c2c3c8; }
 .skill-stats { display: flex; gap: 10px; margin-bottom: 8px; }
 .skill-stat { font-size: 11px; color: var(--text3); }
 .skill-stat span { color: var(--text2); font-weight: 500; margin-left: 3px; }
@@ -232,6 +232,17 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   .orb-grid { grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); }
   .search-input { width: 100%; }
 }
+/* ── 무채색 리파인 ── */
+.badge, .skill-kind { white-space: nowrap; }
+.tdot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; vertical-align:middle; background:#8b8c92; }
+.tdot.l { background:#f5c542; }
+.tdot.m { background:#b47fff; }
+.tdot.r { background:#38bdf8; }
+.tdot.ring { background:transparent; box-shadow: inset 0 0 0 1.5px #abacb2; }
+
+/* ── 무채색: 한글 줄바꿈 + 플레이스홀더 무채색화 ── */
+body { word-break: keep-all; }
+.empty-ico, .no-img, .no-img-lg, .obtain-icon, .report-btn.kakao { filter: grayscale(1); }
 </style>
 </head>
 <body>
@@ -261,9 +272,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   <div class="filter-row">
     <div class="filter-group">
       <button class="fbtn on" id="f-all" onclick="setFilter('grade','all')">전체</button>
-      <button class="fbtn grade-legendary" onclick="setFilter('grade','legendary')">⭐ 전설</button>
-      <button class="fbtn grade-heroic"    onclick="setFilter('grade','heroic')">💜 영웅</button>
-      <button class="fbtn grade-rare"      onclick="setFilter('grade','rare')">💙 희귀</button>
+      <button class="fbtn grade-legendary" onclick="setFilter('grade','legendary')"><span class="tdot l"></span>전설</button>
+      <button class="fbtn grade-heroic"    onclick="setFilter('grade','heroic')"><span class="tdot m"></span>영웅</button>
+      <button class="fbtn grade-rare"      onclick="setFilter('grade','rare')"><span class="tdot r"></span>희귀</button>
     </div>
     <div class="filter-sep"></div>
     <div class="filter-group">
@@ -286,9 +297,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
     <div class="filter-sep"></div>
     <div class="filter-group">
       <button class="fbtn on" id="f-kind-all" onclick="setFilter('kind','all')">전체 타입</button>
-      <button class="fbtn" onclick="setFilter('kind','물리')">⚔️ 물리</button>
-      <button class="fbtn" onclick="setFilter('kind','마법')">✨ 마법</button>
-      <button class="fbtn" onclick="setFilter('kind','변화')">🔄 변화</button>
+      <button class="fbtn" onclick="setFilter('kind','물리')"><span class="tdot"></span>물리</button>
+      <button class="fbtn" onclick="setFilter('kind','마법')"><span class="tdot ring"></span>마법</button>
+      <button class="fbtn" onclick="setFilter('kind','변화')"><span class="tdot r"></span>변화</button>
     </div>
   </div>
 

@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c18; --bg2: #10132a; --bg3: #161a30; --bg4: #1c2038;
+  --bg: #121316; --bg2: #17181c; --bg3: #1d1f24; --bg4: #26282e;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
   --accent: #7c6aff; --accent2: #a693ff;
   --gold: #f5c542; --hero: #9b7aff;
-  --text: #eae8f5; --text2: #9996b0; --text3: #4e4c66;
+  --text: #ededee; --text2: #9a9ba1; --text3: #5d5e65;
   --legendary: #f5c542; --legendary-bg: rgba(245,197,66,0.12); --legendary-border: rgba(245,197,66,0.25);
   --heroic: #b47fff; --heroic-bg: rgba(180,127,255,0.12); --heroic-border: rgba(180,127,255,0.25);
   --rare: #38bdf8; --rare-bg: rgba(56,189,248,0.10); --rare-border: rgba(56,189,248,0.22);
@@ -34,7 +34,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .header-nav { display: flex; gap: 4px; }
 .nav-a { font-size: 12px; color: var(--text3); padding: 5px 12px; border-radius: 7px; text-decoration: none; border: 1px solid transparent; transition: all .15s; }
 .nav-a:hover { color: var(--text2); background: var(--bg3); }
-.nav-a.active { color: var(--accent2); background: rgba(124,106,255,0.1); border-color: rgba(124,106,255,0.2); }
+.nav-a.active { color: var(--accent2); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
 
 /* 메인 레이아웃 */
 .main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
@@ -53,28 +53,28 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 }
 .filter-btn:hover { border-color: var(--border2); color: var(--text2); }
 .filter-btn.on { color: var(--text); }
-.filter-btn.all.on { border-color: var(--accent); background: rgba(124,106,255,.12); color: var(--accent2); }
+.filter-btn.all.on { border-color: var(--accent); background: rgba(255,255,255,.12); color: var(--accent2); }
 .filter-btn.legendary.on { border-color: var(--legendary-border); background: var(--legendary-bg); color: var(--legendary); }
 .filter-btn.heroic.on { border-color: var(--heroic-border); background: var(--heroic-bg); color: var(--heroic); }
 .filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
 .filter-btn.physical.on { border-color: rgba(255,107,107,.3); background: var(--physical-bg); color: var(--physical); }
 .filter-btn.special.on { border-color: rgba(96,165,250,.3); background: var(--special-bg); color: var(--special); }
 /* 속성 필터 */
-.attr-fire.on      { border-color:rgba(255,107,107,.4); background:rgba(255,107,107,.12); color:#ff6b6b; }
-.attr-water.on     { border-color:rgba(56,189,248,.4);  background:rgba(56,189,248,.12);  color:#38bdf8; }
-.attr-wind.on      { border-color:rgba(74,222,128,.4);  background:rgba(74,222,128,.12);  color:#4ade80; }
-.attr-steel.on     { border-color:rgba(148,163,184,.4); background:rgba(148,163,184,.12); color:#94a3b8; }
-.attr-earth.on     { border-color:rgba(180,140,80,.4);  background:rgba(180,140,80,.12);  color:#b48c50; }
-.attr-lightning.on { border-color:rgba(250,204,21,.4);  background:rgba(250,204,21,.12);  color:#facc15; }
-.attr-light.on     { border-color:rgba(253,224,71,.4);  background:rgba(253,224,71,.12);  color:#fde047; }
-.attr-dark.on      { border-color:rgba(167,139,250,.4); background:rgba(167,139,250,.12); color:#a78bfa; }
-.attr-dream.on     { border-color:rgba(232,121,249,.4); background:rgba(232,121,249,.12); color:#e879f9; }
-.attr-soul.on      { border-color:rgba(34,211,238,.4);  background:rgba(34,211,238,.12);  color:#22d3ee; }
-.attr-divine.on    { border-color:rgba(163,230,53,.4);  background:rgba(163,230,53,.12);  color:#a3e635; }
-.attr-chaos.on     { border-color:rgba(139,92,246,.4);  background:rgba(139,92,246,.12);  color:#8b5cf6; }
-.attr-dawn.on      { border-color:rgba(203,213,225,.4); background:rgba(203,213,225,.12); color:#cbd5e1; }
-.attr-dusk.on      { border-color:rgba(244,114,182,.4); background:rgba(244,114,182,.12); color:#f472b6; }
-.filter-btn.balance.on { border-color: rgba(148,163,184,.3); background: var(--balance-bg); color: var(--balance); }
+.attr-fire.on      { border-color:#ff7a5c66; background:#ff7a5c1f; color:#ff8e74; }
+.attr-water.on     { border-color:#4fb0e866; background:#4fb0e81f; color:#6fc0f0; }
+.attr-wind.on      { border-color:#5fd0a066; background:#5fd0a01f; color:#7fdcb4; }
+.attr-steel.on     { border-color:#9aa6b866; background:#9aa6b81f; color:#aeb8c8; }
+.attr-earth.on     { border-color:#c89b5a66; background:#c89b5a1f; color:#d4ab70; }
+.attr-lightning.on { border-color:#f5c84a66; background:#f5c84a1f; color:#f7d264; }
+.attr-light.on     { border-color:#f0e08a66; background:#f0e08a1f; color:#f3e7a4; }
+.attr-dark.on      { border-color:#9b7ad666; background:#9b7ad61f; color:#b095e0; }
+.attr-dream.on     { border-color:#e88fd066; background:#e88fd01f; color:#eea6da; }
+.attr-soul.on      { border-color:#6ad0d866; background:#6ad0d81f; color:#88dce2; }
+.attr-divine.on    { border-color:#b6e36a66; background:#b6e36a1f; color:#c6e98a; }
+.attr-chaos.on     { border-color:#8b6ad666; background:#8b6ad61f; color:#a589e0; }
+.attr-dawn.on      { border-color:#c3cee066; background:#c3cee01f; color:#d3dce8; }
+.attr-dusk.on      { border-color:#e890aa66; background:#e890aa1f; color:#eea7bd; }
+.filter-btn.balance.on { border-color: rgba(176,177,183,.3); background: var(--balance-bg); color: var(--balance); }
 
 /* 검색 */
 .search-wrap { margin-left: auto; }
@@ -104,11 +104,11 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 .dragon-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
 }
-.dragon-card.legendary::before { background: linear-gradient(90deg, var(--legendary), #ffda6a); }
-.dragon-card.heroic::before { background: linear-gradient(90deg, #9b59ff, var(--heroic)); }
-.dragon-card.rare::before { background: linear-gradient(90deg, #0ea5e9, var(--rare)); }
+.dragon-card.legendary::before { background: linear-gradient(90deg, var(--legendary), #ffffff); }
+.dragon-card.heroic::before { background: linear-gradient(90deg, #bcbdc2, var(--heroic)); }
+.dragon-card.rare::before { background: linear-gradient(90deg, #8d8e94, var(--rare)); }
 .dragon-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-.dragon-card.selected { border-color: var(--accent); background: rgba(124,106,255,.06); }
+.dragon-card.selected { border-color: var(--accent); background: rgba(255,255,255,.06); }
 
 .dc-img {
   width: 60px; height: 60px; border-radius: 50%;
@@ -134,20 +134,20 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 
 /* 속성 뱃지 */
 .badge-attr { font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 4px; }
-.badge-attr-불      { background:rgba(255,107,107,.15); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-.badge-attr-물      { background:rgba(56,189,248,.15);  color:#38bdf8; border:1px solid rgba(56,189,248,.3); }
-.badge-attr-바람    { background:rgba(74,222,128,.15);  color:#4ade80; border:1px solid rgba(74,222,128,.3); }
-.badge-attr-강철    { background:rgba(148,163,184,.15); color:#94a3b8; border:1px solid rgba(148,163,184,.3); }
-.badge-attr-땅      { background:rgba(180,140,80,.15);  color:#b48c50; border:1px solid rgba(180,140,80,.3); }
-.badge-attr-번개    { background:rgba(250,204,21,.15);  color:#facc15; border:1px solid rgba(250,204,21,.3); }
-.badge-attr-빛      { background:rgba(253,224,71,.15);  color:#fde047; border:1px solid rgba(253,224,71,.3); }
-.badge-attr-어둠    { background:rgba(167,139,250,.15); color:#a78bfa; border:1px solid rgba(167,139,250,.3); }
-.badge-attr-꿈      { background:rgba(232,121,249,.15); color:#e879f9; border:1px solid rgba(232,121,249,.3); }
-.badge-attr-영혼    { background:rgba(34,211,238,.15);  color:#22d3ee; border:1px solid rgba(34,211,238,.3); }
-.badge-attr-신성    { background:rgba(163,230,53,.15);  color:#a3e635; border:1px solid rgba(163,230,53,.3); }
-.badge-attr-혼돈    { background:rgba(139,92,246,.15);  color:#8b5cf6; border:1px solid rgba(139,92,246,.3); }
-.badge-attr-여명    { background:rgba(203,213,225,.15); color:#cbd5e1; border:1px solid rgba(203,213,225,.3); }
-.badge-attr-황혼    { background:rgba(244,114,182,.15); color:#f472b6; border:1px solid rgba(244,114,182,.3); }
+.badge-attr-불      { background:rgba(184,185,190,.15); color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-물      { background:rgba(150,151,158,.15);  color:#9a9ba1; border:1px solid rgba(150,151,158,.3); }
+.badge-attr-바람    { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-강철    { background:rgba(176,177,183,.15); color:#b0b1b7; border:1px solid rgba(176,177,183,.3); }
+.badge-attr-땅      { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-번개    { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-빛      { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-어둠    { background:rgba(184,185,190,.15); color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-꿈      { background:rgba(184,185,190,.15); color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-영혼    { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-신성    { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-혼돈    { background:rgba(184,185,190,.15);  color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-여명    { background:rgba(184,185,190,.15); color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
+.badge-attr-황혼    { background:rgba(184,185,190,.15); color:#c2c3c8; border:1px solid rgba(184,185,190,.3); }
 
 .no-data { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
 
@@ -184,7 +184,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   display: flex; align-items: center; justify-content: center;
   transition: all .15s;
 }
-.nav-arrow:hover { border-color: var(--accent); color: var(--accent2); background: rgba(124,106,255,.1); }
+.nav-arrow:hover { border-color: var(--accent); color: var(--accent2); background: rgba(255,255,255,.1); }
 .nav-arrow:disabled { opacity: .3; cursor: not-allowed; }
 .nav-counter { font-size: 12px; color: var(--text3); }
 .detail-close {
@@ -270,6 +270,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   display: none;
 }
 
+/* ── 무채색 리파인 ── */
+.filter-label { white-space: nowrap; }
+.badge, .detail-badge, .badge-attr { white-space: nowrap; }
+.dc-name { word-break: keep-all; }
+.tdot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; vertical-align:middle; background:#8b8c92; }
+.tdot.l { background:#f5c542; }
+.tdot.m { background:#b47fff; }
+.tdot.r { background:#38bdf8; }
+.tdot.ring { background:transparent; box-shadow: inset 0 0 0 1.5px #abacb2; }
+
 @media (max-width: 560px) {
   .dragon-grid { grid-template-columns: repeat(auto-fill, minmax(85px,1fr)); gap: 8px; }
   .detail-hero { flex-direction: column; align-items: center; text-align: center; padding: 20px 20px 16px; }
@@ -279,6 +289,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   .search-input { width: 100%; }
   .filter-bar { gap: 6px; }
 }
+
+/* ── 무채색: 한글 줄바꿈 + 플레이스홀더 무채색화 ── */
+body { word-break: keep-all; }
+.empty-ico, .no-img, .no-img-lg, .obtain-icon, .report-btn.kakao { filter: grayscale(1); }
 </style>
 </head>
 <body>
@@ -305,16 +319,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
     <span class="filter-label">등급</span>
     <div class="filter-group">
       <button class="filter-btn all on" onclick="setFilter('grade','all')">전체</button>
-      <button class="filter-btn legendary" onclick="setFilter('grade','legendary')">⭐ 전설</button>
-      <button class="filter-btn heroic" onclick="setFilter('grade','heroic')">💜 영웅</button>
-      <button class="filter-btn rare" onclick="setFilter('grade','rare')">💚 희귀</button>
+      <button class="filter-btn legendary" onclick="setFilter('grade','legendary')"><span class="tdot l"></span>전설</button>
+      <button class="filter-btn heroic" onclick="setFilter('grade','heroic')"><span class="tdot m"></span>영웅</button>
+      <button class="filter-btn rare" onclick="setFilter('grade','rare')"><span class="tdot r"></span>희귀</button>
     </div>
     <div class="filter-sep"></div>
     <span class="filter-label">타입</span>
     <div class="filter-group">
       <button class="filter-btn all on" id="type-all" onclick="setFilter('type','all')">전체</button>
-      <button class="filter-btn physical" onclick="setFilter('type','physical')">🔴 물리</button>
-      <button class="filter-btn special" onclick="setFilter('type','special')">🔵 특수</button>
+      <button class="filter-btn physical" onclick="setFilter('type','physical')"><span class="tdot"></span>물리</button>
+      <button class="filter-btn special" onclick="setFilter('type','special')"><span class="tdot ring"></span>특수</button>
     <div style="width:100%;height:1px;background:var(--border);margin:4px 0"></div>
     <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
       <span style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.06em">속성</span>
@@ -672,9 +686,9 @@ function renderDetail() {
 
   // 등급/타입 뱃지
   const gradeColors = {
-    legendary: 'background:rgba(245,197,66,.15);color:#f5c542;border:1px solid rgba(245,197,66,.3)',
-    heroic:    'background:rgba(180,127,255,.15);color:#b47fff;border:1px solid rgba(180,127,255,.3)',
-    rare:      'background:rgba(56,189,248,.12);color:#38bdf8;border:1px solid rgba(56,189,248,.25)',
+    legendary: 'background:rgba(255,255,255,.15);color:#ececed;border:1px solid rgba(255,255,255,.3)',
+    heroic:    'background:rgba(188,189,194,.15);color:#bcbdc2;border:1px solid rgba(188,189,194,.3)',
+    rare:      'background:rgba(150,151,158,.12);color:#9a9ba1;border:1px solid rgba(150,151,158,.25)',
   };
   const typeColors = {
     physical: 'background:rgba(255,107,107,.12);color:#ff6b6b',
@@ -695,13 +709,13 @@ function renderDetail() {
 
   // 이미지 테두리 색
   const imgWrap = document.getElementById('d-img-wrap');
-  imgWrap.style.borderColor = d.grade === 'legendary' ? 'rgba(245,197,66,.4)' : 'rgba(180,127,255,.4)';
+  imgWrap.style.borderColor = d.grade === 'legendary' ? 'rgba(255,255,255,.4)' : 'rgba(188,189,194,.4)';
 
   // 스탯
   const statsEl = document.getElementById('d-stats');
   if (d.stats) {
     const maxStat = 1700;
-    const color = d.type ? STAT_COLORS[d.type] : '#7c6aff';
+    const color = d.type ? STAT_COLORS[d.type] : '#c7c8cc';
     const total = Object.values(d.stats).reduce((a,b)=>a+b,0);
     statsEl.innerHTML = STAT_KEYS.map(k => `
       <div class="stat-row" style="position:relative" onmouseenter="showTip(event,'${STAT_DESC[k]}')" onmouseleave="hideTip()">
