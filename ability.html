@@ -103,13 +103,66 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: 99px; padding: 4px 11px 4px 5px;
   display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: var(--text2); transition: border-color .15s;
+  font-size: 12px; color: var(--text2); transition: border-color .15s, color .15s;
+  text-decoration: none; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
 }
-.dragon-chip:hover { border-color: var(--border2); color: var(--text); }
+.dragon-chip:hover { border-color: var(--accent); color: var(--text); }
 .chip-img { width: 22px; height: 22px; border-radius: 50%; background: var(--bg3); overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .chip-img img { width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated; }
 
 .no-result { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; grid-column: 1 / -1; }
+
+/* ── 드래곤 미리보기 카드 모달 ── */
+.dp-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,9,11,.72); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.dp-overlay.open { opacity: 1; pointer-events: auto; }
+.dp-card {
+  width: 300px; max-width: 100%;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 18px; padding: 24px 22px 22px;
+  text-align: center; position: relative;
+  transform: translateY(8px) scale(.98); transition: transform .18s;
+}
+.dp-overlay.open .dp-card { transform: none; }
+.dp-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--bg3); color: var(--text2);
+  font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.dp-close:hover { border-color: var(--border2); color: var(--text); }
+.dp-img {
+  width: 120px; height: 120px; margin: 0 auto 14px;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.dp-img img { width: 96px; height: 96px; object-fit: contain; image-rendering: pixelated; }
+.dp-name { font-size: 21px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.dp-badges { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+.dp-badge { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 99px; }
+.dp-attrs { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.dp-attrs img { width: 30px; height: 30px; }
+.dp-go {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 12px; border-radius: 12px;
+  background: var(--accent); border: none; color: #fff;
+  font-size: 13px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer; text-decoration: none; transition: background .15s;
+}
+.dp-go:hover { background: var(--accent2); }
+
+/* 등급/타입 배지 색 (도감과 동일) */
+.b-legendary { background: rgba(245,197,66,.15); color:#f5c542; border:1px solid rgba(245,197,66,.3); }
+.b-heroic    { background: rgba(180,127,255,.15); color:#b47fff; border:1px solid rgba(180,127,255,.3); }
+.b-rare      { background: rgba(56,189,248,.12); color:#7dd3fc; border:1px solid rgba(56,189,248,.25); }
+.b-common    { background: rgba(255,255,255,.06); color:var(--text3); border:1px solid var(--border); }
+.b-physical  { background: rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.25); }
+.b-special   { background: rgba(96,165,250,.12); color:#60a5fa; border:1px solid rgba(96,165,250,.25); }
 
 /* 카테고리 태그 색상 */
 .tag-공격 { background: rgba(255,122,107,.14); color:#ff9485; }
@@ -156,17 +209,34 @@ body { word-break: keep-all; }
 
   <div class="cat-filter" id="cat-filter">
     <button class="cat-btn on" onclick="setCat('전체')">전체</button>
-    <button class="cat-btn" onclick="setCat('공격')">⚔️ 공격</button>
-    <button class="cat-btn" onclick="setCat('방어')">🛡️ 방어</button>
-    <button class="cat-btn" onclick="setCat('상태')">✨ 상태이상</button>
-    <button class="cat-btn" onclick="setCat('날씨')">🌤️ 날씨</button>
-    <button class="cat-btn" onclick="setCat('지형')">🌊 지형/속박</button>
-    <button class="cat-btn" onclick="setCat('기타')">💡 기타</button>
+    <button class="cat-btn" onclick="setCat('공격')"><span class="dot dot-공격"></span>공격</button>
+    <button class="cat-btn" onclick="setCat('방어')"><span class="dot dot-방어"></span>방어</button>
+    <button class="cat-btn" onclick="setCat('상태')"><span class="dot dot-상태"></span>상태이상</button>
+    <button class="cat-btn" onclick="setCat('날씨')"><span class="dot dot-날씨"></span>날씨</button>
+    <button class="cat-btn" onclick="setCat('지형')"><span class="dot dot-지형"></span>지형/속박</button>
+    <button class="cat-btn" onclick="setCat('기타')"><span class="dot dot-기타"></span>기타</button>
   </div>
 
-  <div class="ability-list" id="ability-list"></div>
+  <div class="ability-grid" id="ability-list"></div>
 </div>
 
+<!-- 드래곤 미리보기 카드 모달 -->
+<div class="dp-overlay" id="dp-overlay" onclick="if(event.target===this)closeDragonPreview()">
+  <div class="dp-card" id="dp-card"></div>
+</div>
+
+<script>
+// 드래곤 메타데이터 (도감 dragon.html에서 추출) — 어빌리티 페이지 미리보기 카드용
+window.DRAGON_META = {"darknix_00_adult":{"kor":"다크닉스","grade":"legendary","type":"special","attrs":["혼돈","영혼","어둠"]},"goddragon_00_adult":{"kor":"고대신룡","grade":"legendary","type":"physical","attrs":["신성","빛","바람"]},"non_00_adult":{"kor":"논","grade":"legendary","type":"physical","attrs":["황혼","영혼","어둠"]},"florea_00_adult":{"kor":"플로레","grade":"legendary","type":"special","attrs":["여명","꿈","어둠"]},"selora_00_adult":{"kor":"셀오라","grade":"legendary","type":"physical","attrs":["빛","황혼","물"]},"angeljr_00_adult":{"kor":"엔젤주니어","grade":"legendary","type":"physical","attrs":["신성","빛","황혼"]},"centura_00_adult":{"kor":"센투라","grade":"legendary","type":"physical","attrs":["영혼","바람","꿈"]},"lucio_00_adult":{"kor":"루시오","grade":"legendary","type":"physical","attrs":["영혼","물","어둠"]},"crevasse_00_adult":{"kor":"크레바스","grade":"legendary","type":"special","attrs":["꿈","바람","영혼"]},"fides_00_adult":{"kor":"피데스","grade":"legendary","type":"physical","attrs":["어둠","황혼","바람"]},"lightning_00_adult":{"kor":"번개고룡","grade":"legendary","type":"special","attrs":["번개","불","빛"]},"power_00_adult":{"kor":"파워 드래곤","grade":"legendary","type":"physical","attrs":["땅","강철","빛"]},"obex_00_adult":{"kor":"오벡스","grade":"legendary","type":"special","attrs":["강철","황혼","어둠"]},"plumos_00_adult":{"kor":"플루모스","grade":"legendary","type":"physical","attrs":["바람","물","땅"]},"frost_00_adult":{"kor":"빙하고룡","grade":"legendary","type":"special","attrs":["물","땅","빛"]},"tiamat_00_adult":{"kor":"티아매트","grade":"legendary","type":"special","attrs":["물","어둠","꿈"]},"dragonslayer_00_adult":{"kor":"드래곤슬레이어","grade":"legendary","type":"physical","attrs":["불","영혼","어둠"]},"shadow_00_adult":{"kor":"섀도우 드래곤","grade":"heroic","type":"physical","attrs":["혼돈","영혼"]},"granos_00_adult":{"kor":"그라노스","grade":"heroic","type":"special","attrs":["신성","강철"]},"aila_00_adult":{"kor":"에이라","grade":"heroic","type":"special","attrs":["황혼","꿈","바람"]},"characen_00_adult":{"kor":"카라선","grade":"heroic","type":"special","attrs":["황혼","꿈"]},"blackdragon_00_adult":{"kor":"흑룡","grade":"heroic","type":"physical","attrs":["황혼","어둠"]},"whitedragon_00_adult":{"kor":"백룡","grade":"heroic","type":"physical","attrs":["신성","빛"]},"toddletomtom_00_adult":{"kor":"터틀톰톰","grade":"heroic","type":"physical","attrs":["여명","땅"]},"dreaden_00_adult":{"kor":"드래든","grade":"heroic","type":"special","attrs":["영혼","어둠","바람"]},"mummydragon_00_adult":{"kor":"미이라곤","grade":"heroic","type":"physical","attrs":["영혼","어둠"]},"mistdragon_00_adult":{"kor":"미스틱 드래곤","grade":"heroic","type":"physical","attrs":["영혼","땅"]},"slimedragon_00_adult":{"kor":"슬라임 드래곤","grade":"heroic","type":"physical","attrs":["영혼","물"]},"gripo_00_adult":{"kor":"그리포","grade":"heroic","type":"special","attrs":["영혼","불"]},"fairydragon_00_adult":{"kor":"페어리 드래곤","grade":"heroic","type":"special","attrs":["꿈","영혼"]},"pierrotdragon_00_adult":{"kor":"삐에로 드래곤","grade":"heroic","type":"physical","attrs":["꿈","어둠"]},"goldie_00_adult":{"kor":"골디","grade":"heroic","type":"physical","attrs":["꿈","빛"]},"henes_00_adult":{"kor":"헤네스","grade":"heroic","type":"physical","attrs":["꿈","번개"]},"alien_00_adult":{"kor":"에일리언 드래곤","grade":"heroic","type":"physical","attrs":["꿈","황혼"]},"seere_00_adult":{"kor":"세에레","grade":"heroic","type":"special","attrs":["꿈","땅","바람"]},"afrit_00_adult":{"kor":"아프리트","grade":"heroic","type":"physical","attrs":["불","꿈"]},"applecheek_00_adult":{"kor":"애플칙","grade":"heroic","type":"special","attrs":["바람","땅"]},"aquadragon_00_adult":{"kor":"아쿠아 드래곤","grade":"rare","type":"physical","attrs":["물"]},"baal_00_adult":{"kor":"바알","grade":"heroic","type":"special","attrs":["어둠","황혼"]},"beleth_00_adult":{"kor":"벨레드","grade":"heroic","type":"physical","attrs":["바람","어둠"]},"blackarmor_00_adult":{"kor":"블랙아머","grade":"heroic","type":"physical","attrs":["강철","어둠","영혼"]},"blue_00_adult":{"kor":"청룡","grade":"heroic","type":"physical","attrs":["바람","황혼"]},"bluefiretail_00_adult":{"kor":"청불나래","grade":"heroic","type":"physical","attrs":["번개","바람"]},"bluelightning_00_adult":{"kor":"블루라이트닝","grade":"heroic","type":"physical","attrs":["번개","불"]},"bluethunder_00_adult":{"kor":"블루썬더","grade":"rare","type":"physical","attrs":["번개"]},"catsgon_00_adult":{"kor":"캣츠곤","grade":"heroic","type":"physical","attrs":["어둠","영혼"]},"centipededragon_00_adult":{"kor":"G네 드래곤","grade":"heroic","type":"physical","attrs":["어둠","강철"]},"cloud_00_adult":{"kor":"클라우드","grade":"heroic","type":"physical","attrs":["번개","물"]},"cupid_00_adult":{"kor":"큐피트","grade":"heroic","type":"special","attrs":["꿈","바람"]},"dilrang_00_adult":{"kor":"딜랑","grade":"heroic","type":"physical","attrs":["빛","황혼"]},"dragonoid_00_adult":{"kor":"드라고노이드","grade":"heroic","type":"special","attrs":["강철","번개"]},"egg_00_adult":{"kor":"에그 드래곤","grade":"heroic","type":"physical","attrs":["땅","불"]},"emerald_00_adult":{"kor":"에메랄드","grade":"heroic","type":"special","attrs":["빛","강철"]},"enturas_00_adult":{"kor":"엔투라스","grade":"heroic","type":"physical","attrs":["불","꿈","황혼"]},"fat_00_adult":{"kor":"패트","grade":"heroic","type":"physical","attrs":["강철","꿈"]},"fire_00_adult":{"kor":"파이어 드래곤","grade":"rare","type":"physical","attrs":["불"]},"firetail_00_adult":{"kor":"불나래","grade":"heroic","type":"physical","attrs":["불","바람"]},"frog_00_adult":{"kor":"프로그 드래곤","grade":"heroic","type":"physical","attrs":["물","영혼"]},"goblindragon_00_adult":{"kor":"깨비곤","grade":"rare","type":"special","attrs":["영혼"]},"haze_00_adult":{"kor":"헤이즈","grade":"heroic","type":"special","attrs":["빛","물"]},"hell_00_adult":{"kor":"헬 드래곤","grade":"heroic","type":"special","attrs":["불","어둠","강철"]},"hyeonmu_00_adult":{"kor":"현무","grade":"heroic","type":"physical","attrs":["물","강철"]},"ignis_00_adult":{"kor":"이그니스","grade":"heroic","type":"physical","attrs":["불","빛"]},"ilios_00_adult":{"kor":"일리오스","grade":"rare","type":"physical","attrs":["빛"]},"iron_00_adult":{"kor":"아이언 드래곤","grade":"rare","type":"physical","attrs":["강철"]},"jujak_00_adult":{"kor":"주작","grade":"heroic","type":"special","attrs":["불","바람","빛"]},"kleptos_00_adult":{"kor":"클렙토","grade":"heroic","type":"physical","attrs":["어둠","땅"]},"knightdragon_00_adult":{"kor":"나이트 드래곤","grade":"heroic","type":"physical","attrs":["강철","영혼"]},"lagtail_00_adult":{"kor":"렉테일","grade":"heroic","type":"physical","attrs":["어둠","강철"]},"lakion_00_adult":{"kor":"라키온","grade":"heroic","type":"physical","attrs":["땅","황혼"]},"lambgon_00_adult":{"kor":"램곤","grade":"rare","type":"physical","attrs":["꿈"]},"lava_00_adult":{"kor":"라바 드래곤","grade":"heroic","type":"physical","attrs":["불","땅"]},"leafdragon_00_adult":{"kor":"리프 드래곤","grade":"heroic","type":"special","attrs":["땅","바람"]},"liberte_00_adult":{"kor":"리베티","grade":"heroic","type":"special","attrs":["바람","빛"]},"liso_00_adult":{"kor":"리소","grade":"heroic","type":"special","attrs":["어둠","황혼"]},"lunera_00_adult":{"kor":"루네라","grade":"heroic","type":"physical","attrs":["어둠","황혼"]},"magnello_00_adult":{"kor":"마그넬로","grade":"heroic","type":"physical","attrs":["불","물"]},"mud_00_adult":{"kor":"머드 드래곤","grade":"heroic","type":"physical","attrs":["땅","물"]},"mushroom_00_adult":{"kor":"머쉬움 드래곤","grade":"heroic","type":"physical","attrs":["땅","빛"]},"mustardhammer_00_adult":{"kor":"머스타드해머","grade":"heroic","type":"physical","attrs":["땅","꿈"]},"nebula_00_adult":{"kor":"네뷸라","grade":"heroic","type":"physical","attrs":["꿈","불","물"]},"ninjadragon_00_adult":{"kor":"닌자 드래곤","grade":"heroic","type":"physical","attrs":["어둠","바람"]},"nox_00_adult":{"kor":"녹스","grade":"rare","type":"physical","attrs":["어둠"]},"patroa_00_adult":{"kor":"패트로아","grade":"heroic","type":"special","attrs":["불","영혼"]},"phoenix_00_adult":{"kor":"피닉스","grade":"heroic","type":"special","attrs":["불","황혼"]},"phoenix_01_adult":{"kor":"피닉스 (변형)","grade":"heroic","type":"special","attrs":["불","황혼"]},"pinkbell_00_adult":{"kor":"핑크벨","grade":"heroic","type":"special","attrs":["바람","영혼"]},"poisonriver_00_adult":{"kor":"포이즌리버","grade":"heroic","type":"special","attrs":["물","어둠"]},"popomo_00_adult":{"kor":"포포모","grade":"heroic","type":"physical","attrs":["불","꿈"]},"rafael_00_adult":{"kor":"라파엘","grade":"heroic","type":"physical","attrs":["빛","영혼"]},"rock_00_adult":{"kor":"바위 드래곤","grade":"rare","type":"physical","attrs":["땅"]},"rupia_00_adult":{"kor":"루피아","grade":"heroic","type":"special","attrs":["물","꿈"]},"scorpiondragon_00_adult":{"kor":"스콜피온 드래곤","grade":"heroic","type":"physical","attrs":["땅","어둠"]},"serpentdragon_00_adult":{"kor":"서펀트 드래곤","grade":"heroic","type":"physical","attrs":["어둠","물"]},"sharkgon_00_adult":{"kor":"샤크곤","grade":"heroic","type":"physical","attrs":["물","강철"]},"sharptail_00_adult":{"kor":"샤프테일","grade":"heroic","type":"physical","attrs":["강철","땅"]},"siamesedragon_00_adult":{"kor":"샴 드래곤","grade":"heroic","type":"physical","attrs":["불","강철"]},"sixleghorn_00_adult":{"kor":"식스레그혼","grade":"heroic","type":"physical","attrs":["바람","영혼"]},"skelegon_00_adult":{"kor":"스켈레곤","grade":"heroic","type":"special","attrs":["어둠","불"]},"solar_00_adult":{"kor":"솔라 드래곤","grade":"heroic","type":"physical","attrs":["빛","영혼"]},"spicy_00_adult":{"kor":"스파이시","grade":"heroic","type":"physical","attrs":["빛","영혼"]},"splender_00_adult":{"kor":"스플렌더","grade":"heroic","type":"physical","attrs":["번개","강철"]},"swamp_00_adult":{"kor":"스왐프 드래곤","grade":"heroic","type":"special","attrs":["물","땅"]},"taabire_00_adult":{"kor":"타아비레","grade":"heroic","type":"physical","attrs":["번개","영혼"]},"taros_00_adult":{"kor":"타로스","grade":"heroic","type":"special","attrs":["불","땅"]},"thunderboltdragon_00_adult":{"kor":"썬더볼트 드래곤","grade":"heroic","type":"special","attrs":["번개","물"]},"totemdragon_00_adult":{"kor":"토템 드래곤","grade":"heroic","type":"special","attrs":["바람","꿈"]},"tumpy_00_adult":{"kor":"텀피","grade":"heroic","type":"physical","attrs":["땅","영혼"]},"typhoondragon_00_adult":{"kor":"타이푼 드래곤","grade":"heroic","type":"physical","attrs":["바람","물"]},"whitethunder_00_adult":{"kor":"화이트썬더","grade":"heroic","type":"physical","attrs":["번개","빛"]},"wind_00_adult":{"kor":"윈드 드래곤","grade":"rare","type":"physical","attrs":["바람"]},"witchdragon_00_adult":{"kor":"윗치 드래곤","grade":"heroic","type":"special","attrs":["어둠","영혼"]},"zephyros_00_adult":{"kor":"제피로스","grade":"heroic","type":"physical","attrs":["바람","강철"]}};
+window.DV3 = {
+  IMG_BASE: 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/',
+  ATTR_BASE: 'https://raw.githubusercontent.com/yejoo0519/dv3/refs/heads/main/images/element/',
+  ATTR_ICON: {"불":"element_fire_80.png","물":"element_water_80.png","바람":"element_wind_80.png","강철":"element_steel_80.png","땅":"element_earth_80.png","번개":"element_lightning_80.png","빛":"element_light_80.png","어둠":"element_dark_80.png","꿈":"element_dream_80.png","영혼":"element_soul_80.png","신성":"element_divine_80.png","혼돈":"element_chaos_80.png","여명":"element_dawn_80.png","황혼":"element_dusk_80.png"},
+  GRADE_LABEL: {"legendary":"전설","heroic":"영웅","rare":"희귀","common":"일반"},
+  TYPE_LABEL: {"physical":"물리형","special":"특수형"}
+};
+
+</script>
 <script>
 const BASE = 'https://raw.githubusercontent.com/yejoo0519/dv3/main/images/dragons/';
 
@@ -187,8 +257,8 @@ function getCategory(name) {
   return '기타';
 }
 
-const CAT_ICON = {
-  '공격': '⚔️', '방어': '🛡️', '상태': '✨', '날씨': '🌤️', '지형': '🌊', '기타': '💡'
+const CAT_LABEL = {
+  '공격': '공격', '방어': '방어', '상태': '상태이상', '날씨': '날씨', '지형': '지형/속박', '기타': '기타'
 };
 
 const ABILITIES = [
@@ -281,25 +351,22 @@ function render() {
   list.innerHTML = filtered.map(ab => {
     const cat = getCategory(ab.name);
     const isOpen = openCards.has(ab.name);
-    return `<div class="ability-card${isOpen?' open':''}" id="card-${ab.name}">
-      <div class="ability-head" onclick="toggleCard('${ab.name}')">
-        <div class="ability-icon">${CAT_ICON[cat]}</div>
-        <div class="ability-info">
-          <div class="ability-name">${ab.name}</div>
-          <div class="ability-desc">${ab.desc}</div>
-          <div class="ability-meta">
-            <span class="cat-badge cat-${cat}">${cat}</span>
-            <span class="dragon-count">${ab.dragons.length}마리 보유</span>
-          </div>
-        </div>
-        <button class="expand-btn" onclick="event.stopPropagation();toggleCard('${ab.name}')">▼</button>
+    return `<div class="ability-card${isOpen?' open':''}" id="card-${ab.name}" onclick="toggleCard('${ab.name}')">
+      <div class="ac-top">
+        <span class="ac-name">${ab.name}</span>
+        <span class="ac-tag tag-${cat}">${CAT_LABEL[cat]}</span>
       </div>
-      <div class="dragon-list">
+      <div class="ac-desc">${ab.desc}</div>
+      <div class="ac-foot">
+        <span class="ac-count">보유 드래곤 ${ab.dragons.length}</span>
+        <button class="ac-chev" aria-label="펼치기">▼</button>
+      </div>
+      <div class="ac-dragons">
         ${ab.dragons.map(d => `
-          <div class="dragon-chip">
-            <div class="chip-img"><img src="${BASE}${d.id}.png" alt="${d.kor}" onerror="this.style.opacity=.2"></div>
+          <button class="dragon-chip" onclick="event.stopPropagation();openDragonPreview('${d.id}','${d.kor}')" title="${d.kor} 정보 보기">
+            <span class="chip-img"><img src="${BASE}${d.id}.png" alt="${d.kor}" onerror="this.style.opacity=.2"></span>
             ${d.kor}
-          </div>`).join('')}
+          </button>`).join('')}
       </div>
     </div>`;
   }).join('');
@@ -311,6 +378,38 @@ function toggleCard(name) {
   const card = document.getElementById('card-'+name);
   if (card) card.classList.toggle('open', openCards.has(name));
 }
+
+// ── 드래곤 미리보기 카드 ──
+function openDragonPreview(id, kor) {
+  const m = (window.DRAGON_META || {})[id];
+  const cfg = window.DV3 || {};
+  const grade = m ? m.grade : 'common';
+  const type = m ? m.type : '';
+  const attrs = m ? m.attrs : [];
+  const name = (m && m.kor) || kor || id;
+
+  const gradeLabel = (cfg.GRADE_LABEL||{})[grade] || '';
+  const typeLabel = (cfg.TYPE_LABEL||{})[type] || '';
+  const attrIcons = attrs.map(a =>
+    `<img src="${cfg.ATTR_BASE}${(cfg.ATTR_ICON||{})[a]||''}" alt="${a}" title="${a}">`
+  ).join('');
+
+  document.getElementById('dp-card').innerHTML = `
+    <button class="dp-close" onclick="closeDragonPreview()" aria-label="닫기">✕</button>
+    <div class="dp-img"><img src="${cfg.IMG_BASE}${id}.png" alt="${name}" onerror="this.style.opacity=.2"></div>
+    <div class="dp-name">${name}</div>
+    <div class="dp-badges">
+      ${gradeLabel?`<span class="dp-badge b-${grade}">${gradeLabel}</span>`:''}
+      ${typeLabel?`<span class="dp-badge b-${type}">${typeLabel}</span>`:''}
+    </div>
+    ${attrIcons?`<div class="dp-attrs">${attrIcons}</div>`:''}
+    <a class="dp-go" href="dragon.html#${id}">도감에서 자세히 보기 →</a>`;
+  document.getElementById('dp-overlay').classList.add('open');
+}
+function closeDragonPreview() {
+  document.getElementById('dp-overlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDragonPreview(); });
 
 render();
 </script>
