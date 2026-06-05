@@ -702,6 +702,134 @@ const CHILD_DRAGONS = ['plumos_00_adult', 'shadow_00_adult', 'granos_00_adult', 
 // 교배 데이터
 // key: "부모1+부모2" (알파벳 오름차순 정렬)
 // value: [{ id, rate }]  rate = 퍼센트 숫자
+const HATCH = {
+  'afrit_00_adult': 22500,
+  'aila_00_adult': 64800,
+  'alien_00_adult': 26100,
+  'angeljr_00_adult': 64800,
+  'applecheek_00_adult': 28800,
+  'aquadragon_00_adult': 450,
+  'baal_00_adult': 26100,
+  'beleth_00_adult': 27900,
+  'blackarmor_00_adult': 56700,
+  'blackdragon_00_adult': 11700,
+  'blue_00_adult': 28800,
+  'bluefiretail_00_adult': 26100,
+  'bluelightning_00_adult': 8100,
+  'bluethunder_00_adult': 9900,
+  'catsgon_00_adult': 30600,
+  'centipededragon_00_adult': 29700,
+  'centura_00_adult': 64800,
+  'characen_00_adult': 29700,
+  'cloud_00_adult': 27900,
+  'crevasse_00_adult': 64800,
+  'cupid_00_adult': 26550,
+  'darknix_00_adult': 84600,
+  'dilrang_00_adult': 24750,
+  'dragonoid_00_adult': 29700,
+  'dragonslayer_00_adult': 61200,
+  'dreaden_00_adult': 59850,
+  'egg_00_adult': 7200,
+  'emerald_00_adult': 24300,
+  'enturas_00_adult': 56200,
+  'fairydragon_00_adult': 32850,
+  'fat_00_adult': 27000,
+  'fides_00_adult': 60300,
+  'fire_00_adult': 450,
+  'firetail_00_adult': 7650,
+  'florea_00_adult': 26100,
+  'frog_00_adult': 25650,
+  'frost_00_adult': 59400,
+  'goblindragon_00_adult': 12150,
+  'goddragon_00_adult': 86400,
+  'goldie_00_adult': 29700,
+  'granos_00_adult': 32850,
+  'gripo_00_adult': 30600,
+  'haze_00_adult': 21600,
+  'hell_00_adult': 55800,
+  'henes_00_adult': 24750,
+  'hyeonmu_00_adult': 22500,
+  'ignis_00_adult': 18900,
+  'ilios_00_adult': 25200,
+  'iron_00_adult': 1350,
+  'jujak_00_adult': 54000,
+  'kleptos_00_adult': 22050,
+  'knightdragon_00_adult': 19800,
+  'lagtail_00_adult': 24300,
+  'lakion_00_adult': 19800,
+  'lambgon_00_adult': 12150,
+  'lava_00_adult': 9000,
+  'leafdragon_00_adult': 11700,
+  'liberte_00_adult': 25650,
+  'lightning_00_adult': 61200,
+  'liso_00_adult': 26100,
+  'lucio_00_adult': 64800,
+  'lunera_00_adult': 29700,
+  'magnello_00_adult': 8100,
+  'mistdragon_00_adult': 25200,
+  'mud_00_adult': 10800,
+  'mummydragon_00_adult': 27450,
+  'mushroom_00_adult': 15750,
+  'mustardhammer_00_adult': 26550,
+  'nebula_00_adult': 56250,
+  'ninjadragon_00_adult': 27450,
+  'non_00_adult': 61200,
+  'nox_00_adult': 23400,
+  'obex_00_adult': 51300,
+  'patroa_00_adult': 26550,
+  'phoenix_00_adult': 7500,
+  'phoenix_01_adult': 7500,
+  'pierrotdragon_00_adult': 27450,
+  'pinkbell_00_adult': 27000,
+  'plumos_00_adult': 51300,
+  'poisonriver_00_adult': 26100,
+  'popomo_00_adult': 24300,
+  'power_00_adult': 57600,
+  'rafael_00_adult': 28800,
+  'rock_00_adult': 3600,
+  'rupia_00_adult': 26550,
+  'scorpiondragon_00_adult': 25650,
+  'seere_00_adult': 53550,
+  'selora_00_adult': 60300,
+  'serpentdragon_00_adult': 24300,
+  'shadow_00_adult': 28800,
+  'sharkgon_00_adult': 27900,
+  'sharptail_00_adult': 16650,
+  'siamesedragon_00_adult': 7200,
+  'sixleghorn_00_adult': 19800,
+  'skelegon_00_adult': 24750,
+  'slimedragon_00_adult': 24750,
+  'solar_00_adult': 29700,
+  'spicy_00_adult': 26100,
+  'splender_00_adult': 25200,
+  'swamp_00_adult': 9900,
+  'taabire_00_adult': 27900,
+  'taros_00_adult': 32850,
+  'thunderboltdragon_00_adult': 13500,
+  'tiamat_00_adult': 60300,
+  'toddletomtom_00_adult': 26100,
+  'totemdragon_00_adult': 9000,
+  'tumpy_00_adult': 27000,
+  'typhoondragon_00_adult': 9000,
+  'whitedragon_00_adult': 7200,
+  'whitethunder_00_adult': 23400,
+  'wind_00_adult': 600,
+  'witchdragon_00_adult': 26100,
+  'zephyros_00_adult': 15300,
+};
+
+function fmtHatch(sec) {
+  if(!sec) return null;
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+  if(h && m && s) return h+'h '+m+'m '+s+'s';
+  if(h && m) return h+'h '+m+'m';
+  if(h && s) return h+'h '+s+'s';
+  if(h) return h+'h';
+  if(m && s) return m+'m '+s+'s';
+  if(m) return m+'m';
+  return s+'s';
+}
+
 const BREED_DATA = {
   'afrit_00_adult+afrit_00_adult': [
     { id: 'popomo_00_adult', rate: 100.00 },
@@ -55263,6 +55391,7 @@ function renderForward() {
         ? `<span class="rate-pill rp-inferred"><span class="inferred-mark">*확률 ?*</span> ${r.rate.toFixed(2)}%</span>`
         : `<span class="rate-pill rp-${c}">${r.rate.toFixed(2)}%</span>`
       }
+      ${HATCH[r.id] ? `<div class="hatch-tag">${fmtHatch(HATCH[r.id])}</div>` : ''}
     </div>`;
   }).join('')}</div>`;
 }
