@@ -348,6 +348,85 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   .overlay { align-items: flex-end; padding: 0; }
   .modal-grid { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); }
 }
+
+/* ── 동시 목표 ── */
+.mt-search-row { display:flex; gap:8px; margin-bottom:14px; }
+.mt-search-input {
+  flex:1; background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:8px 14px; font-size:13px;
+  color:var(--text); font-family:'Noto Sans KR',sans-serif; outline:none;
+  transition:border-color .15s;
+}
+.mt-search-input:focus { border-color:var(--accent); }
+.mt-search-input::placeholder { color:var(--text3); }
+.mt-drop {
+  position:absolute; z-index:50; top:calc(100% + 4px); left:0; right:0;
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:10px; max-height:200px; overflow-y:auto;
+}
+.mt-drop-item {
+  display:flex; align-items:center; gap:8px; padding:7px 12px; cursor:pointer;
+  transition:background .1s; font-size:12px; color:var(--text2);
+}
+.mt-drop-item:hover { background:var(--bg3); color:var(--text); }
+.mt-drop-item img { width:28px; height:28px; border-radius:50%; image-rendering:pixelated; }
+.mt-chips {
+  display:flex; flex-wrap:wrap; gap:6px; min-height:36px;
+  padding:8px 12px; background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; margin-bottom:14px; align-items:center;
+}
+.mt-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:99px; padding:3px 10px 3px 5px;
+  font-size:11px; font-weight:700; color:var(--text2);
+}
+.mt-chip img { width:22px; height:22px; border-radius:50%; image-rendering:pixelated; }
+.mt-chip-x {
+  background:none; border:none; color:var(--text3); cursor:pointer;
+  font-size:13px; padding:0 0 0 3px; line-height:1;
+}
+.mt-chip-x:hover { color:var(--text); }
+.mt-hint { font-size:12px; color:var(--text3); }
+.mt-count-row {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px; font-size:12px; color:var(--text3);
+}
+.mt-count-val { color:var(--accent2); font-weight:700; }
+.mt-grid { display:flex; flex-direction:column; gap:8px; }
+.mt-card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:12px; padding:12px 16px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  transition:border-color .15s;
+}
+.mt-card:hover { border-color:var(--border2); }
+.mt-parents { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.mt-parent { display:flex; flex-direction:column; align-items:center; gap:3px; width:64px; }
+.mt-parent img { width:44px; height:44px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); image-rendering:pixelated; }
+.mt-parent span { font-size:10px; font-weight:700; color:var(--text); text-align:center; line-height:1.2; }
+.mt-x-sep { color:var(--text3); font-size:14px; font-weight:700; }
+.mt-divider { width:1px; height:40px; background:var(--border); flex-shrink:0; }
+.mt-probs { display:flex; flex-wrap:wrap; gap:6px; flex:1; }
+.mt-prob-item {
+  display:flex; align-items:center; gap:5px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:8px; padding:4px 9px;
+  font-size:11px;
+}
+.mt-prob-item img { width:22px; height:22px; border-radius:50%; image-rendering:pixelated; }
+.mt-prob-kor { color:var(--text2); font-weight:700; }
+.mt-prob-rate { color:var(--accent2); font-weight:700; margin-left:2px; }
+.mt-total {
+  margin-left:auto; font-size:11px; color:var(--text3); white-space:nowrap;
+}
+.mt-total b { color:var(--gold); }
+@media (max-width:600px) {
+  .mt-card { gap:10px; }
+  .mt-parent { width:52px; }
+  .mt-parent img { width:36px; height:36px; }
+}
+
 </style>
 </head>
 <body>
@@ -372,6 +451,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   <div class="tabs">
     <button class="tab active" id="tab-forward" onclick="switchTab('forward')">부모 → 자식</button>
     <button class="tab" id="tab-reverse" onclick="switchTab('reverse')">자식 → 부모</button>
+    <button class="tab" id="tab-mt" onclick="switchTab('mt')">동시 목표</button>
   </div>
 
   <!-- 부모→자식 -->
@@ -438,6 +518,26 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- 동시 목표 -->
+  <div id="sec-mt" style="display:none">
+    <div style="margin-bottom:10px;font-size:12px;color:var(--text3)">
+      교배 결과에 <b style="color:var(--text2)">동시에</b> 나오길 원하는 드래곤을 선택하세요 <span style="color:var(--text3)">(2~6마리)</span>
+    </div>
+    <div style="position:relative;margin-bottom:10px">
+      <input class="mt-search-input" id="mt-input" type="text"
+             placeholder="드래곤 이름 검색..." oninput="mtSearch()" autocomplete="off">
+      <div class="mt-drop" id="mt-drop" style="display:none"></div>
+    </div>
+    <div class="mt-chips" id="mt-chips">
+      <span class="mt-hint">목표 드래곤을 검색해서 추가하세요</span>
+    </div>
+    <div class="mt-count-row">
+      <span id="mt-count-txt"></span>
+      <span class="mt-count-val" id="mt-count-val"></span>
+    </div>
+    <div id="mt-body"></div>
   </div>
 </div>
 
@@ -817,6 +917,142 @@ const HATCH = {
   'witchdragon_00_adult': 26100,
   'zephyros_00_adult': 15300,
 };
+
+
+// ══════════════════════════════════════════
+// 동시 목표
+// ══════════════════════════════════════════
+let MT_TARGETS = [];
+
+function mtSearch() {
+  const q = document.getElementById('mt-input').value.toLowerCase().replace(/ /g,'');
+  const drop = document.getElementById('mt-drop');
+  if (!q) { drop.style.display = 'none'; return; }
+
+  const filtered = Object.entries(NAMES)
+    .filter(([id, nm]) =>
+      !MT_TARGETS.includes(id) &&
+      (nm.kor.replace(/ /g,'').toLowerCase().includes(q) ||
+       nm.eng.toLowerCase().includes(q))
+    )
+    .slice(0, 10);
+
+  if (!filtered.length) { drop.style.display = 'none'; return; }
+
+  drop.innerHTML = filtered.map(([id, nm]) =>
+    `<div class="mt-drop-item" onclick="mtAdd('${id}')">
+      <img src="${BASE}${id}.png" onerror="this.style.opacity=.2">
+      <span>${nm.kor}</span>
+      <span style="font-size:10px;color:var(--text3);margin-left:auto">${nm.eng}</span>
+    </div>`
+  ).join('');
+  drop.style.display = '';
+}
+
+function mtAdd(id) {
+  if (MT_TARGETS.includes(id) || MT_TARGETS.length >= 6) return;
+  MT_TARGETS.push(id);
+  document.getElementById('mt-input').value = '';
+  document.getElementById('mt-drop').style.display = 'none';
+  renderMtChips();
+  renderMultiTarget();
+}
+
+function mtRemove(id) {
+  MT_TARGETS = MT_TARGETS.filter(t => t !== id);
+  renderMtChips();
+  renderMultiTarget();
+}
+
+function renderMtChips() {
+  const el = document.getElementById('mt-chips');
+  if (!el) return;
+  if (!MT_TARGETS.length) {
+    el.innerHTML = '<span class="mt-hint">목표 드래곤을 검색해서 추가하세요</span>';
+    return;
+  }
+  el.innerHTML = MT_TARGETS.map(id =>
+    `<div class="mt-chip">
+      <img src="${BASE}${id}.png" onerror="this.style.opacity=.2">
+      <span>${n(id).kor}</span>
+      <button class="mt-chip-x" onclick="mtRemove('${id}')">×</button>
+    </div>`
+  ).join('');
+}
+
+function renderMultiTarget() {
+  const body   = document.getElementById('mt-body');
+  const cntTxt = document.getElementById('mt-count-txt');
+  const cntVal = document.getElementById('mt-count-val');
+  if (!body) return;
+
+  if (MT_TARGETS.length < 2) {
+    body.innerHTML = '';
+    cntTxt.textContent = '';
+    cntVal.textContent = '';
+    return;
+  }
+
+  const matches = [];
+  for (const [key, results] of Object.entries(BREED_DATA)) {
+    const rateMap = {};
+    results.forEach(r => rateMap[r.id] = r.rate);
+    if (!MT_TARGETS.every(t => t in rateMap)) continue;
+
+    const [p1id, p2id] = key.split('+');
+    const rates = MT_TARGETS.map(t => rateMap[t]);
+    const total = rates.reduce((a, b) => a + b, 0);
+    matches.push({ p1id, p2id, rates, total });
+  }
+
+  matches.sort((a, b) => b.total - a.total);
+
+  cntTxt.textContent = '조합 수';
+  cntVal.textContent = matches.length + '개';
+
+  if (!matches.length) {
+    body.innerHTML = `<div class="empty">
+      <div class="empty-ico">🔍</div>
+      <div class="empty-txt">선택한 드래곤들을 동시에 얻을 수 있는<br>교배 조합이 없습니다</div>
+    </div>`;
+    return;
+  }
+
+  body.innerHTML = `<div class="mt-grid">${matches.map(({ p1id, p2id, rates, total }) => {
+    const probsHtml = MT_TARGETS.map((t, i) =>
+      `<div class="mt-prob-item">
+        <img src="${BASE}${t}.png" onerror="this.style.opacity=.2">
+        <span class="mt-prob-kor">${n(t).kor}</span>
+        <span class="mt-prob-rate">${rates[i].toFixed(2)}%</span>
+      </div>`
+    ).join('');
+
+    return `<div class="mt-card">
+      <div class="mt-parents">
+        <div class="mt-parent">
+          <img src="${BASE}${p1id}.png" onerror="this.style.opacity=.2">
+          <span>${n(p1id).kor}</span>
+        </div>
+        <span class="mt-x-sep">×</span>
+        <div class="mt-parent">
+          <img src="${BASE}${p2id}.png" onerror="this.style.opacity=.2">
+          <span>${n(p2id).kor}</span>
+        </div>
+      </div>
+      <div class="mt-divider"></div>
+      <div class="mt-probs">${probsHtml}</div>
+      <div class="mt-total">합산 <b>${total.toFixed(2)}%</b></div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// 드롭다운 외부 클릭시 닫기
+document.addEventListener('click', e => {
+  if (!e.target.closest('#mt-input') && !e.target.closest('#mt-drop')) {
+    const d = document.getElementById('mt-drop');
+    if (d) d.style.display = 'none';
+  }
+});
 
 function fmtHatch(sec) {
   if(!sec) return null;
@@ -54774,8 +55010,12 @@ function rateStyle(r) {
 function switchTab(tab) {
   document.getElementById('mode-forward').style.display = tab === 'forward' ? '' : 'none';
   document.getElementById('mode-reverse').style.display = tab === 'reverse' ? '' : 'none';
+  const mtEl = document.getElementById('sec-mt');
+  if (mtEl) mtEl.style.display = tab === 'mt' ? '' : 'none';
   document.getElementById('tab-forward').classList.toggle('active', tab === 'forward');
   document.getElementById('tab-reverse').classList.toggle('active', tab === 'reverse');
+  const mtTab = document.getElementById('tab-mt');
+  if (mtTab) mtTab.classList.toggle('active', tab === 'mt');
 }
 
 // 부모 선택 UI
