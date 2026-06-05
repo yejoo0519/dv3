@@ -427,6 +427,22 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
   .mt-parent img { width:36px; height:36px; }
 }
 
+
+/* ── 로열 클래스 ── */
+.royal-bar {
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  padding:8px 12px; margin-bottom:10px;
+  background:var(--bg2); border:1px solid var(--border); border-radius:10px;
+}
+.royal-label { font-size:11px; color:var(--text3); white-space:nowrap; margin-right:2px; }
+.royal-btn {
+  font-size:10px; padding:3px 9px; border-radius:99px;
+  border:1px solid var(--border); background:none; color:var(--text3);
+  cursor:pointer; transition:all .15s; white-space:nowrap; font-family:'Noto Sans KR',sans-serif;
+}
+.royal-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.royal-btn:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+
 </style>
 </head>
 <body>
@@ -452,6 +468,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
     <button class="tab active" id="tab-forward" onclick="switchTab('forward')">부모 → 자식</button>
     <button class="tab" id="tab-reverse" onclick="switchTab('reverse')">자식 → 부모</button>
     <button class="tab" id="tab-mt" onclick="switchTab('mt')">동시 목표</button>
+  </div>
+  <div class="royal-bar">
+    <span class="royal-label">로열 클래스</span>
+    <button class="royal-btn active" onclick="setRoyal(0,this)">없음</button>
+    <button class="royal-btn" onclick="setRoyal(0.05,this)">브론즈·실버 −5%</button>
+    <button class="royal-btn" onclick="setRoyal(0.08,this)">골드·플래티넘 −8%</button>
+    <button class="royal-btn" onclick="setRoyal(0.10,this)">다이아·MVP −10%</button>
   </div>
 
   <!-- 부모→자식 -->
@@ -1054,9 +1077,22 @@ document.addEventListener('click', e => {
   }
 });
 
+let ROYAL_DISCOUNT = 0;
+
+function setRoyal(discount, btn) {
+  ROYAL_DISCOUNT = discount;
+  document.querySelectorAll('.royal-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const fwVisible = document.getElementById('mode-forward')?.style.display !== 'none';
+  const mtVisible = document.getElementById('sec-mt')?.style.display !== 'none';
+  if (fwVisible && sel.p1 && sel.p2) renderForward();
+  if (mtVisible && MT_TARGETS.length >= 2) renderMultiTarget();
+}
+
 function fmtHatch(sec) {
   if(!sec) return null;
-  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+  const adjusted = Math.round(sec * (1 - ROYAL_DISCOUNT));
+  const h=Math.floor(adjusted/3600),m=Math.floor((adjusted%3600)/60),s=adjusted%60;
   if(h && m && s) return h+'h '+m+'m '+s+'s';
   if(h && m) return h+'h '+m+'m';
   if(h && s) return h+'h '+s+'s';
