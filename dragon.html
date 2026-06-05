@@ -303,6 +303,23 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', s
 /* ── 무채색: 한글 줄바꿈 + 플레이스홀더 무채색화 ── */
 body { word-break: keep-all; }
 .empty-ico, .no-img, .no-img-lg, .obtain-icon, .report-btn.kakao { filter: grayscale(1); }
+
+/* ── 로열 클래스 ── */
+.royal-bar {
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  padding:7px 12px; margin-top:8px; margin-bottom:14px;
+  background:var(--bg2); border:1px solid var(--border); border-radius:10px;
+}
+.royal-label { font-size:11px; color:var(--text3); white-space:nowrap; margin-right:2px; }
+.royal-btn {
+  font-size:10px; padding:3px 9px; border-radius:99px;
+  border:1px solid var(--border); background:none; color:var(--text3);
+  cursor:pointer; transition:all .15s; white-space:nowrap;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.royal-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.royal-btn:hover:not(.active) { border-color:var(--border2); color:var(--text); }
+
 </style>
 </head>
 <body>
@@ -362,6 +379,14 @@ body { word-break: keep-all; }
     <div class="search-wrap">
       <input class="search-input" type="text" placeholder="드래곤 검색..." id="search-input" oninput="renderGrid()">
     </div>
+  </div>
+
+  <div class="royal-bar">
+    <span class="royal-label">로열 클래스</span>
+    <button class="royal-btn active" onclick="setRoyal(0,this)">없음</button>
+    <button class="royal-btn" onclick="setRoyal(0.05,this)">브론즈·실버 −5%</button>
+    <button class="royal-btn" onclick="setRoyal(0.08,this)">골드·플래티넘 −8%</button>
+    <button class="royal-btn" onclick="setRoyal(0.10,this)">다이아·MVP −10%</button>
   </div>
 
   <div class="dragon-grid" id="dragon-grid"></div>
@@ -634,8 +659,29 @@ function getFiltered() {
   });
 }
 
+let ROYAL_DISCOUNT = 0;
+
+function setRoyal(discount, btn) {
+  ROYAL_DISCOUNT = discount;
+  document.querySelectorAll('.royal-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // 현재 상세 패널이 열려있으면 부화 시간 즉시 갱신
+  const panel = document.getElementById('detail-panel');
+  if (panel && panel.style.display !== 'none') {
+    const statsEl = document.getElementById('d-stats');
+    const hatchRow = statsEl?.querySelector('.hatch-row');
+    if (hatchRow) {
+      const orig = hatchRow.dataset.orig;
+      if (orig) {
+        hatchRow.querySelector('.hatch-val').textContent = fmtHatch(+orig);
+      }
+    }
+  }
+}
+
 function fmtHatch(sec) {
-  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  const adjusted = Math.round(sec * (1 - ROYAL_DISCOUNT));
+  const h=Math.floor(adjusted/3600), m=Math.floor((adjusted%3600)/60), s=adjusted%60;
   const p=[];
   if(h) p.push(h+'시간');
   if(m) p.push(m+'분');
@@ -785,6 +831,7 @@ function renderDetail() {
     if (existingHatch) existingHatch.remove();
     const hatchDiv = document.createElement('div');
     hatchDiv.className = 'hatch-row';
+    hatchDiv.dataset.orig = hatchSec;
     hatchDiv.innerHTML = `<span class="hatch-label">부화 시간</span><span class="hatch-val">${fmtHatch(hatchSec)}</span>`;
     statsEl2.appendChild(hatchDiv);
   }
